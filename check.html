@@ -1,197 +1,247 @@
 <!DOCTYPE html>
 <html lang="zh-CN" >
 <head>
-  <meta charset="UTF-8" />
-  <title>肉松大王羊毛风控值检测</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- 国内可访问字体 -->
-  <link href="https://fonts.font.im/css?family=ZCOOL+KuaiLe" rel="stylesheet" />
-  <style>
-    * {
-      margin:0; padding:0; box-sizing: border-box;
-    }
-    body {
-      font-family: 'ZCOOL KuaiLe', '微软雅黑', Arial, sans-serif;
-      background: radial-gradient(circle at top left, #FFF9E5, #FFD5B8 70%);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-      text-align: center;
-      color: #4a2e00;
-      overflow-x: hidden;
-    }
+<meta charset="UTF-8" />
+<title>肉松大王羊毛风控值检测</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 站酷快乐体 国内可访问 -->
+<link href="https://fonts.font.im/css?family=ZCOOL+KuaiLe" rel="stylesheet" />
+<style>
+  /* Reset */
+  * {margin:0;padding:0;box-sizing:border-box;}
+  body {
+    font-family: 'ZCOOL KuaiLe', "微软雅黑", Arial, sans-serif;
+    background: linear-gradient(135deg, #ffefa1 0%, #ffb347 70%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #663300;
+    text-align: center;
+    padding: 40px 16px;
+    overflow-x: hidden;
+  }
+  h1 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #cc6600;
+    text-shadow:
+      2px 2px 6px #ffca76,
+      0 0 10px #ffb347;
+    margin-bottom: 32px;
+    user-select: none;
+  }
+  .card {
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 20px;
+    box-shadow:
+      0 10px 30px rgba(255, 155, 0, 0.35),
+      inset 0 0 20px #ffcc7a;
+    margin-bottom: 28px;
+    padding: 24px 32px;
+    max-width: 380px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    user-select: text;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
+    transition: box-shadow 0.4s ease;
+  }
+  #riskBox {
+    color: #b35100;
+  }
+  #riskValue {
+    font-weight: 900;
+    color: #ff7600;
+    margin-left: 8px;
+  }
+  .loading {
+    font-size: 1.25rem;
+    font-style: italic;
+    font-weight: 700;
+    color: #d95c00;
+    letter-spacing: 5px;
+    margin-bottom: 48px;
+    animation: blink 1.2s infinite;
+    user-select: none;
+    -webkit-user-select:none;
+  }
+  #dots {
+    font-weight: 900;
+    color: #e06e00;
+  }
+  @keyframes blink {
+    0%,50%,100% {opacity:1;}
+    25%,75% {opacity:0.3;}
+  }
+  /* 动画祝贺文字 */
+  .congrats {
+    display: none;
+    font-family: 'ZCOOL KuaiLe', cursive, Arial, sans-serif;
+    font-size: 1.95rem;
+    color: #f9b800;
+    text-shadow:
+      3px 6px 30px #7a5600,
+      0 0 45px #fff38f;
+    max-width: 380px;
+    margin: 0 auto;
+    user-select: none;
+    -webkit-user-select:none;
+    text-align: center;
+    padding: 18px 24px;
+    animation: tada 1.6s ease forwards;
+  }
+  .congrats .emoji {
+    font-size: 4.5rem;
+    margin-right: 0.5em;
+    filter: drop-shadow(0 0 24px #ffd900);
+    display: inline-block;
+    animation: crown-bounce 1.8s infinite;
+    vertical-align: middle;
+  }
+  @keyframes crown-bounce {
+    0%,100% {transform: translateY(0) rotate(-10deg);}
+    50% {transform: translateY(-25px) rotate(16deg);}
+  }
+  @keyframes tada {
+    0% {transform: scale(1);}
+    15% {transform: scale(1.3) rotate(-7deg);}
+    30% {transform: scale(0.9) rotate(7deg);}
+    45% {transform: scale(1.12) rotate(0);}
+    60% {transform: scale(1);}
+    100% {transform: scale(1);}
+  }
+  /* 手机端适配 */
+  @media (max-width: 480px) {
     h1 {
-      font-size: 2.8rem;
-      color: #d9611e;
-      text-shadow: 1px 1px 2px #ffd6a2, 0 0 20px #ffaf5e;
-      margin-bottom: 20px;
-      user-select: none;
+      font-size: 2rem;
     }
-    #ipBox, #riskBox {
-      background: rgba(255 255 255 / 0.95);
-      padding: 22px 28px;
-      border-radius: 20px;
-      box-shadow: 0 4px 28px rgba(255, 160, 44, 0.28), inset 0 0 15px #ffe0b1;
-      font-size: 1.3rem;
-      font-weight: 600;
-      user-select: text;
-      max-width: 360px;
-      margin-bottom: 24px;
-      transition: box-shadow 0.3s ease;
-    }
-    #riskBox {
-      display: none;
-      color: #a85100;
+    .card {
+      font-size: 1.05rem;
+      max-width: 90vw;
+      padding: 20px 18px;
+      min-height: 54px;
+      margin-bottom: 22px;
     }
     .loading {
-      font-style: italic;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: #d95c00;
-      letter-spacing: 4px;
-      margin-bottom: 32px;
-      animation: blink 1.2s infinite;
-      user-select: none;
-      user-drag: none;
-      -webkit-user-select:none;
-      -webkit-user-drag:none;
-    }
-    @keyframes blink {
-      0%,50%,100% {opacity:1;}
-      25%,75% {opacity:0.3;}
-    }
-    #dots {
-      font-weight: 900;
-      color: #e06e00;
+      font-size: 1rem;
+      letter-spacing: 3px;
+      margin-bottom: 36px;
     }
     .congrats {
-      display: none;
-      font-family: 'ZCOOL KuaiLe', cursive, Arial, sans-serif;
-      font-size: 1.7rem;
-      color: #f9b800;
-      text-shadow: 2px 4px 15px #7a5600, 0 0 30px #ffe680;
-      animation: tada 1.4s ease forwards;
-      max-width: 360px;
-      margin: 0 auto;
-      user-select: none;
-      user-drag: none;
+      font-size: 1.3rem;
+      padding: 14px 18px;
     }
     .congrats .emoji {
-      font-size: 3.8rem;
+      font-size: 3rem;
       margin-right: 0.3em;
-      filter: drop-shadow(0 0 16px #ffd900);
-      display: inline-block;
-      animation: crown-bounce 1.8s infinite;
-      vertical-align: middle;
     }
-    @keyframes crown-bounce {
-      0%,100% {transform: translateY(0) rotate(-10deg);}
-      50% {transform: translateY(-20px) rotate(15deg);}
-    }
-    @keyframes tada {
-      0% {transform: scale(1);}
-      15% {transform: scale(1.2) rotate(-5deg);}
-      30% {transform: scale(.95) rotate(5deg);}
-      45% {transform: scale(1.05) rotate(0);}
-      60% {transform: scale(1);}
-      100% {transform: scale(1);}
-    }
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 2rem;
-      }
-      #ipBox, #riskBox, .congrats {
-        font-size: 1rem;
-        max-width: 90vw;
-        padding: 16px 20px;
-      }
-      .congrats .emoji {
-        font-size: 2.5rem;
-      }
-      .loading {
-        font-size: 1rem;
-        letter-spacing: 3px;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <h1>肉松大王羊毛风控值检测</h1>
-  <div id="ipBox" aria-live="polite">获取IP中...</div>
-  <div class="loading" id="loadingText" aria-live="polite">正在检测中<span id="dots">...</span></div>
-  <div id="riskBox" aria-live="polite">
-    风控值：<span id="riskValue">--</span>
+  <section id="ipBox" class="card" aria-live="polite" aria-label="当前IP地址">获取IP中...</section>
+  <section id="locationBox" class="card" aria-live="polite" aria-label="归属地信息">定位中...</section>
+  <div class="loading" id="loadingText" aria-live="polite" aria-label="检测进度提示">
+    正在检测中<span id="dots">...</span>
   </div>
-  <div class="congrats" id="congratsBox" role="alert" aria-live="assertive">
+  <section id="riskBox" class="card" aria-live="polite" aria-label="风控等级" style="display:none;">
+    风控等级：
+    <span id="riskValue">低危</span>
+  </section>
+  <section class="congrats" id="congratsBox" role="alert" aria-live="assertive">
     <span class="emoji">🥳</span>肉松大王恭喜您的IP一点毛病没有！
-  </div>
-  <script>
-    // 动态点点点动画
-    function animateDots() {
-      const dots = document.getElementById('dots');
-      let count = 0;
-      return setInterval(() => {
-        count = (count + 1) % 4;
-        dots.textContent = '.'.repeat(count);
-      }, 600);
+  </section>
+
+<script>
+  // 动态点点点动画
+  function animateDots() {
+    const dots = document.getElementById('dots');
+    let count = 0;
+    return setInterval(() => {
+      count = (count + 1) % 4;
+      dots.textContent = '.'.repeat(count);
+    }, 600);
+  }
+
+  // 获取公网IP
+  async function fetchIP() {
+    try {
+      const res = await fetch('https://api64.ipify.org?format=json');
+      if (!res.ok) throw new Error('网络异常');
+      const data = await res.json();
+      return data.ip || null;
+    } catch {
+      return null;
     }
+  }
 
-    // 使用ipify获取IP
-    async function fetchIP() {
-      try {
-        const res = await fetch('https://api64.ipify.org?format=json');
-        if (!res.ok) throw new Error('网络异常');
-        const data = await res.json();
-        return data.ip || null;
-      } catch {
-        return null;
-      }
-    }
-
-    // 模拟真实风控分数（后续可换成真实接口）
-    function simulateRiskValue() {
-      // 根据IP简单判断演示
-      return Math.floor(Math.random() * 100) + 1;
-    }
-
-    async function runDetection() {
-      const ipBox = document.getElementById('ipBox');
-      const riskBox = document.getElementById('riskBox');
-      const riskValue = document.getElementById('riskValue');
-      const loadingText = document.getElementById('loadingText');
-      const congratsBox = document.getElementById('congratsBox');
-
-      const intervalId = animateDots();
-
-      ipBox.textContent = '获取IP中...';
-
-      const ip = await fetchIP();
-      if (ip) {
-        ipBox.textContent = `当前IP地址：${ip}`;
-      } else {
-        ipBox.textContent = '无法获取IP 😢';
-      }
-
-      // 模拟检测延时
-      setTimeout(() => {
-        clearInterval(intervalId);
-        loadingText.style.display = 'none';
-        riskBox.style.display = 'block';
-        const value = simulateRiskValue();
-        riskValue.textContent = value;
-
-        if (value <= 10) {
-          setTimeout(() => {
-            congratsBox.style.display = 'block';
-          }, 900);
+  // 归属地查询（用ip-api.com，jsonp跨域）
+  function fetchLocation(ip) {
+    return new Promise((resolve) => {
+      const callbackName = 'ipApiCallback_' + Math.floor(Math.random() * 1e9);
+      window[callbackName] = function(data) {
+        delete window[callbackName];
+        document.body.removeChild(script);
+        if (data && data.status === 'success') {
+          resolve(data);
+        } else {
+          resolve(null);
         }
-      }, 3200);
+      };
+      const script = document.createElement('script');
+      script.src = `http://ip-api.com/json/${ip}?callback=${callbackName}`;
+      document.body.appendChild(script);
+    });
+  }
+
+  async function runDetection() {
+    const ipBox = document.getElementById('ipBox');
+    const locationBox = document.getElementById('locationBox');
+    const riskBox = document.getElementById('riskBox');
+    const loadingText = document.getElementById('loadingText');
+    const congratsBox = document.getElementById('congratsBox');
+
+    const dotsInterval = animateDots();
+
+    ipBox.textContent = '获取IP中...';
+    locationBox.textContent = '定位中...';
+
+    const ip = await fetchIP();
+    if (!ip) {
+      ipBox.textContent = '无法获取IP 😢';
+      locationBox.textContent = '';
+      loadingText.style.display = 'none';
+      return;
+    }
+    ipBox.textContent = `当前IP地址：${ip}`;
+
+    const locationData = await fetchLocation(ip);
+    if (locationData) {
+      locationBox.textContent = `归属地：${locationData.country} · ${locationData.regionName} · ${locationData.city}`;
+    } else {
+      locationBox.textContent = '归属地查询失败';
     }
 
-    runDetection();
-  </script>
+    // 模拟检测延迟，保持点点动画3秒左右
+    setTimeout(() => {
+      clearInterval(dotsInterval);
+      loadingText.style.display = 'none';
+      riskBox.style.display = 'flex';
+      riskBox.querySelector('#riskValue').textContent = '低危';
+
+      // 祝贺动画延时展示
+      setTimeout(() => {
+        congratsBox.style.display = 'block';
+      }, 700);
+    }, 3200);
+  }
+
+  runDetection();
+</script>
 </body>
 </html>
