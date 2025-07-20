@@ -10,74 +10,31 @@
       src: url('https://static.wenfont.com/font/AlimamaFangYuanTiVF-Thin.woff2') format('woff2');
       font-display: swap;
     }
-    html,
-    body {
+    html, body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #231d2e 0%, #f9b0e3 100%);
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      overflow-x: hidden;
-      overflow-y: auto;
+      margin: 0; padding: 0;
+      width: 100vw; overflow-x: hidden;
+      background: linear-gradient(135deg,#231d2e 0%,#f9b0e3 100%);
+      font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
+      color: #fff;
       user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
     body {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
       position: relative;
-      padding: 0;
+      padding: 0 0 80px 0;
       box-sizing: border-box;
-      min-height: 100vh;
-      width: 100vw;
-    }
-    .corner {
-      position: fixed;
-      width: 48px;
-      height: 48px;
-      z-index: 10;
-      pointer-events: none;
-      opacity: 0.3;
-    }
-    .corner-tl {
-      left: 0;
-      top: 0;
-      transform: rotate(-13deg);
-    }
-    .corner-tr {
-      right: 0;
-      top: 0;
-      transform: rotate(17deg);
-    }
-    .corner-bl {
-      left: 0;
-      bottom: 0;
-      transform: rotate(7deg);
-    }
-    .corner-br {
-      right: 0;
-      bottom: 0;
-      transform: rotate(-23deg);
-    }
-    .bg-svg {
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      opacity: 0.1;
     }
     .kuromi-card {
-      background: linear-gradient(130deg, #28203a 75%, #f9b0e3cc 100%);
+      background: linear-gradient(130deg,#28203a 75%,#f9b0e3cc 100%);
       border-radius: 24px;
-      box-shadow: 0 4px 22px 0 #e774b2aa, 0 1px 4px 0 #fff2, inset 0 0 10px 0 #fff3;
+      box-shadow:
+        0 4px 22px 0 #e774b2aa,
+        0 1px 4px 0 #fff2,
+        inset 0 0 10px 0 #fff3;
       padding: 1.1rem 0.9rem 1.2rem 0.9rem;
       max-width: 360px;
       width: 94vw;
@@ -86,25 +43,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      z-index: 2;
       gap: 12px;
       overflow: hidden;
-      position: relative;
-      animation: cardIn 0.95s cubic-bezier(0.23, 1.24, 0.45, 1) both;
+      position:relative;
+      animation: cardIn .95s cubic-bezier(.23,1.24,.45,1) both;
+      z-index: 2;
     }
     @keyframes cardIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.85) translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
+      0% { opacity:0; transform:scale(.85) translateY(20px);}
+      100% { opacity:1; transform:scale(1) translateY(0);}
     }
-    .kuromi-avatar {
-      width: 60px;
-      height: 60px;
+    .avatar {
+      width: 60px; height: 60px;
       border-radius: 50%;
       border: 3px solid #e774b2;
       object-fit: cover;
@@ -114,10 +64,10 @@
       box-shadow: 0 2px 9px #e774b2;
       z-index: 3;
     }
-    .kuromi-title {
+    .title {
       font-size: 1.5rem;
       font-weight: 900;
-      background: linear-gradient(90deg, #fff 10%, #e774b2 40%, #a082d7 100%);
+      background: linear-gradient(90deg,#fff 10%,#e774b2 40%,#a082d7 100%);
       background-clip: text;
       color: transparent;
       -webkit-background-clip: text;
@@ -130,11 +80,9 @@
       filter: drop-shadow(0 3px 10px #aa87cc22);
       border-radius: 6px;
       padding: 0 0.1rem;
+      margin: 0.1rem 0 0.2rem 0;
       z-index: 4;
-      margin-bottom: 0.2rem;
-      margin-top: 0.1rem;
     }
-    /* 精简卡片式IP信息 */
     .ip-info-list {
       width: 100%;
       display: flex;
@@ -145,10 +93,10 @@
       margin: 0 auto 0.5rem auto;
     }
     .ip-info-item {
-      background: linear-gradient(90deg, #fff6 10%, #e3b4e633 100%);
+      background: linear-gradient(90deg,#fff6 10%,#e3b4e633 100%);
       border-radius: 12px;
       box-shadow: 0 1px 4px 0 #b3a0e033, 0 0 0 1px #e774b215;
-      padding: 8px 13px 8px 13px;
+      padding: 8px 13px;
       width: 94%;
       display: flex;
       align-items: center;
@@ -159,10 +107,12 @@
       position: relative;
       cursor: pointer;
       min-height: 28px;
+      color: #38304a;
+      font-weight: 600;
     }
     .ip-info-item:hover {
-      box-shadow: 0 3px 10px 0 #e774b299, inset 0 2px 12px #fff7;
-      background: linear-gradient(90deg, #fff 36%, #e5d3f988 100%);
+      box-shadow: 0 3px 10px 0 #e774b299,inset 0 2px 12px #fff7;
+      background: linear-gradient(90deg,#fff 36%,#e5d3f988 100%);
       transform: scale(1.015);
       z-index: 10;
     }
@@ -196,7 +146,7 @@
       white-space: normal;
       line-height: 1.25;
       max-width: 65%;
-      word-break: break-all;
+      word-break: break-word;
       transition: color 0.15s;
     }
     .ip-value.error {
@@ -204,16 +154,12 @@
       animation: blinkError 1s steps(2, start) 2;
     }
     @keyframes blinkError {
-      0%,
-      100% {
-        color: #e74c3c;
-      }
-      50% {
-        color: #fff;
-      }
+      0%,100% { color: #e74c3c; }
+      50% { color: #fff; }
     }
+    /* 今日语录 */
     .quote-panel {
-      background: linear-gradient(135deg, #fff9 96%, #edc5f944 100%);
+      background: linear-gradient(135deg,#fff9 96%,#edc5f944 100%);
       border-radius: 17px;
       box-shadow: 0 2px 12px #1f1b2e42, 0 0 0 2px #fff3, inset 0 2px 10px #e774b218;
       width: 92%;
@@ -255,7 +201,7 @@
     }
     .quote-item {
       color: #e774b2;
-      font-size: 0.97em;
+      font-size: .97em;
       font-weight: bold;
       font-family: inherit;
       white-space: pre-line;
@@ -265,48 +211,28 @@
       position: relative;
       margin-bottom: 2px;
     }
-    .quote-item:nth-child(1) {
-      animation-delay: 0s;
-    }
-    .quote-item:nth-child(2) {
-      animation-delay: 1.2s;
-    }
-    .quote-item:nth-child(3) {
-      animation-delay: 2.1s;
-    }
+    .quote-item:nth-child(1) { animation-delay: 0s;}
+    .quote-item:nth-child(2) { animation-delay: 1.2s;}
+    .quote-item:nth-child(3) { animation-delay: 2.1s;}
     @keyframes quoteFloat {
-      0% {
-        opacity: 0.95;
-        transform: translateY(0px);
-      }
-      40% {
-        opacity: 1;
-        transform: translateY(-4px) scale(1.03);
-      }
-      60% {
-        opacity: 1;
-        transform: translateY(4px) scale(0.99);
-      }
-      100% {
-        opacity: 0.95;
-        transform: translateY(0px);
-      }
+      0% { opacity: 0.95; transform: translateY(0px);}
+      40% { opacity: 1; transform: translateY(-4px) scale(1.03);}
+      60% { opacity: 1; transform: translateY(4px) scale(0.99);}
+      100% { opacity: 0.95; transform: translateY(0px);}
     }
     .divider {
       margin: 0.6rem 0 0.7rem 0;
       border-top: 2px dashed #e774b2;
       width: 90%;
-      margin-left: auto;
-      margin-right: auto;
+      margin-left:auto; margin-right:auto;
       opacity: 0.5;
     }
+    /* 浮动动画小装饰 */
     .float-ani {
       position: absolute;
-      left: 50%;
-      bottom: 35px;
+      left: 50%; bottom: 35px;
       transform: translateX(-50%);
-      width: 100px;
-      height: 46px;
+      width: 100px; height: 46px;
       pointer-events: none;
       z-index: 11;
       opacity: 0.82;
@@ -319,240 +245,157 @@
       will-change: transform, opacity;
       filter: drop-shadow(0 1px 5px #fff5);
     }
-    .float-shape.star1 {
-      left: 8px;
-      animation-delay: 0s;
-      color: #f9b0e3;
-    }
-    .float-shape.heart1 {
-      left: 38px;
-      animation-delay: 2.2s;
-      color: #e774b2;
-    }
-    .float-shape.star2 {
-      left: 70px;
-      animation-delay: 0.8s;
-      color: #fff;
-    }
+    .float-shape.star1 { left: 8px; animation-delay: 0s; color:#f9b0e3;}
+    .float-shape.heart1 { left: 38px; animation-delay: 2.2s; color:#e774b2;}
+    .float-shape.star2 { left: 70px; animation-delay: .8s; color:#fff;}
     @keyframes floatUp {
-      0% {
-        bottom: 0;
-        opacity: 0.78;
-      }
-      30% {
-        opacity: 1;
-      }
-      85% {
-        opacity: 1;
-      }
-      100% {
-        bottom: 15px;
-        opacity: 0;
-      }
+      0% { bottom: 0; opacity: 0.78;}
+      30% { opacity: 1;}
+      85% { opacity: 1;}
+      100% { bottom: 15px; opacity: 0;}
     }
     /* 底部显眼注释 */
     .ms-footer-note {
-      width: 100vw;
-      max-width: 100vw;
+      width: 100vw; max-width: 100vw;
       text-align: center;
-      font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
+      font-family: 'AlimamaFangYuanTiVF','PingFang SC','Microsoft Yahei',Arial,sans-serif;
       font-size: 14px;
       font-weight: 900;
-      color: #2c1a38;
-      background: transparent;
+      color: #222; /* 浓黑色 */
+      background: #f9b0e3cc;
       position: fixed;
-      left: 0;
-      bottom: 0;
-      line-height: 1.4;
-      letter-spacing: 1.5px;
-      z-index: 100;
-      padding: 8px 6px 10px 6px;
+      left: 0; bottom: 0;
+      line-height: 1.5;
+      letter-spacing: 1.1px;
+      padding: 6px 0;
       user-select: none;
-      pointer-events: none;
-      text-shadow: 0 0 3px #f9b0e3cc;
-      border-top: 2px solid #f9b0e3;
-      box-shadow: 0 -2px 15px #e774b244;
-      border-radius: 8px 8px 0 0;
+      z-index: 9999;
+      box-shadow: 0 -1px 12px #f9b0e3aa inset;
     }
-
-    /* 页面空白区域装饰 */
-    .info-area {
-      position: relative;
-      width: 100vw;
-      max-width: 400px;
-      margin: 0 auto 90px auto; /* 留出底部注释空间 */
-      padding: 10px 12px 22px 12px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px 14px;
-      z-index: 5;
+    /* 额外信息块填满 */
+    .extra-info {
+      max-width: 360px;
+      width: 94vw;
+      background: #382b55cc;
+      border-radius: 16px;
+      padding: 12px 14px;
+      color: #f7d6f9;
+      font-size: 0.92em;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px 1px #e774b288 inset;
+      user-select: text;
+      line-height: 1.35;
     }
-    .info-chip {
-      background: linear-gradient(45deg, #f9b0e3cc 0%, #a082d7cc 100%);
-      border-radius: 20px;
-      padding: 5px 13px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.82rem;
-      box-shadow: 0 0 8px #e774b2aa;
-      user-select: none;
-      white-space: nowrap;
-      filter: drop-shadow(0 1px 3px #f3c8eaaa);
-      transition: transform 0.2s ease;
-      cursor: default;
-      font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
-    }
-    .info-chip:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 14px #ff92e5cc;
-    }
-    /* 小库洛米图标 */
-    .kuromi-icon {
-      width: 26px;
-      height: 26px;
-      margin-left: 4px;
-      filter: drop-shadow(0 0 1.5px #fff);
-      vertical-align: middle;
-      user-select: none;
-    }
-
+    /* 响应式手机适配 */
     @media (max-width: 540px) {
       .kuromi-card {
-        padding: 0.5rem 0.01rem 0.7rem 0.01rem;
-        margin-top: 10vw;
-        margin-bottom: 10vw;
-        max-width: 99vw;
+        padding: 0.5rem 0.01rem 0.7rem 0.01rem; 
+        margin-top: 10vw; 
+        margin-bottom: 10vw; 
+        max-width: 99vw; 
         gap: 7px;
       }
-      .kuromi-title {
-        font-size: 1.05rem;
-        margin-bottom: 0.21rem;
-      }
-      .ip-info-list {
-        gap: 5px;
-      }
-      .ip-info-item {
-        font-size: 0.93em;
-        padding: 6px 7px;
-      }
-      .quote-panel {
-        padding: 6px 2vw 8px 2vw;
-      }
-      .quote-title {
-        font-size: 1em;
-      }
-      .kuromi-avatar {
-        width: 35px;
-        height: 35px;
-        margin-top: -20px;
-      }
-      .float-ani {
-        width: 50px;
-      }
-      .ms-footer-note {
-        font-size: 12px;
-        padding: 6px 4px 8px 4px;
-      }
-      .info-chip {
-        font-size: 0.74rem;
-        padding: 4px 9px;
-      }
-      .kuromi-icon {
-        width: 20px;
-        height: 20px;
-        margin-left: 3px;
-      }
+      .title { font-size: 1.05rem; margin-bottom: 0.21rem; }
+      .ip-info-item { font-size: .93em; padding: 6px 7px; }
+      .quote-panel { padding: 6px 2vw 8px 2vw; }
+      .avatar { width: 35px; height: 35px; margin-top: -20px; }
+      .float-ani { width: 50px; }
+      .ms-footer-note { font-size: 12px; }
+      .extra-info { font-size: 0.85em; padding: 10px 12px; }
     }
   </style>
 </head>
 <body>
-  <svg class="bg-svg" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="17vw" cy="29vh" r="45" fill="#a7c8fd44" />
-    <circle cx="85vw" cy="80vh" r="24" fill="#f9b0e344" />
-    <ellipse cx="48vw" cy="95vh" rx="60" ry="14" fill="#fff4" opacity="0.1" />
-    <path d="M60 95 Q66 102 72 95 T84 95" stroke="#e774b2" stroke-width="3" fill="none" />
+  <!-- 背景漂浮元素 -->
+  <svg class="bg-svg" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg" style="position: fixed; top:0; left:0; z-index:1; pointer-events:none; opacity:0.1;">
+    <circle cx="17vw" cy="29vh" r="45" fill="#a7c8fd44"/>
+    <circle cx="85vw" cy="80vh" r="24" fill="#f9b0e344"/>
+    <ellipse cx="48vw" cy="95vh" rx="60" ry="14" fill="#fff4" opacity="0.10"/>
+    <path d="M60 95 Q66 102 72 95 T84 95" stroke="#e774b2" stroke-width="2.2" fill="none" opacity="0.10"/>
+    <polygon points="150,180 152,190 160,188 158,196 168,196 158,201 162,210 154,204 150,210 150,202 142,207 146,198 137,197 146,193 143,185 150,190" fill="#e774b277"/>
   </svg>
 
-  <img src="https://cdn.jsdelivr.net/gh/justepy/kuromi-assets@main/kuromi-face.svg" alt="Kuromi" class="corner corner-tl" />
-  <img src="https://cdn.jsdelivr.net/gh/justepy/kuromi-assets@main/kuromi-face.svg" alt="Kuromi" class="corner corner-tr" />
-  <img src="https://cdn.jsdelivr.net/gh/justepy/kuromi-assets@main/kuromi-face.svg" alt="Kuromi" class="corner corner-bl" />
-  <img src="https://cdn.jsdelivr.net/gh/justepy/kuromi-assets@main/kuromi-face.svg" alt="Kuromi" class="corner corner-br" />
+  <!-- 角落装饰 -->
+  <img class="corner corner-tl" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f380.svg" alt="蝴蝶结" style="position: fixed; top: 0; left: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(-13deg); z-index:10;">
+  <img class="corner corner-tr" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u2b50.svg" alt="星星" style="position: fixed; top: 0; right: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(17deg); z-index:10;">
+  <img class="corner corner-bl" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f43e.svg" alt="爪印" style="position: fixed; bottom: 0; left: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(7deg); z-index:10;">
+  <img class="corner corner-br" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f345.svg" alt="西红柿" style="position: fixed; bottom: 0; right: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(-23deg); z-index:10;">
 
-  <div class="kuromi-card" role="main" aria-label="IP及风控检测">
-    <img class="kuromi-avatar" src="https://cdn.jsdelivr.net/gh/justepy/kuromi-assets@main/kuromi-avatar.svg" alt="Kuromi Avatar" />
-    <h1 class="kuromi-title">肉松老师羊毛风险检测</h1>
-    <div class="ip-info-list" aria-live="polite" aria-atomic="true">
-      <div class="ip-info-item">
-        <span class="ip-label"><span class="ip-emoji">🌐</span>IP地址</span>
-        <span class="ip-value" id="ip">加载中…</span>
-      </div>
-      <div class="ip-info-item">
-        <span class="ip-label"><span class="ip-emoji">📍</span>地理位置</span>
-        <span class="ip-value" id="location">加载中…</span>
-      </div>
-      <div class="ip-info-item">
-        <span class="ip-label"><span class="ip-emoji">🏢</span>运营商</span>
-        <span class="ip-value" id="organization">加载中…</span>
-      </div>
+  <div class="kuromi-card">
+    <!-- 头像换成西红柿emoji图 -->
+    <img src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f345.svg" alt="西红柿" class="avatar" />
+    <div class="title">肉松老师羊毛风险检测</div>
+    <div class="ip-info-list">
+      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">🌏</span>IP地址</span><span class="ip-value" id="ip">加载中…</span></div>
+      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">📍</span>归属地</span><span class="ip-value" id="location">加载中…</span></div>
+      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">🏢</span>运营商</span><span class="ip-value" id="organization">加载中…</span></div>
     </div>
 
     <div class="quote-panel" aria-label="今日语录">
       <div class="quote-title">今日语录</div>
-      <div class="quote-bubble" aria-live="polite" aria-atomic="true">
-        <div class="quote-list">
-          <div class="quote-item">今天 你薅了吗？</div>
-          <div class="quote-item">你离被风控只差一个薅字。</div>
-          <div class="quote-item">未被标记，这是一种天赋。</div>
-        </div>
+      <div class="quote-list" id="quote-list">
+        <div class="quote-item">勤劳薅羊毛，薅得开心又安心！</div>
+        <div class="quote-item">风险检测，保障发货无忧。</div>
+        <div class="quote-item">守住底线，拒绝虚假信息。</div>
       </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="float-ani" aria-hidden="true">
-      <span class="float-shape star1" aria-hidden="true">★</span>
-      <span class="float-shape heart1" aria-hidden="true">❤</span>
-      <span class="float-shape star2" aria-hidden="true">☆</span>
     </div>
   </div>
 
-  <section class="info-area" aria-label="温馨提示与实用信息">
-    <div class="info-chip" title="仅作风险检测，保障安全">风险检测，保护账号安全</div>
-    <div class="info-chip" title="请勿滥用API，遵守电商平台规则">遵守电商平台规则</div>
-    <div class="info-chip" title="建议定期更换密码提升安全">定期更换密码</div>
-    <div class="info-chip" title="遇到问题请联系客服">联系客服支持</div>
-    <div class="info-chip" title="风控不代表封号，谨慎操作">风控非封号提示</div>
-    <div class="info-chip" title="关注微信公众号获取最新消息">关注微信公众号</div>
-    <div class="info-chip" title="切勿分享检测结果给无关人员">保护隐私安全</div>
-    <div class="info-chip" title="网络环境稳定才能准确检测">确保网络稳定</div>
-    <div class="info-chip" title="使用本服务即表示同意相关协议">使用即同意协议</div>
-  </section>
+  <div class="extra-info" aria-label="额外信息">
+    <p>🛡️ 本站通过各大电商平台API接口，实时检测账户及订单风险，确保发货安全无误。</p>
+    <p>🚀 系统无任何用户数据存储，保护您的隐私安全。</p>
+    <p>💡 使用过程中如遇问题，请及时反馈，助力持续优化体验。</p>
+    <p>🌐 技术支持 & 维护：肉松团队</p>
+  </div>
 
-  <div class="ms-footer-note" aria-label="免责声明">
+  <div class="ms-footer-note" aria-live="polite">
     肉松仅提供各电商平台API后台检测风险服务，不存储任何信息。
   </div>
 
+  <!-- 漂浮动画元素 -->
+  <div class="float-ani" aria-hidden="true">
+    <span class="float-shape star1">✨</span>
+    <span class="float-shape heart1">💖</span>
+    <span class="float-shape star2">🌟</span>
+  </div>
+
   <script>
+    // 请求 IP 信息并展示
     async function fetchIPInfo() {
       try {
-        const resp = await fetch("https://api.ip.sb/geoip");
-        const data = await resp.json();
-        document.getElementById("ip").textContent = data.ip || "未知";
-        let loc = "";
-        if (data.country) loc += data.country;
-        if (data.region) loc += " " + data.region;
-        if (data.city) loc += " " + data.city;
-        document.getElementById("location").textContent = loc.trim() || "未知";
-        document.getElementById("organization").textContent = data.organization || "未知";
+        const res = await fetch('https://api.ip.sb/geoip');
+        if (!res.ok) throw new Error('接口异常');
+        const data = await res.json();
+
+        document.getElementById('ip').textContent = data.ip || '未知';
+        const locationStr = [data.country, data.region, data.city].filter(Boolean).join(' - ');
+        document.getElementById('location').textContent = locationStr || '未知';
+        document.getElementById('organization').textContent = data.isp || '未知';
       } catch (e) {
-        ["ip", "location", "organization"].forEach((id) => {
-          document.getElementById(id).textContent = "获取失败";
-          document.getElementById(id).classList.add("error");
-        });
+        console.error(e);
+        document.getElementById('ip').textContent = '获取失败';
+        document.getElementById('location').textContent = '获取失败';
+        document.getElementById('organization').textContent = '获取失败';
       }
     }
+
     fetchIPInfo();
+
+    // 简单轮换今日语录文字动画
+    const quotes = [
+      '勤劳薅羊毛，薅得开心又安心！',
+      '风险检测，保障发货无忧。',
+      '守住底线，拒绝虚假信息。',
+      '安全是最大的羊毛。',
+      '信息透明，交易放心。',
+    ];
+    let quoteIndex = 0;
+    const quoteList = document.getElementById('quote-list');
+
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      quoteList.innerHTML = `<div class="quote-item">${quotes[quoteIndex]}</div>`;
+    }, 6000);
   </script>
 </body>
 </html>
