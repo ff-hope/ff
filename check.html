@@ -4,18 +4,24 @@
   <meta charset="UTF-8" />
   <title>肉松大王羊毛风控值检测</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- 国内可访问字体 -->
   <link href="https://fonts.font.im/css?family=ZCOOL+KuaiLe" rel="stylesheet" />
   <style>
-    /* 基础样式同之前，略 */
-    * {margin:0;padding:0;box-sizing:border-box;}
+    * {
+      margin:0; padding:0; box-sizing: border-box;
+    }
     body {
       font-family: 'ZCOOL KuaiLe', '微软雅黑', Arial, sans-serif;
       background: radial-gradient(circle at top left, #FFF9E5, #FFD5B8 70%);
       min-height: 100vh;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      padding: 24px; text-align: center;
-      color: #4a2e00; overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      text-align: center;
+      color: #4a2e00;
+      overflow-x: hidden;
     }
     h1 {
       font-size: 2.8rem;
@@ -29,7 +35,8 @@
       padding: 22px 28px;
       border-radius: 20px;
       box-shadow: 0 4px 28px rgba(255, 160, 44, 0.28), inset 0 0 15px #ffe0b1;
-      font-size: 1.3rem; font-weight: 600;
+      font-size: 1.3rem;
+      font-weight: 600;
       user-select: text;
       max-width: 360px;
       margin-bottom: 24px;
@@ -47,15 +54,18 @@
       letter-spacing: 4px;
       margin-bottom: 32px;
       animation: blink 1.2s infinite;
-      user-select: none; user-drag: none;
-      -webkit-user-select:none; -webkit-user-drag:none;
+      user-select: none;
+      user-drag: none;
+      -webkit-user-select:none;
+      -webkit-user-drag:none;
     }
     @keyframes blink {
       0%,50%,100% {opacity:1;}
       25%,75% {opacity:0.3;}
     }
     #dots {
-      font-weight: 900; color: #e06e00;
+      font-weight: 900;
+      color: #e06e00;
     }
     .congrats {
       display: none;
@@ -64,13 +74,17 @@
       color: #f9b800;
       text-shadow: 2px 4px 15px #7a5600, 0 0 30px #ffe680;
       animation: tada 1.4s ease forwards;
-      max-width: 360px; margin: 0 auto;
-      user-select: none; user-drag: none;
+      max-width: 360px;
+      margin: 0 auto;
+      user-select: none;
+      user-drag: none;
     }
     .congrats .emoji {
-      font-size: 3.8rem; margin-right: 0.3em;
+      font-size: 3.8rem;
+      margin-right: 0.3em;
       filter: drop-shadow(0 0 16px #ffd900);
-      display: inline-block; animation: crown-bounce 1.8s infinite;
+      display: inline-block;
+      animation: crown-bounce 1.8s infinite;
       vertical-align: middle;
     }
     @keyframes crown-bounce {
@@ -86,30 +100,36 @@
       100% {transform: scale(1);}
     }
     @media (max-width: 480px) {
-      h1 {font-size: 2rem;}
-      #ipBox, #riskBox, .congrats {
-        font-size: 1rem; max-width: 90vw; padding: 16px 20px;
+      h1 {
+        font-size: 2rem;
       }
-      .congrats .emoji {font-size: 2.5rem;}
-      .loading {font-size: 1rem; letter-spacing: 3px;}
+      #ipBox, #riskBox, .congrats {
+        font-size: 1rem;
+        max-width: 90vw;
+        padding: 16px 20px;
+      }
+      .congrats .emoji {
+        font-size: 2.5rem;
+      }
+      .loading {
+        font-size: 1rem;
+        letter-spacing: 3px;
+      }
     }
   </style>
 </head>
 <body>
   <h1>肉松大王羊毛风控值检测</h1>
   <div id="ipBox" aria-live="polite">获取IP中...</div>
-  <div class="loading" id="loadingText" aria-live="polite">
-    正在检测中<span id="dots">...</span>
-  </div>
+  <div class="loading" id="loadingText" aria-live="polite">正在检测中<span id="dots">...</span></div>
   <div id="riskBox" aria-live="polite">
     风控值：<span id="riskValue">--</span>
-    <div id="infoBox" style="margin-top:12px; font-size:1rem; color:#7a5600;"></div>
   </div>
   <div class="congrats" id="congratsBox" role="alert" aria-live="assertive">
     <span class="emoji">🥳</span>肉松大王恭喜您的IP一点毛病没有！
   </div>
-
   <script>
+    // 动态点点点动画
     function animateDots() {
       const dots = document.getElementById('dots');
       let count = 0;
@@ -119,43 +139,22 @@
       }, 600);
     }
 
-    // 先用 ipify 获取IP
+    // 使用ipify获取IP
     async function fetchIP() {
       try {
         const res = await fetch('https://api64.ipify.org?format=json');
-        const json = await res.json();
-        return json.ip || null;
+        if (!res.ok) throw new Error('网络异常');
+        const data = await res.json();
+        return data.ip || null;
       } catch {
         return null;
       }
     }
 
-    // 用淘宝接口查询IP归属地
-    async function fetchIPInfo(ip) {
-      try {
-        const res = await fetch(`https://ip.taobao.com/outGetIpInfo?ip=${ip}&accessKey=alibaba-inc`);
-        const json = await res.json();
-        if(json.code === 0 && json.data) {
-          return json.data;
-        }
-        return null;
-      } catch {
-        return null;
-      }
-    }
-
-    // 简单风控评分示例，按地区打分（可根据需求调整）
-    function calcRiskByRegion(ipInfo) {
-      if(!ipInfo) return 90; // 查询失败高风险
-      const {country, region, isp} = ipInfo;
-      if(country !== "中国") return 70; // 非中国IP中高风险
-      // 港澳台算中风险
-      if(region === "香港" || region === "澳门" || region === "台湾") return 50;
-      // 电信、联通、移动等ISP正常，低风险
-      const lowRiskIsps = ["电信", "联通", "移动", "中国电信", "中国联通", "中国移动"];
-      if(lowRiskIsps.some(x => isp.includes(x))) return 5;
-      // 其他ISP可能风险较高
-      return 40;
+    // 模拟真实风控分数（后续可换成真实接口）
+    function simulateRiskValue() {
+      // 根据IP简单判断演示
+      return Math.floor(Math.random() * 100) + 1;
     }
 
     async function runDetection() {
@@ -164,40 +163,27 @@
       const riskValue = document.getElementById('riskValue');
       const loadingText = document.getElementById('loadingText');
       const congratsBox = document.getElementById('congratsBox');
-      const infoBox = document.getElementById('infoBox');
 
       const intervalId = animateDots();
 
       ipBox.textContent = '获取IP中...';
-      riskBox.style.display = 'none';
-      congratsBox.style.display = 'none';
-      infoBox.textContent = '';
 
       const ip = await fetchIP();
-
-      if(ip) {
+      if (ip) {
         ipBox.textContent = `当前IP地址：${ip}`;
       } else {
-        ipBox.textContent = `无法获取IP 😢`;
+        ipBox.textContent = '无法获取IP 😢';
       }
 
-      const ipInfo = ip ? await fetchIPInfo(ip) : null;
-
+      // 模拟检测延时
       setTimeout(() => {
         clearInterval(intervalId);
         loadingText.style.display = 'none';
         riskBox.style.display = 'block';
+        const value = simulateRiskValue();
+        riskValue.textContent = value;
 
-        const risk = calcRiskByRegion(ipInfo);
-        riskValue.textContent = risk;
-
-        if(ipInfo) {
-          infoBox.textContent = `${ipInfo.country} · ${ipInfo.region} · ${ipInfo.city} · ${ipInfo.isp}`;
-        } else {
-          infoBox.textContent = "无法获取归属地信息";
-        }
-
-        if(risk <= 10) {
+        if (value <= 10) {
           setTimeout(() => {
             congratsBox.style.display = 'block';
           }, 900);
