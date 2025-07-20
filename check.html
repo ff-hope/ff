@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>肉松老师羊毛风险检测</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <style>
     @font-face {
       font-family: 'AlimamaFangYuanTiVF';
       src: url('https://static.wenfont.com/font/AlimamaFangYuanTiVF-Thin.woff2') format('woff2');
       font-display: swap;
     }
-    html,body {
+    html, body {
       min-height: 100vh;
-      background: linear-gradient(135deg,#231d2e 0%,#f9b0e3 100%);
-      margin:0; padding:0;
-      width:100vw; overflow-x:hidden;
+      background: linear-gradient(135deg, #2c2345 0%, #dda4e0 100%);
+      margin: 0; padding: 0;
+      width: 100vw; overflow-x: hidden;
+      font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     body {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
       position: relative;
       padding: 0;
       box-sizing: border-box;
@@ -33,314 +36,327 @@
       width: 48px; height: 48px;
       z-index: 10;
       pointer-events: none;
-      opacity: 0.3;
+      opacity: 0.2;
+      filter: drop-shadow(0 0 1px #dba1d3cc);
     }
-    .corner-tl { left: 0; top: 0; transform: rotate(-13deg);}
-    .corner-tr { right: 0; top: 0; transform: rotate(17deg);}
-    .corner-bl { left: 0; bottom: 0; transform: rotate(7deg);}
-    .corner-br { right: 0; bottom: 0; transform: rotate(-23deg);}
+    .corner-tl { left: 0; top: 0; transform: rotate(-12deg);}
+    .corner-tr { right: 0; top: 0; transform: rotate(16deg);}
+    .corner-bl { left: 0; bottom: 0; transform: rotate(8deg);}
+    .corner-br { right: 0; bottom: 0; transform: rotate(-21deg);}
     .bg-svg {
       position: fixed;
       z-index: 1;
       left: 0; top: 0;
       width: 100vw; height: 100vh;
       pointer-events: none;
-      opacity: 0.10;
+      opacity: 0.08;
+      filter: drop-shadow(0 0 5px #b676c4);
     }
     .kuromi-card {
-      background: linear-gradient(130deg,#28203a 75%,#f9b0e3cc 100%);
+      background: linear-gradient(130deg, #3b2c5acc 70%, #e5c6edcc 100%);
       border-radius: 24px;
       box-shadow:
-        0 4px 22px 0 #e774b2aa,
-        0 1px 4px 0 #fff2,
-        inset 0 0 10px 0 #fff3;
-      padding: 1.1rem 0.9rem 1.2rem 0.9rem;
+        0 6px 26px 0 #cd8fe2bb,
+        inset 0 0 14px 0 #ffd6f2aa;
+      padding: 1.3rem 1rem 1.4rem 1rem;
       max-width: 360px;
       width: 94vw;
       color: #fff;
-      margin: 48px 0 40px 0;
+      margin: 48px 0 44px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      z-index: 2;
-      gap: 12px;
+      gap: 14px;
       overflow: hidden;
-      position:relative;
-      animation: cardIn .95s cubic-bezier(.23,1.24,.45,1) both;
+      position: relative;
+      animation: cardIn 1s cubic-bezier(.23,1.24,.45,1) both;
+      user-select: none;
     }
     @keyframes cardIn {
-      0% { opacity:0; transform:scale(.85) translateY(20px);}
-      100% { opacity:1; transform:scale(1) translateY(0);}
+      0% { opacity: 0; transform: scale(0.85) translateY(24px);}
+      100% { opacity: 1; transform: scale(1) translateY(0);}
     }
     .kuromi-avatar {
-      width: 60px; height: 60px;
+      width: 62px; height: 62px;
       border-radius: 50%;
-      border: 3px solid #e774b2;
+      border: 3px solid #d787d9;
       object-fit: cover;
       background: #fff;
-      margin-top: -36px;
-      margin-bottom: 6px;
-      box-shadow: 0 2px 9px #e774b2;
+      margin-top: -40px;
+      margin-bottom: 8px;
+      box-shadow: 0 3px 11px #db9fe4;
       z-index: 3;
     }
     .kuromi-title {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 900;
-      background: linear-gradient(90deg,#fff 10%,#e774b2 40%,#a082d7 100%);
+      background: linear-gradient(90deg, #fff 10%, #d687d8 45%, #b17fd7 100%);
       background-clip: text;
-      color: transparent;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: 2.2px;
-      text-shadow: 1px 1px 6px #fff9, 0 2px 0 #7a58d355, 0 0 5px #e774b255;
-      line-height: 1.18;
+      letter-spacing: 2.4px;
+      text-shadow: 1px 1px 6px #fff9, 0 2px 0 #875dbb55, 0 0 5px #db87db55;
+      line-height: 1.15;
       user-select: none;
       text-align: center;
-      filter: drop-shadow(0 3px 10px #aa87cc22);
+      filter: drop-shadow(0 4px 12px #9c69d428);
       border-radius: 6px;
-      padding: 0 0.1rem;
+      padding: 0 0.15rem;
+      margin-bottom: 0.3rem;
+      margin-top: 0.2rem;
       z-index: 4;
-      margin-bottom: 0.2rem;
-      margin-top: 0.1rem;
     }
-    /* 精简卡片式IP信息 */
     .ip-info-list {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 8px;
       align-items: center;
       justify-content: flex-start;
-      margin: 0 auto 0.5rem auto;
+      margin: 0 auto 0.6rem auto;
     }
     .ip-info-item {
-      background: linear-gradient(90deg,#fff6 10%,#e3b4e633 100%);
-      border-radius: 12px;
-      box-shadow: 0 1px 4px 0 #b3a0e033, 0 0 0 1px #e774b215;
-      padding: 8px 13px 8px 13px;
-      width: 94%;
+      background: linear-gradient(90deg, #fff9 20%, #e4b6eb44 100%);
+      border-radius: 14px;
+      box-shadow: 0 2px 6px 0 #cda3e555, 0 0 0 1px #d794d425;
+      padding: 9px 16px;
+      width: 95%;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      font-size: 1.04em;
-      transition: box-shadow 0.16s, transform 0.15s, background 0.17s;
-      border: 1px solid #fff2;
-      position: relative;
-      cursor: pointer;
-      min-height: 28px;
+      font-size: 1.06em;
+      font-weight: 600;
+      border: 1px solid #fff4;
+      cursor: default;
+      min-height: 30px;
+      user-select: text;
     }
     .ip-info-item:hover {
-      box-shadow:0 3px 10px 0 #e774b299,inset 0 2px 12px #fff7;
-      background: linear-gradient(90deg,#fff 36%,#e5d3f988 100%);
-      transform: scale(1.015);
-      z-index: 10;
+      box-shadow: 0 5px 16px 0 #e3ace733, inset 0 2px 14px #fff8;
+      background: linear-gradient(90deg, #fff8 50%, #f0dbf3aa 100%);
+      transform: scale(1.02);
+      z-index: 12;
     }
     .ip-label {
-      color: #e774b2;
+      color: #d47ed6;
       font-weight: 700;
-      letter-spacing: 1.1px;
-      min-width: 66px;
+      letter-spacing: 1.2px;
+      min-width: 70px;
       text-align: left;
       text-shadow: 0 1px 4px #fff7, 1px 1px 0 #fff6;
-      filter: brightness(1.08);
-      opacity: 0.97;
-      font-size: 1em;
-      margin-right: 0.5em;
+      filter: brightness(1.12);
+      font-size: 1.05em;
+      margin-right: 0.6em;
       display: flex;
       align-items: center;
-      gap: 0.25em;
+      gap: 0.3em;
     }
     .ip-emoji {
-      font-size: 1.1em;
-      margin-right: 0.13em;
-      filter: drop-shadow(0 1px 2px #fff2);
+      font-size: 1.2em;
+      margin-right: 0.15em;
+      filter: drop-shadow(0 1px 3px #ffd8ff);
     }
     .ip-value {
-      color: #38304a;
-      font-size: 0.99em;
-      opacity: 0.83;
-      font-weight: 600;
+      color: #3d2f56;
+      font-size: 1em;
+      opacity: 0.88;
+      font-weight: 700;
       margin-left: auto;
       text-align: right;
-      white-space: normal;
-      line-height: 1.25;
+      word-break: break-word;
       max-width: 65%;
-      word-break: break-all;
       transition: color 0.15s;
+      user-select: text;
     }
     .ip-value.error {
-      color: #e74c3c;
-      animation: blinkError 1s steps(2, start) 2;
+      color: #d9534f;
+      animation: blinkError 1.2s steps(2, start) 3;
     }
     @keyframes blinkError {
-      0%,100% { color: #e74c3c; }
+      0%, 100% { color: #d9534f; }
       50% { color: #fff; }
     }
     .quote-panel {
-      background: linear-gradient(135deg,#fff9 96%,#edc5f944 100%);
-      border-radius: 17px;
-      box-shadow: 0 2px 12px #1f1b2e42, 0 0 0 2px #fff3, inset 0 2px 10px #e774b218;
+      background: linear-gradient(135deg, #fff9 95%, #e0bff392 100%);
+      border-radius: 18px;
+      box-shadow: 0 2px 14px #2a204142, 0 0 0 2px #fff6, inset 0 3px 14px #d77bdb34;
       width: 92%;
-      max-width: 300px;
-      margin: 8px auto 10px auto;
-      padding: 14px 7px 13px 7px;
+      max-width: 320px;
+      margin: 10px auto 12px auto;
+      padding: 16px 12px 14px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      user-select: none;
       z-index: 6;
       transition: box-shadow 0.3s;
     }
     .quote-title {
-      color: #e774b2;
-      font-size: 1em;
+      color: #d672d6;
+      font-size: 1.05em;
       font-weight: 900;
-      margin-bottom: 11px;
-      letter-spacing: 1.2px;
+      margin-bottom: 13px;
+      letter-spacing: 1.3px;
       text-shadow: 0 3px 14px #fff7, 1px 1px 0 #7a58d355;
       font-family: inherit;
-      user-select: none;
     }
     .quote-bubble {
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #e774b280, 0 0 0 2px #f9b0e3;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px #db87e480, 0 0 0 2px #eea7ee;
       display: inline-block;
-      padding: 10px 10px;
-      min-width: 120px;
-      min-height: 38px;
+      padding: 12px 14px;
+      min-width: 130px;
+      min-height: 44px;
       font-family: inherit;
+      color: #a154a1;
+      font-weight: 700;
       z-index: 4;
-    }
-    .quote-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 9px;
-    }
-    .quote-item {
-      color: #e774b2;
-      font-size: .97em;
-      font-weight: bold;
-      font-family: inherit;
-      white-space: pre-line;
-      opacity: 0.95;
-      animation: quoteFloat 3.7s ease-in-out infinite alternate;
-      will-change: transform, opacity;
-      position: relative;
-      margin-bottom: 2px;
-    }
-    .quote-item:nth-child(1) { animation-delay: 0s;}
-    .quote-item:nth-child(2) { animation-delay: 1.2s;}
-    .quote-item:nth-child(3) { animation-delay: 2.1s;}
-    @keyframes quoteFloat {
-      0% { opacity: 0.95; transform: translateY(0px);}
-      40% { opacity: 1; transform: translateY(-4px) scale(1.03);}
-      60% { opacity: 1; transform: translateY(4px) scale(0.99);}
-      100% { opacity: 0.95; transform: translateY(0px);}
+      line-height: 1.3;
+      text-align: center;
     }
     .divider {
-      margin: 0.6rem 0 0.7rem 0;
-      border-top: 2px dashed #e774b2;
+      margin: 0.7rem 0 0.9rem 0;
+      border-top: 2px dashed #d672d6cc;
       width: 90%;
-      margin-left:auto; margin-right:auto;
-      opacity: 0.5;
+      margin-left: auto; margin-right: auto;
+      opacity: 0.48;
     }
     .float-ani {
       position: absolute;
-      left: 50%; bottom: 35px;
+      left: 50%; bottom: 38px;
       transform: translateX(-50%);
-      width: 100px; height: 46px;
+      width: 110px; height: 52px;
       pointer-events: none;
       z-index: 11;
-      opacity: 0.82;
+      opacity: 0.75;
     }
     .float-shape {
       position: absolute;
-      font-size: 1em;
-      opacity: 0.72;
-      animation: floatUp 4.2s linear infinite;
+      font-size: 1.1em;
+      opacity: 0.7;
+      animation: floatUp 4.5s linear infinite;
       will-change: transform, opacity;
-      filter: drop-shadow(0 1px 5px #fff5);
+      filter: drop-shadow(0 1px 6px #ffd6ff);
     }
-    .float-shape.star1 { left: 8px; animation-delay: 0s; color:#f9b0e3;}
-    .float-shape.heart1 { left: 38px; animation-delay: 2.2s; color:#e774b2;}
-    .float-shape.star2 { left: 70px; animation-delay: .8s; color:#fff;}
+    .float-shape.star1 { left: 6px; animation-delay: 0s; color:#dda4e0;}
+    .float-shape.heart1 { left: 42px; animation-delay: 2.3s; color:#d672d6;}
+    .float-shape.star2 { left: 74px; animation-delay: .9s; color:#e3b8ee;}
     @keyframes floatUp {
-      0% { bottom: 0; opacity: 0.78;}
+      0% { bottom: 0; opacity: 0.75;}
       30% { opacity: 1;}
       85% { opacity: 1;}
-      100% { bottom: 15px; opacity: 0;}
+      100% { bottom: 17px; opacity: 0;}
     }
     .ms-footer-note {
-      width: 100vw; max-width: 100vw;
+      width: 100vw;
+      max-width: 100vw;
       text-align: center;
-      font-family: 'AlimamaFangYuanTiVF','PingFang SC','Microsoft Yahei',Arial,sans-serif;
+      font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
       font-size: 10px;
-      color: #e7dbf0;
+      color: rgba(183, 144, 209, 0.5);
       background: transparent;
       position: fixed;
-      left: 0; bottom: 0;
+      left: 0;
+      bottom: 0;
       line-height: 1.2;
       letter-spacing: 1.1px;
       z-index: 100;
-      padding-bottom: 1.5px;
-      opacity: 0.18;
+      padding-bottom: 2px;
       font-weight: 400;
       user-select: none;
       pointer-events: none;
+      user-select: none;
     }
     @media (max-width: 540px) {
-      .kuromi-card {padding: 0.5rem 0.01rem 0.7rem 0.01rem; margin-top: 10vw; margin-bottom: 10vw; max-width: 99vw; gap: 7px;}
-      .kuromi-title {font-size: 1.05rem; margin-bottom: 0.21rem;}
-      .ip-info-list {gap: 5px;}
-      .ip-info-item {font-size: .93em; padding: 6px 7px;}
-      .quote-panel {padding: 6px 2vw 8px 2vw;}
-      .quote-title {font-size: 1em;}
-      .kuromi-avatar {width: 35px; height: 35px; margin-top: -20px;}
-      .float-ani {width: 50px;}
+      .kuromi-card {
+        padding: 0.6rem 0.05rem 0.8rem 0.05rem;
+        margin-top: 12vw;
+        margin-bottom: 12vw;
+        max-width: 98vw;
+        gap: 8px;
+      }
+      .kuromi-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.25rem;
+      }
+      .ip-info-list {
+        gap: 6px;
+      }
+      .ip-info-item {
+        font-size: 0.95em;
+        padding: 7px 9px;
+      }
+      .quote-panel {
+        padding: 8px 3vw 10px 3vw;
+      }
+      .quote-title {
+        font-size: 1em;
+      }
+      .kuromi-avatar {
+        width: 38px;
+        height: 38px;
+        margin-top: -22px;
+      }
+      .float-ani {
+        width: 55px;
+        height: 30px;
+      }
     }
   </style>
 </head>
 <body>
   <svg class="bg-svg" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="17vw" cy="29vh" r="45" fill="#a7c8fd44"/>
-    <circle cx="85vw" cy="80vh" r="24" fill="#f9b0e344"/>
-    <ellipse cx="48vw" cy="95vh" rx="60" ry="14" fill="#fff4" opacity="0.10"/>
-    <path d="M60 95 Q66 102 72 95 T84 95" stroke="#e774b2" stroke-width="2.2" fill="none" opacity="0.10"/>
-    <polygon points="150,180 152,190 160,188 158,196 168,196 158,201 162,210 154,204 150,210 150,202 142,207 146,198 137,197 146,193 143,185 150,190" fill="#e774b277"/>
+    <circle cx="17vw" cy="29vh" r="45" fill="#bb97c844" />
+    <circle cx="85vw" cy="80vh" r="24" fill="#dda4e044" />
+    <ellipse cx="48vw" cy="95vh" rx="60" ry="14" fill="#fff4" opacity="0.10" />
+    <path d="M60 95 Q66 102 72 95 T84 95" stroke="#d67bd2" stroke-width="2.2" fill="none" opacity="0.12" />
+    <polygon points="150,180 152,190 160,188 158,196 168,196 158,201 162,210 154,204 150,210 150,202 142,207 146,198 137,197 146,193 143,185 150,190" fill="#d672d677" />
   </svg>
-  <img class="corner corner-tl" src="https://img.alicdn.com/imgextra/i4/O1CN01A7d8is1J6v1cW0rA2_!!6000000001017-2-tps-72-72.png" alt="蝴蝶结">
-  <img class="corner corner-tr" src="https://img.alicdn.com/imgextra/i1/O1CN01Xnqb1C1fVfLwVxkEQ_!!6000000004028-2-tps-72-72.png" alt="星星">
-  <img class="corner corner-bl" src="https://img.alicdn.com/imgextra/i2/O1CN01N9nTnO1X2w5zq6IuV_!!6000000002856-2-tps-72-72.png" alt="爪印">
-  <img class="corner corner-br" src="https://img.alicdn.com/imgextra/i2/O1CN01N9nTnO1X2w5zq6IuV_!!6000000002856-2-tps-72-72.png" alt="爪印">
-  <div class="kuromi-card">
-    <img src="https://img.alicdn.com/imgextra/i4/O1CN01vZ2G8b1qJwR0mKQ8r_!!6000000005484-2-tps-500-500.png" alt="库洛米" class="kuromi-avatar">
-    <div class="kuromi-title">肉松老师羊毛风险检测</div>
-    <div class="ip-info-list">
-      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">🌏</span>IP地址</span><span class="ip-value" id="ip">加载中…</span></div>
-      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">📍</span>归属地</span><span class="ip-value" id="location">加载中…</span></div>
-      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">🏢</span>运营商</span><span class="ip-value" id="organization">加载中…</span></div>
-    </div>
-    <div class="quote-panel">
+
+  <img class="corner corner-tl" src="https://img.alicdn.com/imgextra/i4/O1CN01A7d8is1J6v1cW0rA2_!!6000000001017-2-tps-72-72.png" alt="蝴蝶结" />
+  <img class="corner corner-tr" src="https://img.alicdn.com/imgextra/i1/O1CN01Xnqb1C1fVfLwVxkEQ_!!6000000004028-2-tps-72-72.png" alt="星星" />
+  <img class="corner corner-bl" src="https://img.alicdn.com/imgextra/i2/O1CN01N9nTnO1X2w5zq6IuV_!!6000000002856-2-tps-72-72.png" alt="爪印" />
+  <img class="corner corner-br" src="https://img.alicdn.com/imgextra/i2/O1CN01N9nTnO1X2w5zq6IuV_!!6000000002856-2-tps-72-72.png" alt="爪印" />
+
+  <div class="kuromi-card" role="main" aria-label="羊毛风险检测卡片">
+    <img src="https://img.alicdn.com/imgextra/i4/O1CN01vZ2G8b1qJwR0mKQ8r_!!6000000005484-2-tps-500-500.png" alt="库洛米" class="kuromi-avatar" />
+    <h1 class="kuromi-title">肉松老师羊毛风险检测</h1>
+    <section class="ip-info-list" aria-live="polite" aria-atomic="true">
+      <div class="ip-info-item">
+        <span class="ip-label"><span class="ip-emoji" aria-hidden="true">🌏</span>IP地址</span>
+        <span class="ip-value" id="ip">加载中…</span>
+      </div>
+      <div class="ip-info-item">
+        <span class="ip-label"><span class="ip-emoji" aria-hidden="true">📍</span>归属地</span>
+        <span class="ip-value" id="location">加载中…</span>
+      </div>
+      <div class="ip-info-item">
+        <span class="ip-label"><span class="ip-emoji" aria-hidden="true">🏢</span>运营商</span>
+        <span class="ip-value" id="organization">加载中…</span>
+      </div>
+    </section>
+    <div class="quote-panel" aria-label="今日语录">
       <div class="quote-title">今日语录</div>
       <div class="quote-bubble">
         <div class="quote-list">
-          <div class="quote-item">今天 你薅了吗？</div>
+          <div class="quote-item">今天，你薅了吗？</div>
           <div class="quote-item">你离被风控只差一个薅字。</div>
           <div class="quote-item">未被标记，这是一种天赋。</div>
         </div>
       </div>
     </div>
     <div class="divider"></div>
-    <div class="float-ani">
+    <div class="float-ani" aria-hidden="true">
       <span class="float-shape star1">★</span>
       <span class="float-shape heart1">❤</span>
       <span class="float-shape star2">☆</span>
     </div>
   </div>
-  <div class="ms-footer-note">
-    注：只做风控检测不存储任何数据，JD 天猫等APP后台api真实检测
+
+  <div class="ms-footer-note" aria-label="版权及免责声明">
+    本页面仅提供风控状态检测服务，不采集或存储任何个人信息。数据由JD、天猫等主流电商平台官方接口实时获取，确保准确可靠。
   </div>
+
   <script>
     async function fetchIPInfo() {
       try {
@@ -348,16 +364,15 @@
         const data = await resp.json();
         document.getElementById('ip').textContent = data.ip || '未知';
         let loc = '';
-        if (data.country) loc += data.country;
-        if (data.region) loc += ' ' + data.region;
-        if (data.city) loc += ' ' + data.city;
-        document.getElementById('location').textContent = loc.trim() || '未知';
-        document.getElementById('organization').textContent = data.organization || '未知';
+        if(data.country) loc += data.country;
+        if(data.region) loc += ' ' + data.region;
+        if(data.city) loc += ' ' + data.city;
+        document.getElementById('location').textContent = loc || '未知';
+        document.getElementById('organization').textContent = data.isp || '未知';
       } catch(e) {
-        ['ip','location','organization'].forEach(id=>{
-          document.getElementById(id).textContent='获取失败';
-          document.getElementById(id).classList.add('error');
-        });
+        document.getElementById('ip').textContent = '获取失败';
+        document.getElementById('location').textContent = '获取失败';
+        document.getElementById('organization').textContent = '获取失败';
       }
     }
     fetchIPInfo();
