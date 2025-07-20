@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -348,4 +348,54 @@
     <p>🌐 技术支持 & 维护：肉松团队</p>
   </div>
 
- 
+  <div class="ms-footer-note" aria-live="polite">
+    肉松仅提供各电商平台API后台检测风险服务，不存储任何信息。
+  </div>
+
+  <!-- 漂浮动画元素 -->
+  <div class="float-ani" aria-hidden="true">
+    <span class="float-shape star1">✨</span>
+    <span class="float-shape heart1">💖</span>
+    <span class="float-shape star2">🌟</span>
+  </div>
+
+  <script>
+    // 请求 IP 信息并展示
+    async function fetchIPInfo() {
+      try {
+        const res = await fetch('https://api.ip.sb/geoip');
+        if (!res.ok) throw new Error('接口异常');
+        const data = await res.json();
+
+        document.getElementById('ip').textContent = data.ip || '未知';
+        const locationStr = [data.country, data.region, data.city].filter(Boolean).join(' - ');
+        document.getElementById('location').textContent = locationStr || '未知';
+        document.getElementById('organization').textContent = data.isp || '未知';
+      } catch (e) {
+        console.error(e);
+        document.getElementById('ip').textContent = '获取失败';
+        document.getElementById('location').textContent = '获取失败';
+        document.getElementById('organization').textContent = '获取失败';
+      }
+    }
+
+    fetchIPInfo();
+
+    // 简单轮换今日语录文字动画
+    const quotes = [
+      '勤劳薅羊毛，薅得开心又安心！',
+      '风险检测，保障发货无忧。',
+      '守住底线，拒绝虚假信息。',
+      '安全是最大的羊毛。',
+      '信息透明，交易放心。',
+    ];
+    let quoteIndex = 0;
+    const quoteList = document.getElementById('quote-list');
+
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      quoteList.innerHTML = `<div class="quote-item">${quotes[quoteIndex]}</div>`;
+    }, 6000);
+  </script>
+</body>
+</html>
