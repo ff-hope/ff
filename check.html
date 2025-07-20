@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>贝贝的羊毛风控值检测</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body {
+    margin: 0; padding: 0;
+    font-family: "微软雅黑", Arial, sans-serif;
+    background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
+    color: white;
+    text-align: center;
+  }
+  .container {
+    padding: 40px 20px;
+  }
+  h1 {
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 28px;
+  }
+  .ip-box, .risk-box {
+    background: rgba(255 255 255 / 0.15);
+    margin: 20px auto;
+    padding: 20px 30px;
+    border-radius: 14px;
+    max-width: 320px;
+    font-size: 20px;
+    user-select: text;
+  }
+  .loading {
+    margin-top: 40px;
+    font-size: 18px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    font-style: italic;
+    animation: blink 1.2s infinite;
+  }
+  @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.3; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>贝贝的羊毛风控值检测</h1>
+  <div class="ip-box" id="ipBox">获取IP中...</div>
+  <div class="loading" id="loadingText">正在检测中<span id="dots">...</span></div>
+  <div class="risk-box" id="riskBox" style="display:none;">风控值：<span id="riskValue">--</span></div>
+</div>
+
+<script>
+// 获取客户端IP的接口，使用免费的ipify
+async function getIP() {
+  try {
+    const res = await fetch('https://api64.ipify.org?format=json');
+    if (!res.ok) throw new Error('网络异常');
+    const data = await res.json();
+    return data.ip;
+  } catch {
+    return '无法获取IP';
+  }
+}
+
+// 模拟风控值，1~100之间随机数
+function simulateRiskValue() {
+  return Math.floor(Math.random() * 100) + 1;
+}
+
+// 动态点点点动画
+function animateDots() {
+  const dots = document.getElementById('dots');
+  let count = 0;
+  setInterval(() => {
+    count = (count + 1) % 4;
+    dots.textContent = '.'.repeat(count);
+  }, 600);
+}
+
+async function runDetection() {
+  const ipBox = document.getElementById('ipBox');
+  const riskBox = document.getElementById('riskBox');
+  const riskValue = document.getElementById('riskValue');
+  const loadingText = document.getElementById('loadingText');
+
+  animateDots();
+
+  const ip = await getIP();
+  ipBox.textContent = `当前IP地址：${ip}`;
+
+  // 模拟检测延时
+  setTimeout(() => {
+    loadingText.style.display = 'none';
+    riskBox.style.display = 'block';
+    riskValue.textContent = simulateRiskValue();
+  }, 4000);
+}
+
+runDetection();
+</script>
+</body>
+</html>

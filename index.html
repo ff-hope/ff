@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>贝贝的羊毛风控值检测</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: "Arial", "微软雅黑", sans-serif;
+      background: linear-gradient(to right, #FFDEE9, #B5FFFC);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    .box {
+      background: white;
+      padding: 24px 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #FF5E78;
+      font-size: 24px;
+    }
+    p {
+      color: #333;
+      font-size: 18px;
+      margin-top: 12px;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 85%;
+      border-radius: 12px;
+    }
+  </style>
+  <script>
+    // 检测是否是微信内置浏览器
+    const ua = navigator.userAgent.toLowerCase();
+    const isWeChat = ua.includes("micromessenger");
+    if (!isWeChat) {
+      // 如果不是微信，直接跳转
+      window.location.href = "check.html";
+    }
+  </script>
+</head>
+<body>
+  <div class="box">
+    <h1>请用浏览器打开本页面</h1>
+    <p>点击右上角 “⋯” <br>选择 <strong>在浏览器中打开</strong></p>
+    <img src="https://cdn.jsdelivr.net/gh/haozi/imgs/2023/07/27/open_browser_wechat.jpg" alt="用浏览器打开操作图">
+  </div>
+</body>
+</html>
