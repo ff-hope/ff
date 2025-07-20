@@ -4,55 +4,75 @@
   <meta charset="UTF-8" />
   <title>肉松的羊毛风控值检测</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- 引入Google字体 -->
   <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Pacifico&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 0;
       min-height: 100vh;
-      font-family: "微软雅黑", Arial, sans-serif;
-      background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
+      font-family: 'ZCOOL KuaiLe', '微软雅黑', sans-serif;
+      background: linear-gradient(to bottom, #f9c5d1, #9795f0);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     main {
-      width: 100%;
-      max-width: 360px;
-      padding: 40px 20px;
+      max-width: 400px;
+      padding: 36px 6vw;
       box-sizing: border-box;
       text-align: center;
     }
     h1 {
-      margin-bottom: 28px;
+      font-size: 26px;
+      margin-bottom: 24px;
       font-weight: 700;
-      font-size: 28px;
-      letter-spacing: 1px;
+      color: #fff9c4;
+      text-shadow: 2px 2px 5px #00000066;
     }
     .card {
-      background: rgba(255,255,255,0.15);
-      margin: 16px auto;
-      padding: 18px 20px;
-      border-radius: 14px;
-      font-size: 19px;
-      user-select: text;
-      box-shadow: 0 6px 24px 0 rgb(0 0 0 / 7%);
-      transition: box-shadow .3s;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 18px;
+      margin-top: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      font-size: 17px;
+      word-break: break-all;
     }
     .loading {
-      margin-top: 36px;
-      font-size: 17px;
-      letter-spacing: 3px;
-      font-weight: 600;
+      margin-top: 30px;
       font-style: italic;
+      font-weight: bold;
       animation: blink 1.2s infinite;
     }
     @keyframes blink {
       0%, 50%, 100% { opacity: 1; }
       25%, 75% { opacity: 0.3; }
     }
+    .risk-result {
+      margin-top: 28px;
+      font-size: 18px;
+    }
+    .risk-result span {
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+    .safe {
+      background: #00e676;
+      color: #000;
+    }
+    .medium {
+      background: #ffeb3b;
+      color: #000;
+    }
+    .danger {
+      background: #ff5252;
+      color: #fff;
+    }
+
+    /* 🔧 你的原始祝贺样式 */
     .congrats {
       display: none;
       margin-top: 32px;
@@ -83,46 +103,29 @@
       60% { transform: scale(1);}
       100% { transform: scale(1);}
     }
+
     @media (max-width: 480px) {
-      main { padding: 24px 4vw; }
-      h1 { font-size: 21px; }
-      .card { font-size: 15px; padding: 13px 6vw;}
+      h1 { font-size: 22px; }
+      .card { font-size: 15px; padding: 15px; }
+      .risk-result { font-size: 16px; }
       .congrats { font-size: 1em; }
-      .congrats .emoji { font-size:1.6em;}
+      .congrats .emoji { font-size: 1.6em; }
     }
   </style>
 </head>
 <body>
   <main>
-    <h1>贝贝的羊毛风控值检测</h1>
-    <div class="card" id="ipBox" aria-live="polite">获取IP中...</div>
-    <div class="loading" id="loadingText" aria-live="polite">正在检测中<span id="dots">...</span></div>
-    <div class="card" id="riskBox" style="display:none;">
-      风控值：<span id="riskValue">--</span>
-    </div>
+    <h1>肉松的羊毛风控值检测</h1>
+    <div class="card" id="ipBox">正在获取IP地址...</div>
+    <div class="loading" id="loadingText">风控检测中<span id="dots">...</span></div>
+    <div class="card risk-result" id="riskResult" style="display: none;"></div>
+
+    <!-- 🔧 保留你的 emoji 动画祝贺样式 -->
     <div class="congrats" id="congratsBox">
-      <span class="emoji">👑</span>贝贝羊毛王恭喜您IP一点毛病都没有！
+      <span class="emoji">👑</span>肉松大王恭喜您IP一点毛病都没有！
     </div>
   </main>
   <script>
-    // 获取客户端IP的接口，使用免费的ipify
-    async function getIP() {
-      try {
-        const res = await fetch('https://api64.ipify.org?format=json');
-        if (!res.ok) throw new Error('网络异常');
-        const data = await res.json();
-        return data.ip;
-      } catch {
-        return null;
-      }
-    }
-
-    // 模拟风控值，1~100之间随机数
-    function simulateRiskValue() {
-      return Math.floor(Math.random() * 100) + 1;
-    }
-
-    // 动态点点点动画
     function animateDots() {
       const dots = document.getElementById('dots');
       let count = 0;
@@ -132,35 +135,48 @@
       }, 600);
     }
 
+    async function fetchIPInfo() {
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        if (!res.ok) throw new Error('获取失败');
+        return await res.json();
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    }
+
     async function runDetection() {
+      animateDots();
       const ipBox = document.getElementById('ipBox');
-      const riskBox = document.getElementById('riskBox');
-      const riskValue = document.getElementById('riskValue');
       const loadingText = document.getElementById('loadingText');
+      const riskResult = document.getElementById('riskResult');
       const congratsBox = document.getElementById('congratsBox');
 
-      animateDots();
-
-      const ip = await getIP();
-      if (ip) {
-        ipBox.textContent = `当前IP地址：${ip}`;
-      } else {
-        ipBox.textContent = `无法获取IP 😢`;
+      const data = await fetchIPInfo();
+      if (!data) {
+        ipBox.textContent = '无法获取IP地址 😢';
+        loadingText.style.display = 'none';
+        return;
       }
 
-      // 模拟检测延时
+      ipBox.textContent = `IP地址：${data.ip}（${data.country_name} / ${data.org || '未知运营商'}）`;
+
       setTimeout(() => {
         loadingText.style.display = 'none';
-        riskBox.style.display = 'block';
-        const value = simulateRiskValue();
-        riskValue.textContent = value;
+        riskResult.style.display = 'block';
 
-        // 检测完成后弹出动画emoji和祝贺语句
-        setTimeout(() => {
+        const isProxy = data.security?.proxy || false;
+        const riskLevel = isProxy ? 'high' : 'low';
+
+        if (riskLevel === 'low') {
+          riskResult.innerHTML = `风控等级：<span class="safe">低风险</span>`;
           congratsBox.style.display = 'block';
-          congratsBox.style.animation = 'tada 1.2s'; // 触发动画
-        }, 900);
-      }, 3200);
+          congratsBox.style.animation = 'tada 1.2s';
+        } else {
+          riskResult.innerHTML = `风控等级：<span class="danger">高风险（可能为代理/VPN）</span>`;
+        }
+      }, 2000);
     }
 
     runDetection();
