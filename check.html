@@ -1,88 +1,169 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>贝贝的羊毛风控值检测</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="https://cdn.jsdelivr.net/gh/haozi/imgs/favicon.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- 引入Google字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Pacifico&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: "Segoe UI", "微软雅黑", Arial, sans-serif;
-      background: linear-gradient(135deg, #f8ffae 0%, #43c6ac 100%);
-      min-height: 100vh;
       margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: "微软雅黑", Arial, sans-serif;
+      background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .container {
-      background: rgba(255,255,255,0.96);
-      padding: 36px 40px;
-      border-radius: 20px;
-      box-shadow: 0 6px 32px 0 rgba(67,198,172,0.13), 0 1.5px 8px 0 rgba(0,0,0,0.03);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: box-shadow 0.3s;
-      max-width: 95vw;
-      width: 380px;
+    main {
+      width: 100%;
+      max-width: 360px;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      text-align: center;
     }
-    .container:hover {
-      box-shadow: 0 10px 40px 0 rgba(67,198,172,0.21), 0 3px 16px 0 rgba(0,0,0,0.06);
+    h1 {
+      margin-bottom: 28px;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 1px;
     }
-    .title {
-      color: #0fc1a7;
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 18px;
-      letter-spacing: 1.2px;
-    }
-    .desc {
-      color: #333;
-      font-size: 1.12rem;
-      margin-bottom: 22px;
-      line-height: 1.7;
-    }
-    .guide-img {
-      margin: 0 0 18px 0;
-      max-width: 90%;
+    .card {
+      background: rgba(255,255,255,0.15);
+      margin: 16px auto;
+      padding: 18px 20px;
       border-radius: 14px;
-      box-shadow: 0 2px 8px 0 rgba(67,198,172,0.17);
-      border: 1.5px solid #e0f7f4;
+      font-size: 19px;
+      user-select: text;
+      box-shadow: 0 6px 24px 0 rgb(0 0 0 / 7%);
+      transition: box-shadow .3s;
     }
-    .support {
-      color: #999;
-      font-size: 0.95rem;
-      margin-top: 16px;
+    .loading {
+      margin-top: 36px;
+      font-size: 17px;
+      letter-spacing: 3px;
+      font-weight: 600;
+      font-style: italic;
+      animation: blink 1.2s infinite;
+    }
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0.3; }
+    }
+    .congrats {
+      display: none;
+      margin-top: 32px;
+      font-family: 'Pacifico', 'ZCOOL KuaiLe', cursive, sans-serif;
+      font-size: 1.5em;
+      color: #fff700;
+      text-shadow: 2px 4px 10px #5e5e5e, 0 0 20px #f3f3f3;
+      animation: tada 1.2s ease;
+      position: relative;
+    }
+    .congrats .emoji {
+      display: inline-block;
+      font-size: 2.5em;
+      vertical-align: middle;
+      animation: crown-bounce 1.8s infinite;
+      margin-right: .3em;
+      filter: drop-shadow(0 0 12px #fff700);
+    }
+    @keyframes crown-bounce {
+      0%,100% { transform: translateY(0) rotate(-10deg);}
+      50% { transform: translateY(-18px) rotate(15deg);}
+    }
+    @keyframes tada {
+      0% { transform: scale(1);}
+      15% { transform: scale(1.2) rotate(-3deg);}
+      30% { transform: scale(.95) rotate(3deg);}
+      45% { transform: scale(1.05) rotate(0);}
+      60% { transform: scale(1);}
+      100% { transform: scale(1);}
     }
     @media (max-width: 480px) {
-      .container {
-        padding: 18px 4vw;
-        width: 98vw;
-      }
-      .title { font-size: 1.2rem; }
-      .desc { font-size: 0.98rem; }
+      main { padding: 24px 4vw; }
+      h1 { font-size: 21px; }
+      .card { font-size: 15px; padding: 13px 6vw;}
+      .congrats { font-size: 1em; }
+      .congrats .emoji { font-size:1.6em;}
     }
   </style>
-  <script>
-    // 检测是否是微信内置浏览器
-    document.addEventListener('DOMContentLoaded', function() {
-      const ua = navigator.userAgent.toLowerCase();
-      if (!ua.includes("micromessenger")) {
-        window.location.href = "check.html";
-      }
-    });
-  </script>
 </head>
 <body>
-  <div class="container">
-    <div class="title">请用浏览器打开本页面</div>
-    <div class="desc">
-      当前页面暂不支持微信直接访问。<br>
-      请点击右上角 <b>“⋯”</b> ，选择 <b>“在浏览器中打开”</b>。
+  <main>
+    <h1>贝贝的羊毛风控值检测</h1>
+    <div class="card" id="ipBox" aria-live="polite">获取IP中...</div>
+    <div class="loading" id="loadingText" aria-live="polite">正在检测中<span id="dots">...</span></div>
+    <div class="card" id="riskBox" style="display:none;">
+      风控值：<span id="riskValue">--</span>
     </div>
-    <img class="guide-img" src="https://cdn.jsdelivr.net/gh/haozi/imgs/2023/07/27/open_browser_wechat.jpg" alt="在微信中用浏览器打开教程图示">
-    <div class="support">如有疑问，请联系客服或查看帮助。</div>
-  </div>
+    <div class="congrats" id="congratsBox">
+      <span class="emoji">👑</span>贝贝羊毛王恭喜您IP一点毛病都没有！
+    </div>
+  </main>
+  <script>
+    // 获取客户端IP的接口，使用免费的ipify
+    async function getIP() {
+      try {
+        const res = await fetch('https://api64.ipify.org?format=json');
+        if (!res.ok) throw new Error('网络异常');
+        const data = await res.json();
+        return data.ip;
+      } catch {
+        return null;
+      }
+    }
+
+    // 模拟风控值，1~100之间随机数
+    function simulateRiskValue() {
+      return Math.floor(Math.random() * 100) + 1;
+    }
+
+    // 动态点点点动画
+    function animateDots() {
+      const dots = document.getElementById('dots');
+      let count = 0;
+      setInterval(() => {
+        count = (count + 1) % 4;
+        dots.textContent = '.'.repeat(count);
+      }, 600);
+    }
+
+    async function runDetection() {
+      const ipBox = document.getElementById('ipBox');
+      const riskBox = document.getElementById('riskBox');
+      const riskValue = document.getElementById('riskValue');
+      const loadingText = document.getElementById('loadingText');
+      const congratsBox = document.getElementById('congratsBox');
+
+      animateDots();
+
+      const ip = await getIP();
+      if (ip) {
+        ipBox.textContent = `当前IP地址：${ip}`;
+      } else {
+        ipBox.textContent = `无法获取IP 😢`;
+      }
+
+      // 模拟检测延时
+      setTimeout(() => {
+        loadingText.style.display = 'none';
+        riskBox.style.display = 'block';
+        const value = simulateRiskValue();
+        riskValue.textContent = value;
+
+        // 检测完成后弹出动画emoji和祝贺语句
+        setTimeout(() => {
+          congratsBox.style.display = 'block';
+          congratsBox.style.animation = 'tada 1.2s'; // 触发动画
+        }, 900);
+      }, 3200);
+    }
+
+    runDetection();
+  </script>
 </body>
 </html>
