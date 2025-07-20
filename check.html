@@ -10,32 +10,25 @@
       src: url('https://static.wenfont.com/font/AlimamaFangYuanTiVF-Thin.woff2') format('woff2');
       font-display: swap;
     }
-    body {
+    html, body {
+      height: 100%;
       min-height: 100vh;
-      background: linear-gradient(135deg, #1f1b2e 0%, #f9b0e3 100%);
+      width: 100vw;
       margin: 0;
       padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      height: 100vh;
+      width: 100vw;
+      background: linear-gradient(135deg, #1f1b2e 0%, #f9b0e3 100%);
       display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
       font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
       position: relative;
       overflow-x: hidden;
-    }
-    .top-tip {
-      margin-top: 18px;
-      margin-bottom: -52px;
-      font-size: 15px;
-      color: #fff;
-      opacity: 0.83;
-      text-align: center;
-      letter-spacing: 1.2px;
-      font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
-      z-index: 30;
-      text-shadow: 0 1px 6px #e774b288, 1px 1px 0 #232132, 2px 2px 0 #f9b0e388;
-      user-select: none;
-      pointer-events: none;
-      font-weight: 500;
     }
     .bg-svg {
       position: fixed;
@@ -66,8 +59,7 @@
       text-align: center;
       color: #fff;
       position: relative;
-      margin-bottom: 65px;
-      margin-top: 90px;
+      margin: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -280,9 +272,6 @@
   </style>
 </head>
 <body>
-  <div class="top-tip">
-    肉松根据JD 天猫等APP后台API真实测试
-  </div>
   <svg class="bg-svg" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
     <circle cx="17vw" cy="33vh" r="45" fill="#fff3" />
     <path d="M60 95 Q66 102 72 95 T84 95" stroke="#e774b2" stroke-width="2.2" fill="none" opacity="0.42"/>
