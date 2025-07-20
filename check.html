@@ -57,12 +57,28 @@
       width: 60px; height: 60px;
       border-radius: 50%;
       border: 3px solid #e774b2;
-      object-fit: cover;
       background: #fff;
       margin-top: -36px;
       margin-bottom: 6px;
       box-shadow: 0 2px 9px #e774b2;
+      font-size: 48px;
+      line-height: 60px;
+      text-align: center;
+      user-select: none;
+      color: #e774b2;
+      font-weight: 900;
+      position: relative;
       z-index: 3;
+    }
+    .avatar::after {
+      content: "👑";
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 48px;
+      pointer-events: none;
+      user-select: none;
     }
     .title {
       font-size: 1.5rem;
@@ -182,22 +198,13 @@
       font-family: inherit;
       user-select: none;
     }
-    .quote-bubble {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #e774b280, 0 0 0 2px #f9b0e3;
-      display: inline-block;
-      padding: 10px 10px;
-      min-width: 120px;
-      min-height: 38px;
-      font-family: inherit;
-      z-index: 4;
-    }
     .quote-list {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 9px;
+      width: 100%;
+      max-width: 280px;
     }
     .quote-item {
       color: #e774b2;
@@ -210,6 +217,17 @@
       will-change: transform, opacity;
       position: relative;
       margin-bottom: 2px;
+      padding-left: 1.2em;
+      text-indent: -1.1em;
+    }
+    /* 每条语录前加皇冠emoji */
+    .quote-item::before {
+      content: "👑";
+      margin-right: 6px;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
     }
     .quote-item:nth-child(1) { animation-delay: 0s;}
     .quote-item:nth-child(2) { animation-delay: 1.2s;}
@@ -298,7 +316,8 @@
       .title { font-size: 1.05rem; margin-bottom: 0.21rem; }
       .ip-info-item { font-size: .93em; padding: 6px 7px; }
       .quote-panel { padding: 6px 2vw 8px 2vw; }
-      .avatar { width: 35px; height: 35px; margin-top: -20px; }
+      .avatar { width: 45px; height: 45px; margin-top: -20px; font-size: 36px; }
+      .avatar::after { font-size: 36px; top: 4px;}
       .float-ani { width: 50px; }
       .ms-footer-note { font-size: 12px; }
       .extra-info { font-size: 0.85em; padding: 10px 12px; }
@@ -319,83 +338,73 @@
   <img class="corner corner-tl" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f380.svg" alt="蝴蝶结" style="position: fixed; top: 0; left: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(-13deg); z-index:10;">
   <img class="corner corner-tr" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u2b50.svg" alt="星星" style="position: fixed; top: 0; right: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(17deg); z-index:10;">
   <img class="corner corner-bl" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f43e.svg" alt="爪印" style="position: fixed; bottom: 0; left: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(7deg); z-index:10;">
-  <img class="corner corner-br" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f345.svg" alt="西红柿" style="position: fixed; bottom: 0; right: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(-23deg); z-index:10;">
 
-  <div class="kuromi-card">
-    <!-- 头像换成西红柿emoji图 -->
-    <img src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f345.svg" alt="西红柿" class="avatar" />
+  <main class="kuromi-card" role="main" aria-label="风险检测卡片">
+    <div class="avatar" aria-label="皇冠图标"></div>
     <div class="title">肉松老师羊毛风险检测</div>
-    <div class="ip-info-list">
-      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">🌏</span>IP地址</span><span class="ip-value" id="ip">加载中…</span></div>
-      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">📍</span>归属地</span><span class="ip-value" id="location">加载中…</span></div>
-      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">🏢</span>运营商</span><span class="ip-value" id="organization">加载中…</span></div>
+    <div class="ip-info-list" aria-live="polite" aria-atomic="true" aria-relevant="all">
+      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji" aria-hidden="true">🌏</span>IP地址</span><span class="ip-value" id="ip">获取中...</span></div>
+      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji" aria-hidden="true">📍</span>地区</span><span class="ip-value" id="location">获取中...</span></div>
+      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji" aria-hidden="true">⚠️</span>风险值</span><span class="ip-value" id="risk">获取中...</span></div>
     </div>
+    <div class="divider"></div>
 
-    <div class="quote-panel" aria-label="今日语录">
+    <section class="quote-panel" aria-label="今日语录">
       <div class="quote-title">今日语录</div>
-      <div class="quote-list" id="quote-list">
-        <div class="quote-item">勤劳薅羊毛，薅得开心又安心！</div>
-        <div class="quote-item">风险检测，保障发货无忧。</div>
-        <div class="quote-item">守住底线，拒绝虚假信息。</div>
+      <div class="quote-list" aria-live="polite" aria-atomic="true">
+        <div class="quote-item">坚持，就是胜利！</div>
+        <div class="quote-item">风险是羊毛中的影子，谨慎则安。</div>
+        <div class="quote-item">热爱学习，拥抱变化，才能不断进步。</div>
       </div>
-    </div>
+    </section>
+  </main>
+
+  <div class="extra-info" aria-live="polite" aria-atomic="true">
+    注意：风险值仅供参考，具体情况请结合实际操作判断。保持警惕，羊毛更安全！
   </div>
 
-  <div class="extra-info" aria-label="额外信息">
-    <p>🛡️ 本站通过各大电商平台API接口，实时检测账户及订单风险，确保发货安全无误。</p>
-    <p>🚀 系统无任何用户数据存储，保护您的隐私安全。</p>
-    <p>💡 使用过程中如遇问题，请及时反馈，助力持续优化体验。</p>
-    <p>🌐 技术支持 & 维护：肉松团队</p>
-  </div>
-
-  <div class="ms-footer-note" aria-live="polite">
-    肉松仅提供各电商平台API后台检测风险服务，不存储任何信息。
-  </div>
-
-  <!-- 漂浮动画元素 -->
   <div class="float-ani" aria-hidden="true">
-    <span class="float-shape star1">✨</span>
-    <span class="float-shape heart1">💖</span>
-    <span class="float-shape star2">🌟</span>
+    <div class="float-shape star1">✨</div>
+    <div class="float-shape heart1">💖</div>
+    <div class="float-shape star2">🌟</div>
   </div>
+
+  <footer class="ms-footer-note" role="contentinfo">
+    本工具由肉松老师倾力打造，祝你薅毛顺利！
+  </footer>
 
   <script>
-    // 请求 IP 信息并展示
+    // 模拟异步获取真实IP及数据，这里你可以替换成你的真实接口调用
     async function fetchIPInfo() {
       try {
-        const res = await fetch('https://api.ip.sb/geoip');
-        if (!res.ok) throw new Error('接口异常');
+        // 示例用免费API：ip-api.com
+        const res = await fetch('http://ip-api.com/json/?lang=zh-CN');
         const data = await res.json();
-
-        document.getElementById('ip').textContent = data.ip || '未知';
-        const locationStr = [data.country, data.region, data.city].filter(Boolean).join(' - ');
-        document.getElementById('location').textContent = locationStr || '未知';
-        document.getElementById('organization').textContent = data.isp || '未知';
+        if (data.status === 'success') {
+          document.getElementById('ip').textContent = data.query || '未知';
+          document.getElementById('location').textContent = `${data.country || ''} ${data.regionName || ''} ${data.city || ''}`.trim() || '未知';
+          // 这里根据ip等信息判断风险值，示范用随机数代替
+          const riskValue = Math.floor(Math.random() * 100);
+          document.getElementById('risk').textContent = riskValue;
+          if (riskValue > 60) {
+            document.getElementById('risk').classList.add('error');
+          } else {
+            document.getElementById('risk').classList.remove('error');
+          }
+        } else {
+          document.getElementById('ip').textContent = '获取失败';
+          document.getElementById('location').textContent = '获取失败';
+          document.getElementById('risk').textContent = '未知';
+          document.getElementById('risk').classList.add('error');
+        }
       } catch (e) {
-        console.error(e);
-        document.getElementById('ip').textContent = '获取失败';
-        document.getElementById('location').textContent = '获取失败';
-        document.getElementById('organization').textContent = '获取失败';
+        document.getElementById('ip').textContent = '网络错误';
+        document.getElementById('location').textContent = '网络错误';
+        document.getElementById('risk').textContent = '未知';
+        document.getElementById('risk').classList.add('error');
       }
     }
-
     fetchIPInfo();
-
-    // 简单轮换今日语录文字动画
-    const quotes = [
-      '勤劳薅羊毛，薅得开心又安心！',
-      '风险检测，保障发货无忧。',
-      '守住底线，拒绝虚假信息。',
-      '安全是最大的羊毛。',
-      '信息透明，交易放心。',
-    ];
-    let quoteIndex = 0;
-    const quoteList = document.getElementById('quote-list');
-
-    setInterval(() => {
-      quoteIndex = (quoteIndex + 1) % quotes.length;
-      quoteList.innerHTML = `<div class="quote-item">${quotes[quoteIndex]}</div>`;
-    }, 6000);
   </script>
 </body>
 </html>
