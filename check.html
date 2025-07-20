@@ -11,16 +11,12 @@
       font-display: swap;
     }
     html,body {
-      height: 100%;
       min-height: 100vh;
-      width: 100vw;
+      background: linear-gradient(135deg,#231d2e 0%,#f9b0e3 100%);
       margin:0; padding:0;
-      background: linear-gradient(135deg,#201c2f 0%,#e3b4e6 100%);
-      overflow-x:hidden;
+      width:100vw; overflow-x:hidden;
     }
     body {
-      min-height: 100vh;
-      width: 100vw;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -29,101 +25,85 @@
       position: relative;
       padding: 0;
       box-sizing: border-box;
+      min-height: 100vh;
+      width: 100vw;
     }
-    /* 可爱库洛米角落贴纸 */
     .corner {
       position: fixed;
-      width: 52px; height: 52px;
+      width: 48px; height: 48px;
       z-index: 10;
       pointer-events: none;
-      opacity: 0.38;
-      filter: blur(.5px);
+      opacity: 0.3;
     }
     .corner-tl { left: 0; top: 0; transform: rotate(-13deg);}
     .corner-tr { right: 0; top: 0; transform: rotate(17deg);}
     .corner-bl { left: 0; bottom: 0; transform: rotate(7deg);}
     .corner-br { right: 0; bottom: 0; transform: rotate(-23deg);}
-    /* 背景柔和SVG */
     .bg-svg {
       position: fixed;
       z-index: 1;
       left: 0; top: 0;
       width: 100vw; height: 100vh;
       pointer-events: none;
-      opacity: 0.13;
+      opacity: 0.10;
     }
-    /* 主卡片 */
     .kuromi-card {
-      background: linear-gradient(135deg,#29213b 65%,#e3b4e6ee 100%);
-      border-radius: 26px;
+      background: linear-gradient(130deg,#28203a 75%,#f9b0e3cc 100%);
+      border-radius: 24px;
       box-shadow:
         0 4px 22px 0 #e774b2aa,
         0 1px 4px 0 #fff2,
-        inset 0 0 22px 0 #6b308980;
-      padding: 1.1rem 0.5rem 1.1rem 0.5rem;
-      max-width: 392px;
-      width: 96vw;
+        inset 0 0 10px 0 #fff3;
+      padding: 1.1rem 0.9rem 1.2rem 0.9rem;
+      max-width: 360px;
+      width: 94vw;
       color: #fff;
-      position: relative;
-      margin: 80px 0 50px 0;
+      margin: 48px 0 40px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       z-index: 2;
       gap: 12px;
       overflow: hidden;
+      position:relative;
       animation: cardIn .95s cubic-bezier(.23,1.24,.45,1) both;
-      transition: box-shadow 0.2s, transform 0.12s;
     }
     @keyframes cardIn {
-      0% { opacity:0; transform:scale(.85) translateY(30px);}
+      0% { opacity:0; transform:scale(.85) translateY(20px);}
       100% { opacity:1; transform:scale(1) translateY(0);}
     }
-    .kuromi-card:active,
-    .kuromi-card:focus-within {
-      box-shadow:
-        0 8px 32px #7a58d3cc,
-        0 0 0 2px #fff3;
-      transform: scale(1.008);
-    }
     .kuromi-avatar {
-      width: 65px; height: 65px;
+      width: 60px; height: 60px;
       border-radius: 50%;
       border: 3px solid #e774b2;
       object-fit: cover;
       background: #fff;
-      margin-top: -48px;
-      margin-bottom: 5px;
-      box-shadow: 0 2px 12px #e774b2;
-      animation: avatarAppear 1s;
+      margin-top: -36px;
+      margin-bottom: 6px;
+      box-shadow: 0 2px 9px #e774b2;
       z-index: 3;
     }
-    @keyframes avatarAppear {
-      0% { opacity:0; transform: scale(0.5);}
-      100% { opacity:1; transform: scale(1);}
-    }
-    /* 标题 */
     .kuromi-title {
-      font-size: 2.1rem;
+      font-size: 1.5rem;
       font-weight: 900;
-      margin-bottom: 0.5rem;
-      margin-top: 0.12rem;
-      background: linear-gradient(90deg,#fff 10%,#e774b2 50%,#a082d7 100%);
+      background: linear-gradient(90deg,#fff 10%,#e774b2 40%,#a082d7 100%);
       background-clip: text;
       color: transparent;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: 2.2px;
-      text-shadow: 1px 1px 6px #fff8, 0 2px 0 #7a58d355, 0 0 8px #e774b255;
+      text-shadow: 1px 1px 6px #fff9, 0 2px 0 #7a58d355, 0 0 5px #e774b255;
       line-height: 1.18;
       user-select: none;
       text-align: center;
-      filter: drop-shadow(0 3px 10px #aa87cc55);
-      border-radius: 9px;
-      padding: 0 0.2rem;
+      filter: drop-shadow(0 3px 10px #aa87cc22);
+      border-radius: 6px;
+      padding: 0 0.1rem;
       z-index: 4;
+      margin-bottom: 0.2rem;
+      margin-top: 0.1rem;
     }
-    /* IP信息条目式布局 */
+    /* 精简卡片式IP信息 */
     .ip-info-list {
       width: 100%;
       display: flex;
@@ -131,28 +111,23 @@
       gap: 7px;
       align-items: center;
       justify-content: flex-start;
-      margin: 0 auto;
-      /* 限高+滚动，适配手机屏幕 */
-      max-height: 285px;
-      overflow-y: auto;
-      scrollbar-width: none;
+      margin: 0 auto 0.5rem auto;
     }
-    .ip-info-list::-webkit-scrollbar{ display:none; }
     .ip-info-item {
       background: linear-gradient(90deg,#fff6 10%,#e3b4e633 100%);
       border-radius: 12px;
       box-shadow: 0 1px 4px 0 #b3a0e033, 0 0 0 1px #e774b215;
       padding: 8px 13px 8px 13px;
-      min-width: 0;
-      width: 93%;
+      width: 94%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      font-size: 1.03em;
+      justify-content: flex-start;
+      font-size: 1.04em;
       transition: box-shadow 0.16s, transform 0.15s, background 0.17s;
       border: 1px solid #fff2;
       position: relative;
       cursor: pointer;
+      min-height: 28px;
     }
     .ip-info-item:hover {
       box-shadow:0 3px 10px 0 #e774b299,inset 0 2px 12px #fff7;
@@ -162,7 +137,7 @@
     }
     .ip-label {
       color: #e774b2;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 1.1px;
       min-width: 66px;
       text-align: left;
@@ -170,14 +145,25 @@
       filter: brightness(1.08);
       opacity: 0.97;
       font-size: 1em;
+      margin-right: 0.5em;
+      display: flex;
+      align-items: center;
+      gap: 0.25em;
+    }
+    .ip-emoji {
+      font-size: 1.1em;
+      margin-right: 0.13em;
+      filter: drop-shadow(0 1px 2px #fff2);
     }
     .ip-value {
       color: #38304a;
       font-size: 0.99em;
       opacity: 0.83;
-      text-align: right;
       font-weight: 600;
-      margin-left: 10px;
+      margin-left: auto;
+      text-align: right;
+      white-space: normal;
+      line-height: 1.25;
       max-width: 65%;
       word-break: break-all;
       transition: color 0.15s;
@@ -190,15 +176,14 @@
       0%,100% { color: #e74c3c; }
       50% { color: #fff; }
     }
-    /* 语录面板 */
     .quote-panel {
-      background: linear-gradient(135deg,#fff9 90%,#edc5f944 100%);
-      border-radius: 19px;
-      box-shadow: 0 2px 18px #1f1b2e42, 0 0 0 4px #fff3, inset 0 2px 18px #e774b218;
+      background: linear-gradient(135deg,#fff9 96%,#edc5f944 100%);
+      border-radius: 17px;
+      box-shadow: 0 2px 12px #1f1b2e42, 0 0 0 2px #fff3, inset 0 2px 10px #e774b218;
       width: 92%;
-      max-width: 330px;
+      max-width: 300px;
       margin: 8px auto 10px auto;
-      padding: 24px 10px 22px 10px;
+      padding: 14px 7px 13px 7px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -207,23 +192,22 @@
     }
     .quote-title {
       color: #e774b2;
-      font-size: 1.22em;
+      font-size: 1em;
       font-weight: 900;
-      margin-bottom: 14px;
-      letter-spacing: 1.8px;
+      margin-bottom: 11px;
+      letter-spacing: 1.2px;
       text-shadow: 0 3px 14px #fff7, 1px 1px 0 #7a58d355;
       font-family: inherit;
-      filter: brightness(1.06);
       user-select: none;
     }
     .quote-bubble {
       background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 2px 12px #e774b280, 0 0 0 2px #f9b0e3;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #e774b280, 0 0 0 2px #f9b0e3;
       display: inline-block;
-      padding: 16px 14px;
-      min-width: 180px;
-      min-height: 60px;
+      padding: 10px 10px;
+      min-width: 120px;
+      min-height: 38px;
       font-family: inherit;
       z-index: 4;
     }
@@ -231,66 +215,61 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 13px;
+      gap: 9px;
     }
     .quote-item {
       color: #e774b2;
-      font-size: 1.03em;
+      font-size: .97em;
       font-weight: bold;
       font-family: inherit;
-      text-shadow: 0 1px 8px #f9b0e385, 1px 1px 0 #fff7;
+      white-space: pre-line;
       opacity: 0.95;
       animation: quoteFloat 3.7s ease-in-out infinite alternate;
       will-change: transform, opacity;
       position: relative;
-      white-space: pre-line;
-      transition: opacity 0.3s, transform 0.3s;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .quote-item:nth-child(1) { animation-delay: 0s;}
     .quote-item:nth-child(2) { animation-delay: 1.2s;}
     .quote-item:nth-child(3) { animation-delay: 2.1s;}
     @keyframes quoteFloat {
       0% { opacity: 0.95; transform: translateY(0px);}
-      40% { opacity: 1; transform: translateY(-5px) scale(1.03);}
-      60% { opacity: 1; transform: translateY(5px) scale(0.99);}
+      40% { opacity: 1; transform: translateY(-4px) scale(1.03);}
+      60% { opacity: 1; transform: translateY(4px) scale(0.99);}
       100% { opacity: 0.95; transform: translateY(0px);}
     }
     .divider {
-      margin: 0.7rem 0 0.9rem 0;
+      margin: 0.6rem 0 0.7rem 0;
       border-top: 2px dashed #e774b2;
       width: 90%;
       margin-left:auto; margin-right:auto;
-      opacity: 0.6;
+      opacity: 0.5;
     }
-    /* 浮动星星/爱心动画 */
     .float-ani {
       position: absolute;
-      left: 50%; bottom: 70px;
+      left: 50%; bottom: 35px;
       transform: translateX(-50%);
-      width: 150px; height: 64px;
+      width: 100px; height: 46px;
       pointer-events: none;
       z-index: 11;
-      opacity: 0.88;
+      opacity: 0.82;
     }
     .float-shape {
       position: absolute;
-      font-size: 1.1em;
-      opacity: 0.75;
+      font-size: 1em;
+      opacity: 0.72;
       animation: floatUp 4.2s linear infinite;
       will-change: transform, opacity;
-      filter: drop-shadow(0 1px 5px #fff7);
+      filter: drop-shadow(0 1px 5px #fff5);
     }
     .float-shape.star1 { left: 8px; animation-delay: 0s; color:#f9b0e3;}
-    .float-shape.star2 { left: 42px; animation-delay: 1.3s; color:#b6aaff;}
-    .float-shape.heart1 { left: 78px; animation-delay: 2.2s; color:#e774b2;}
-    .float-shape.star3 { left: 110px; animation-delay: .8s; color:#fff;}
-    .float-shape.heart2 { left: 130px; animation-delay: 2.6s; color:#a7c8fd;}
+    .float-shape.heart1 { left: 38px; animation-delay: 2.2s; color:#e774b2;}
+    .float-shape.star2 { left: 70px; animation-delay: .8s; color:#fff;}
     @keyframes floatUp {
       0% { bottom: 0; opacity: 0.78;}
       30% { opacity: 1;}
       85% { opacity: 1;}
-      100% { bottom: 38px; opacity: 0;}
+      100% { bottom: 15px; opacity: 0;}
     }
     .ms-footer-note {
       width: 100vw; max-width: 100vw;
@@ -301,34 +280,28 @@
       background: transparent;
       position: fixed;
       left: 0; bottom: 0;
-      line-height: 1.4;
+      line-height: 1.2;
       letter-spacing: 1.1px;
       z-index: 100;
-      padding-bottom: 2.5px;
-      opacity: 0.26;
+      padding-bottom: 1.5px;
+      opacity: 0.18;
       font-weight: 400;
       user-select: none;
       pointer-events: none;
     }
     @media (max-width: 540px) {
-      .kuromi-card {
-        padding: 0.7rem 0.1rem 0.6rem 0.1rem;
-        margin-top: 13vw; margin-bottom: 13vw;
-        max-width: 99vw;
-        gap: 7px;
-      }
-      .kuromi-title { font-size: 1.29rem; margin-bottom: 0.34rem;}
-      .ip-info-list { max-height: 185px; }
-      .ip-info-item { font-size: .93em; padding: 6px 7px; }
-      .quote-panel { padding: 11px 2vw 11px 2vw; }
-      .quote-title { font-size: 1em; }
-      .kuromi-avatar { width: 44px; height: 44px; margin-top: -32px;}
-      .float-ani { width: 80px; }
+      .kuromi-card {padding: 0.5rem 0.01rem 0.7rem 0.01rem; margin-top: 10vw; margin-bottom: 10vw; max-width: 99vw; gap: 7px;}
+      .kuromi-title {font-size: 1.05rem; margin-bottom: 0.21rem;}
+      .ip-info-list {gap: 5px;}
+      .ip-info-item {font-size: .93em; padding: 6px 7px;}
+      .quote-panel {padding: 6px 2vw 8px 2vw;}
+      .quote-title {font-size: 1em;}
+      .kuromi-avatar {width: 35px; height: 35px; margin-top: -20px;}
+      .float-ani {width: 50px;}
     }
   </style>
 </head>
 <body>
-  <!-- 柔和SVG背景 -->
   <svg class="bg-svg" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
     <circle cx="17vw" cy="29vh" r="45" fill="#a7c8fd44"/>
     <circle cx="85vw" cy="80vh" r="24" fill="#f9b0e344"/>
@@ -336,23 +309,17 @@
     <path d="M60 95 Q66 102 72 95 T84 95" stroke="#e774b2" stroke-width="2.2" fill="none" opacity="0.10"/>
     <polygon points="150,180 152,190 160,188 158,196 168,196 158,201 162,210 154,204 150,210 150,202 142,207 146,198 137,197 146,193 143,185 150,190" fill="#e774b277"/>
   </svg>
-  <!-- 库洛米角落贴纸 -->
   <img class="corner corner-tl" src="https://img.alicdn.com/imgextra/i4/O1CN01A7d8is1J6v1cW0rA2_!!6000000001017-2-tps-72-72.png" alt="蝴蝶结">
   <img class="corner corner-tr" src="https://img.alicdn.com/imgextra/i1/O1CN01Xnqb1C1fVfLwVxkEQ_!!6000000004028-2-tps-72-72.png" alt="星星">
   <img class="corner corner-bl" src="https://img.alicdn.com/imgextra/i2/O1CN01N9nTnO1X2w5zq6IuV_!!6000000002856-2-tps-72-72.png" alt="爪印">
   <img class="corner corner-br" src="https://img.alicdn.com/imgextra/i2/O1CN01N9nTnO1X2w5zq6IuV_!!6000000002856-2-tps-72-72.png" alt="爪印">
   <div class="kuromi-card">
-    <img src="https://img.alicdn.com/imgextra/i4/O1CN01vZ2G8b1qJwR0mKQ8r_!!6000000005484-2-tps-500-500.png" alt="库洛米" class="kuromi-avatar" id="kuromi-avatar">
+    <img src="https://img.alicdn.com/imgextra/i4/O1CN01vZ2G8b1qJwR0mKQ8r_!!6000000005484-2-tps-500-500.png" alt="库洛米" class="kuromi-avatar">
     <div class="kuromi-title">肉松老师羊毛风险检测</div>
-    <!-- 专业IP信息条目式 -->
     <div class="ip-info-list">
-      <div class="ip-info-item" id="ip-row"><span class="ip-label">IP地址</span><span class="ip-value" id="ip">加载中…</span></div>
-      <div class="ip-info-item" id="location-row"><span class="ip-label">归属地</span><span class="ip-value" id="location">加载中…</span></div>
-      <div class="ip-info-item" id="organization-row"><span class="ip-label">运营商</span><span class="ip-value" id="organization">加载中…</span></div>
-      <div class="ip-info-item" id="asn-row"><span class="ip-label">AS号</span><span class="ip-value" id="asn">加载中…</span></div>
-      <div class="ip-info-item" id="iptype-row"><span class="ip-label">IP类型</span><span class="ip-value" id="iptype">加载中…</span></div>
-      <div class="ip-info-item" id="timezone-row"><span class="ip-label">时区</span><span class="ip-value" id="timezone">加载中…</span></div>
-      <div class="ip-info-item" id="country_code-row"><span class="ip-label">国家代码</span><span class="ip-value" id="country_code">加载中…</span></div>
+      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">🌏</span>IP地址</span><span class="ip-value" id="ip">加载中…</span></div>
+      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">📍</span>归属地</span><span class="ip-value" id="location">加载中…</span></div>
+      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">🏢</span>运营商</span><span class="ip-value" id="organization">加载中…</span></div>
     </div>
     <div class="quote-panel">
       <div class="quote-title">今日语录</div>
@@ -369,8 +336,6 @@
       <span class="float-shape star1">★</span>
       <span class="float-shape heart1">❤</span>
       <span class="float-shape star2">☆</span>
-      <span class="float-shape star3">★</span>
-      <span class="float-shape heart2">❤</span>
     </div>
   </div>
   <div class="ms-footer-note">
@@ -388,25 +353,14 @@
         if (data.city) loc += ' ' + data.city;
         document.getElementById('location').textContent = loc.trim() || '未知';
         document.getElementById('organization').textContent = data.organization || '未知';
-        document.getElementById('asn').textContent = data.asn || '未知';
-        document.getElementById('iptype').textContent = data.ip && data.ip.includes(':') ? 'IPv6' : 'IPv4';
-        document.getElementById('timezone').textContent = data.timezone || '未知';
-        document.getElementById('country_code').textContent = data.country_code || '未知';
       } catch(e) {
-        const keys = ['ip','location','organization','asn','iptype','timezone','country_code'];
-        keys.forEach(id=>{
+        ['ip','location','organization'].forEach(id=>{
           document.getElementById(id).textContent='获取失败';
           document.getElementById(id).classList.add('error');
         });
       }
     }
     fetchIPInfo();
-
-    // 条目微交互（移动端无效）
-    document.querySelectorAll('.ip-info-item').forEach(item=>{
-      item.addEventListener('mouseenter',()=>item.style.transform='scale(1.025)');
-      item.addEventListener('mouseleave',()=>item.style.transform='');
-    });
   </script>
 </body>
 </html>
