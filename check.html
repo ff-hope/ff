@@ -1,94 +1,223 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" >
 <head>
-  <meta charset="UTF-8">
-  <title>风控值检测结果 - 肉松大王</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>肉松大王羊毛风控值检测</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- 国内字体 -->
   <link href="https://fonts.font.im/css?family=ZCOOL+KuaiLe" rel="stylesheet" />
   <style>
+    /* 重置 */
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
     }
     body {
-      font-family: 'ZCOOL KuaiLe', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-      background: linear-gradient(135deg, #FFF6E5, #FFDDC1);
+      font-family: 'ZCOOL KuaiLe', '微软雅黑', Arial, sans-serif;
+      background: radial-gradient(circle at top left, #FFF9E5, #FFD5B8 70%);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      text-align: center;
+      align-items: center;
       padding: 24px;
+      text-align: center;
+      color: #4a2e00;
+      overflow-x: hidden;
     }
-    .title {
-      font-size: 2rem;
-      color: #ff7f50;
+    h1 {
+      font-size: 2.8rem;
+      color: #d9611e;
+      text-shadow:
+        1px 1px 2px #ffd6a2,
+        0 0 20px #ffaf5e;
       margin-bottom: 20px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      user-select: none;
     }
-    .success-emoji {
-      font-size: 3.5rem;
-      margin-bottom: 10px;
-    }
-    .message {
+    #ipBox, #riskBox {
+      background: rgba(255 255 255 / 0.95);
+      padding: 22px 28px;
+      border-radius: 20px;
+      box-shadow:
+        0 4px 28px rgba(255, 160, 44, 0.28),
+        inset 0 0 15px #ffe0b1;
       font-size: 1.3rem;
-      color: #ff5722;
+      font-weight: 600;
+      user-select: text;
+      max-width: 360px;
       margin-bottom: 24px;
+      transition: box-shadow 0.3s ease;
     }
-    .info-box {
-      background: #ffffffcc;
-      padding: 20px 16px;
-      border-radius: 14px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 340px;
+    #riskBox {
+      display: none;
+      color: #a85100;
     }
-    .ip, .location, .isp, .risk {
-      font-size: 1rem;
-      margin: 6px 0;
-      color: #444;
+    .loading {
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #d95c00;
+      letter-spacing: 4px;
+      margin-bottom: 32px;
+      animation: blink 1.2s infinite;
+      user-select: none;
+      user-drag: none;
+      -webkit-user-select:none;
+      -webkit-user-drag:none;
     }
-    .footer {
-      margin-top: 24px;
-      font-size: 0.9rem;
-      color: #999;
+    @keyframes blink {
+      0%,50%,100% { opacity: 1; }
+      25%,75% { opacity: 0.3; }
+    }
+    #dots {
+      font-weight: 900;
+      color: #e06e00;
+    }
+    .congrats {
+      display: none;
+      font-family: 'ZCOOL KuaiLe', cursive, Arial, sans-serif;
+      font-size: 1.7rem;
+      color: #f9b800;
+      text-shadow:
+        2px 4px 15px #7a5600,
+        0 0 30px #ffe680;
+      animation: tada 1.4s ease forwards;
+      max-width: 360px;
+      margin: 0 auto;
+      user-select: none;
+      user-drag: none;
+    }
+    .congrats .emoji {
+      font-size: 3.8rem;
+      margin-right: 0.3em;
+      filter: drop-shadow(0 0 16px #ffd900);
+      display: inline-block;
+      animation: crown-bounce 1.8s infinite;
+      vertical-align: middle;
+    }
+    @keyframes crown-bounce {
+      0%,100% { transform: translateY(0) rotate(-10deg);}
+      50% { transform: translateY(-20px) rotate(15deg);}
+    }
+    @keyframes tada {
+      0% { transform: scale(1);}
+      15% { transform: scale(1.2) rotate(-5deg);}
+      30% { transform: scale(.95) rotate(5deg);}
+      45% { transform: scale(1.05) rotate(0);}
+      60% { transform: scale(1);}
+      100% { transform: scale(1);}
+    }
+    /* 手机端适配 */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      #ipBox, #riskBox, .congrats {
+        font-size: 1rem;
+        max-width: 90vw;
+        padding: 16px 20px;
+      }
+      .congrats .emoji {
+        font-size: 2.5rem;
+      }
+      .loading {
+        font-size: 1rem;
+        letter-spacing: 3px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="success-emoji">🥳</div>
-  <div class="title">肉松大王风控检测</div>
-  <div class="message">肉松大王恭喜您的IP一点毛病没有！</div>
-
-  <div class="info-box" id="result">
-    正在加载中，请稍候...
+  <h1>肉松大王羊毛风控值检测</h1>
+  <div id="ipBox" aria-live="polite">获取IP中...</div>
+  <div class="loading" id="loadingText" aria-live="polite">
+    正在检测中<span id="dots">...</span>
+  </div>
+  <div id="riskBox" aria-live="polite">
+    风控值：<span id="riskValue">--</span>
+  </div>
+  <div class="congrats" id="congratsBox" role="alert" aria-live="assertive">
+    <span class="emoji">🥳</span>肉松大王恭喜您的IP一点毛病没有！
   </div>
 
-  <div class="footer">检测基于真实IP数据，如有误请重试</div>
-
   <script>
-    async function fetchRisk() {
+    // 动态点点点动画
+    function animateDots() {
+      const dots = document.getElementById('dots');
+      let count = 0;
+      return setInterval(() => {
+        count = (count + 1) % 4;
+        dots.textContent = '.'.repeat(count);
+      }, 600);
+    }
+
+    // 调用淘宝IP接口获取真实IP
+    async function fetchIP() {
       try {
-        const res = await fetch('https://api.ip.sb/geoip');
-        const data = await res.json();
-        const html = `
-          <div class="ip">🌐 IP地址：${data.ip}</div>
-          <div class="location">📍 地区：${data.country} ${data.region} ${data.city}</div>
-          <div class="isp">💼 运营商：${data.isp || '未知'}</div>
-          <div class="risk">✅ 风控状态：正常</div>
-        `;
-        document.getElementById('result').innerHTML = html;
-      } catch (e) {
-        document.getElementById('result').innerHTML = `
-          <div class="risk">❌ 无法获取您的IP信息，请稍后重试</div>
-        `;
+        const res = await fetch('https://ip.taobao.com/outGetIpInfo?ip=myip&accessKey=alibaba-inc');
+        const json = await res.json();
+        if(json.code === 0 && json.data) {
+          return json.data.ip;
+        }
+        return null;
+      } catch {
+        return null;
       }
     }
 
-    fetchRisk();
+    // 简单风控值判定示例（你可以替换成你的真实逻辑）
+    function calcRisk(ip) {
+      if(!ip) return -1;
+      // 示例：如果IP是内网段或localhost风险较高
+      if(ip.startsWith('192.') || ip.startsWith('10.') || ip.startsWith('127.')) {
+        return 90;
+      }
+      // 其他IP视为低风险
+      return 5;
+    }
+
+    async function runDetection() {
+      const ipBox = document.getElementById('ipBox');
+      const riskBox = document.getElementById('riskBox');
+      const riskValue = document.getElementById('riskValue');
+      const loadingText = document.getElementById('loadingText');
+      const congratsBox = document.getElementById('congratsBox');
+
+      const intervalId = animateDots();
+
+      ipBox.textContent = '获取IP中...';
+
+      const ip = await fetchIP();
+
+      if(ip) {
+        ipBox.textContent = `当前IP地址：${ip}`;
+      } else {
+        ipBox.textContent = `无法获取IP 😢`;
+      }
+
+      // 假装检测延迟
+      setTimeout(() => {
+        clearInterval(intervalId);
+        loadingText.style.display = 'none';
+        riskBox.style.display = 'block';
+
+        const risk = calcRisk(ip);
+        if(risk < 0) {
+          riskValue.textContent = '--';
+          ipBox.textContent = 'IP检测失败';
+        } else {
+          riskValue.textContent = risk;
+        }
+
+        // 风控值低弹出祝贺动画
+        if(risk !== -1 && risk <= 10) {
+          setTimeout(() => {
+            congratsBox.style.display = 'block';
+          }, 900);
+        }
+      }, 3200);
+    }
+
+    runDetection();
   </script>
 </body>
 </html>
