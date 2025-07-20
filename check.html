@@ -1,185 +1,120 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>肉松的羊毛风控值检测</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Pacifico&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Baloo+2:wght@600&display=swap" rel="stylesheet">
+  <link rel="icon" href="https://cdn.jsdelivr.net/gh/haozi/imgs/favicon.ico" type="image/x-icon">
   <style>
     body {
+      font-family: 'Baloo 2', 'ZCOOL KuaiLe', 'Comic Sans MS', cursive;
+      background: linear-gradient(to bottom right, #fefcea, #f1daff);
       margin: 0;
-      padding: 0;
       min-height: 100vh;
-      font-family: 'ZCOOL KuaiLe', '微软雅黑', sans-serif;
-      background: linear-gradient(to bottom, #f9c5d1, #9795f0);
-      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
-    main {
-      max-width: 400px;
-      padding: 36px 6vw;
-      box-sizing: border-box;
+    .bb-animate {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3.6rem;
+      color: #ff69b4;
+      font-weight: bold;
+      text-shadow: 2px 6px 24px #fbc1eb, 0 2px 0 #fff;
+      opacity: 0;
+      filter: blur(6px);
+      animation: bb-in 1s ease-out 0.2s forwards, bb-out 1.2s ease-in 1.5s forwards;
+      z-index: 99;
+    }
+    @keyframes bb-in {
+      0% { opacity: 0; filter: blur(12px); }
+      60% { opacity: 1; filter: blur(2px); }
+      100% { opacity: 1; filter: blur(0); }
+    }
+    @keyframes bb-out {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: translate(-60%, -50%) scale(1.1) rotate(-5deg); filter: blur(2px); }
+      100% { opacity: 0; transform: translate(-120%, -50%) scale(1.15) rotate(-10deg); filter: blur(8px); }
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 32px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
       text-align: center;
+      max-width: 92vw;
+      width: 360px;
+      opacity: 0;
+      transition: opacity 0.8s ease-in;
+      z-index: 1;
     }
-    h1 {
-      font-size: 26px;
-      margin-bottom: 24px;
-      font-weight: 700;
-      color: #fff9c4;
-      text-shadow: 2px 2px 5px #00000066;
+    .container.show {
+      opacity: 1;
     }
-    .card {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px);
+    .title {
+      font-size: 1.8rem;
+      color: #ff4081;
+      margin-bottom: 14px;
+    }
+    .desc {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .guide-img {
+      width: 88%;
       border-radius: 16px;
-      padding: 18px;
-      margin-top: 18px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      font-size: 17px;
-      word-break: break-all;
+      box-shadow: 0 4px 16px rgba(255, 192, 203, 0.4);
+      border: 2px solid #ffe6f0;
+      margin-bottom: 16px;
     }
-    .loading {
-      margin-top: 30px;
-      font-style: italic;
-      font-weight: bold;
-      animation: blink 1.2s infinite;
+    .support {
+      font-size: 0.9rem;
+      color: #999;
+      margin-top: 12px;
     }
-    @keyframes blink {
-      0%, 50%, 100% { opacity: 1; }
-      25%, 75% { opacity: 0.3; }
-    }
-    .risk-result {
-      margin-top: 28px;
-      font-size: 18px;
-    }
-    .risk-result span {
-      font-weight: bold;
-      padding: 2px 6px;
-      border-radius: 6px;
-    }
-    .safe {
-      background: #00e676;
-      color: #000;
-    }
-    .medium {
-      background: #ffeb3b;
-      color: #000;
-    }
-    .danger {
-      background: #ff5252;
-      color: #fff;
-    }
-
-    /* 🔧 你的原始祝贺样式 */
-    .congrats {
-      display: none;
-      margin-top: 32px;
-      font-family: 'Pacifico', 'ZCOOL KuaiLe', cursive, sans-serif;
-      font-size: 1.5em;
-      color: #fff700;
-      text-shadow: 2px 4px 10px #5e5e5e, 0 0 20px #f3f3f3;
-      animation: tada 1.2s ease;
-      position: relative;
-    }
-    .congrats .emoji {
-      display: inline-block;
-      font-size: 2.5em;
-      vertical-align: middle;
-      animation: crown-bounce 1.8s infinite;
-      margin-right: .3em;
-      filter: drop-shadow(0 0 12px #fff700);
-    }
-    @keyframes crown-bounce {
-      0%,100% { transform: translateY(0) rotate(-10deg);}
-      50% { transform: translateY(-18px) rotate(15deg);}
-    }
-    @keyframes tada {
-      0% { transform: scale(1);}
-      15% { transform: scale(1.2) rotate(-3deg);}
-      30% { transform: scale(.95) rotate(3deg);}
-      45% { transform: scale(1.05) rotate(0);}
-      60% { transform: scale(1);}
-      100% { transform: scale(1);}
-    }
-
     @media (max-width: 480px) {
-      h1 { font-size: 22px; }
-      .card { font-size: 15px; padding: 15px; }
-      .risk-result { font-size: 16px; }
-      .congrats { font-size: 1em; }
-      .congrats .emoji { font-size: 1.6em; }
+      .container {
+        width: 94vw;
+        padding: 22px;
+      }
+      .title { font-size: 1.4rem; }
+      .desc { font-size: 0.92rem; }
+      .bb-animate { font-size: 2.4rem; }
     }
   </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const ua = navigator.userAgent.toLowerCase();
+      const isWeChat = ua.includes("micromessenger");
+      const blocked = !window.navigator.userAgentData && !window.webkit && isWeChat;
+      
+      if (blocked) {
+        window.location.href = "check.html";
+      } else {
+        setTimeout(() => {
+          document.querySelector('.container').classList.add('show');
+        }, 2400);
+      }
+    });
+  </script>
 </head>
 <body>
-  <main>
-    <h1>肉松的羊毛风控值检测</h1>
-    <div class="card" id="ipBox">正在获取IP地址...</div>
-    <div class="loading" id="loadingText">风控检测中<span id="dots">...</span></div>
-    <div class="card risk-result" id="riskResult" style="display: none;"></div>
-
-    <!-- 🔧 保留你的 emoji 动画祝贺样式 -->
-    <div class="congrats" id="congratsBox">
-      <span class="emoji">👑</span>肉松大王恭喜您IP一点毛病都没有！
+  <div class="bb-animate">🍼 肉松大王恭喜您的IP一点毛病没有！</div>
+  <div class="container">
+    <div class="title">请用浏览器打开本页面</div>
+    <div class="desc">
+      当前页面暂不支持微信直接访问。<br>
+      请点击右上角 <b>“⋯”</b> ，选择 <b>“在浏览器中打开”</b>。
     </div>
-  </main>
-  <script>
-    function animateDots() {
-      const dots = document.getElementById('dots');
-      let count = 0;
-      setInterval(() => {
-        count = (count + 1) % 4;
-        dots.textContent = '.'.repeat(count);
-      }, 600);
-    }
-
-    async function fetchIPInfo() {
-      try {
-        const res = await fetch('https://ipapi.co/json/');
-        if (!res.ok) throw new Error('获取失败');
-        return await res.json();
-      } catch (e) {
-        console.error(e);
-        return null;
-      }
-    }
-
-    async function runDetection() {
-      animateDots();
-      const ipBox = document.getElementById('ipBox');
-      const loadingText = document.getElementById('loadingText');
-      const riskResult = document.getElementById('riskResult');
-      const congratsBox = document.getElementById('congratsBox');
-
-      const data = await fetchIPInfo();
-      if (!data) {
-        ipBox.textContent = '无法获取IP地址 😢';
-        loadingText.style.display = 'none';
-        return;
-      }
-
-      ipBox.textContent = `IP地址：${data.ip}（${data.country_name} / ${data.org || '未知运营商'}）`;
-
-      setTimeout(() => {
-        loadingText.style.display = 'none';
-        riskResult.style.display = 'block';
-
-        const isProxy = data.security?.proxy || false;
-        const riskLevel = isProxy ? 'high' : 'low';
-
-        if (riskLevel === 'low') {
-          riskResult.innerHTML = `风控等级：<span class="safe">低风险</span>`;
-          congratsBox.style.display = 'block';
-          congratsBox.style.animation = 'tada 1.2s';
-        } else {
-          riskResult.innerHTML = `风控等级：<span class="danger">高风险（可能为代理/VPN）</span>`;
-        }
-      }, 2000);
-    }
-
-    runDetection();
-  </script>
+    <img class="guide-img" src="https://cdn.jsdelivr.net/gh/haozi/imgs/2023/07/27/open_browser_wechat.jpg" alt="在微信中用浏览器打开教程图示">
+    <div class="support">如有疑问，请联系客服或查看帮助。</div>
+  </div>
 </body>
 </html>
