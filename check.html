@@ -2,9 +2,8 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>库洛米IP检测</title>
+  <title>肉松老师羊毛风险检测</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <!-- 站酷酷黑字体（国内可用） -->
   <style>
     @font-face {
       font-family: 'ZCOOLKuHei';
@@ -42,6 +41,11 @@
       margin-top: -70px;
       margin-bottom: 10px;
       box-shadow: 0 2px 16px #e774b2;
+      animation: avatarAppear 1s;
+    }
+    @keyframes avatarAppear {
+      0% { opacity:0; transform: scale(0.5);}
+      100% { opacity:1; transform: scale(1);}
     }
     h1 {
       font-size: 2.1rem;
@@ -55,9 +59,33 @@
       margin: 0.5rem 0;
       color: #fff;
       letter-spacing: 1px;
+      min-height: 1.4em;
+      position: relative;
     }
     .info span {
       color: #f9b0e3;
+    }
+    /* 加载动画小圆点 */
+    .dot-ani {
+      display: inline-block;
+      vertical-align: middle;
+      width: 1.2em;
+      text-align: left;
+    }
+    .dot-ani span {
+      display: inline-block;
+      width: .3em;
+      height: .3em;
+      margin: 0 .05em;
+      background: #f9b0e3;
+      border-radius: 50%;
+      animation: dotAni 1.2s infinite;
+    }
+    .dot-ani span:nth-child(2) { animation-delay: .2s;}
+    .dot-ani span:nth-child(3) { animation-delay: .4s;}
+    @keyframes dotAni {
+      0%,80%,100% { transform: scale(0.7);}
+      40% { transform: scale(1);}
     }
     .divider {
       margin: 1.3rem 0 1rem 0;
@@ -82,6 +110,7 @@
       border: 2px solid #e774b2;
       font-family: inherit;
       animation: bubbleIn .8s;
+      z-index: 2;
     }
     @keyframes bubbleIn {
       0% { opacity: 0; transform: scale(0.5);}
@@ -97,10 +126,12 @@
 <body>
   <div class="kuromi-card">
     <img src="https://img.alicdn.com/imgextra/i4/O1CN01vZ2G8b1qJwR0mKQ8r_!!6000000005484-2-tps-500-500.png" alt="库洛米" class="kuromi-avatar" id="kuromi-avatar">
-    <div class="bubble" id="kuromi-tip">欢迎来到库洛米的IP小屋~</div>
-    <h1>IP归属地检测</h1>
-    <div class="info">你的IP：<span id="ip">获取中...</span></div>
-    <div class="info">归属地：<span id="location">获取中...</span></div>
+    <div class="bubble" id="kuromi-tip">加载检测中
+      <span class="dot-ani"><span></span><span></span><span></span></span>
+    </div>
+    <h1>肉松老师羊毛风险检测</h1>
+    <div class="info">你的IP：<span id="ip"><span class="dot-ani"><span></span><span></span><span></span></span></span></div>
+    <div class="info">归属地：<span id="location"><span class="dot-ani"><span></span><span></span><span></span></span></span></div>
     <div class="divider"></div>
     <div class="footer">只做IP归属地查询，不存储任何数据。<br>库洛米陪你安全上网！</div>
   </div>
@@ -108,7 +139,6 @@
     // 获取真实公网IP和归属地
     async function fetchIPInfo() {
       try {
-        // 1. 获取IP和归属地（ip.sb 国内可用，速度快）
         const resp = await fetch('https://api.ip.sb/geoip');
         const data = await resp.json();
         document.getElementById('ip').textContent = data.ip || '未知';
@@ -117,7 +147,7 @@
         if (data.region) loc += ' ' + data.region;
         if (data.city) loc += ' ' + data.city;
         document.getElementById('location').textContent = loc.trim() || '未知';
-        document.getElementById('kuromi-tip').textContent = "🎀 已为你查好归属地啦~";
+        document.getElementById('kuromi-tip').textContent = "肉松老师恭喜您的IP没有一点毛病！";
       } catch(e) {
         document.getElementById('ip').textContent = '获取失败';
         document.getElementById('location').textContent = '获取失败';
