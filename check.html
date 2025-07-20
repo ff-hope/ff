@@ -3,193 +3,182 @@
 <head>
   <meta charset="UTF-8">
   <title>肉松老师羊毛风险检测</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <style>
     @font-face {
       font-family: 'AlimamaFangYuanTiVF';
       src: url('https://static.wenfont.com/font/AlimamaFangYuanTiVF-Thin.woff2') format('woff2');
       font-display: swap;
     }
-    html, body {
+    html,body {
       height: 100%;
       min-height: 100vh;
       width: 100vw;
-      margin: 0;
-      padding: 0;
-      background: radial-gradient(ellipse at 60% 30%, #a7c8fd44 0%, transparent 65%) fixed,
-                  radial-gradient(ellipse at 30% 80%, #f9b0e344 0px, transparent 60%) fixed,
-                  linear-gradient(135deg, #2b2145 0%, #7a58d3 60%, #f9b0e3 100%);
-      /* 叠加微弱噪点纹理 */
+      margin:0; padding:0;
+      background: linear-gradient(135deg,#201c2f 0%,#e3b4e6 100%);
+      overflow-x:hidden;
     }
     body {
       min-height: 100vh;
-      height: 100vh;
       width: 100vw;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: flex-start;
       font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
       position: relative;
-      overflow-x: hidden;
-      background-blend-mode: overlay;
+      padding: 0;
+      box-sizing: border-box;
     }
-    /* 噪点纹理遮罩 */
-    body::before {
-      content: "";
-      pointer-events: none;
-      position: fixed;
-      z-index: 0;
-      left: 0; top: 0; right: 0; bottom: 0;
-      background: url('https://cdn.jsdelivr.net/gh/ff-hope/cdnstatic@main/noise-light.png');
-      opacity: .11;
-      mix-blend-mode: overlay;
-    }
-    /* 背景SVG */
-    .bg-svg {
-      position: fixed;
-      z-index: 1;
-      left: 0; top: 0;
-      width: 100vw; height: 100vh;
-      pointer-events: none;
-    }
-    /* 角落贴纸装饰 */
+    /* 可爱库洛米角落贴纸 */
     .corner {
       position: fixed;
       width: 52px; height: 52px;
       z-index: 10;
       pointer-events: none;
-      opacity: 0.46;
+      opacity: 0.38;
       filter: blur(.5px);
     }
     .corner-tl { left: 0; top: 0; transform: rotate(-13deg);}
     .corner-tr { right: 0; top: 0; transform: rotate(17deg);}
     .corner-bl { left: 0; bottom: 0; transform: rotate(7deg);}
     .corner-br { right: 0; bottom: 0; transform: rotate(-23deg);}
-    /* 主卡片立体感+渐变 */
+    /* 背景柔和SVG */
+    .bg-svg {
+      position: fixed;
+      z-index: 1;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      opacity: 0.13;
+    }
+    /* 主卡片 */
     .kuromi-card {
-      background: linear-gradient(135deg, #433e5a 30%, #f9b0e3cc 100%);
-      border-radius: 28px;
+      background: linear-gradient(135deg,#29213b 65%,#e3b4e6ee 100%);
+      border-radius: 26px;
       box-shadow:
-        0 6px 32px 0 #7156b5aa,
-        0 2px 12px 0 #e774b255,
-        inset 0 -8px 32px 0 #fff4,
-        0 0 0 1.5px #fff2;
-      padding: 2.5rem 1.4rem 2.2rem 1.4rem;
-      max-width: 420px;
+        0 4px 22px 0 #e774b2aa,
+        0 1px 4px 0 #fff2,
+        inset 0 0 22px 0 #6b308980;
+      padding: 1.1rem 0.5rem 1.1rem 0.5rem;
+      max-width: 392px;
       width: 96vw;
-      text-align: center;
       color: #fff;
       position: relative;
-      margin: 56px 0 56px 0;
+      margin: 80px 0 50px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      z-index: 5;
-      gap: 22px;
+      z-index: 2;
+      gap: 12px;
+      overflow: hidden;
       animation: cardIn .95s cubic-bezier(.23,1.24,.45,1) both;
-      transition: box-shadow 0.25s, transform 0.21s;
+      transition: box-shadow 0.2s, transform 0.12s;
     }
     @keyframes cardIn {
-      0% { opacity:0; transform:scale(.82) translateY(40px);}
+      0% { opacity:0; transform:scale(.85) translateY(30px);}
       100% { opacity:1; transform:scale(1) translateY(0);}
     }
-    .kuromi-card:hover {
+    .kuromi-card:active,
+    .kuromi-card:focus-within {
       box-shadow:
-        0 12px 32px 0 #7a58d388,
-        0 3px 14px 0 #f9b0e388,
-        inset 0 -8px 32px 0 #fff5,
+        0 8px 32px #7a58d3cc,
         0 0 0 2px #fff3;
-      transform: scale(1.012);
+      transform: scale(1.008);
     }
     .kuromi-avatar {
-      width: 82px; height: 82px;
+      width: 65px; height: 65px;
       border-radius: 50%;
-      border: 4px solid #e774b2;
+      border: 3px solid #e774b2;
       object-fit: cover;
       background: #fff;
-      margin-top: -60px; margin-bottom: 4px;
-      box-shadow: 0 2px 16px #e774b2;
+      margin-top: -48px;
+      margin-bottom: 5px;
+      box-shadow: 0 2px 12px #e774b2;
       animation: avatarAppear 1s;
+      z-index: 3;
     }
     @keyframes avatarAppear {
       0% { opacity:0; transform: scale(0.5);}
       100% { opacity:1; transform: scale(1);}
     }
+    /* 标题 */
     .kuromi-title {
-      font-size: 2.3rem;
+      font-size: 2.1rem;
       font-weight: 900;
-      margin: 0 0 1.15rem 0;
-      background: linear-gradient(90deg,#e774b2,#fff 38%,#7a58d3 80%);
+      margin-bottom: 0.5rem;
+      margin-top: 0.12rem;
+      background: linear-gradient(90deg,#fff 10%,#e774b2 50%,#a082d7 100%);
       background-clip: text;
       color: transparent;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: 2.2px;
-      text-shadow: 1px 1px 6px #fff8, 0 2px 0 #7a58d355, 0 0 12px #e774b255;
-      line-height: 1.2;
-      filter: drop-shadow(0 3px 10px #7a58d355);
+      text-shadow: 1px 1px 6px #fff8, 0 2px 0 #7a58d355, 0 0 8px #e774b255;
+      line-height: 1.18;
       user-select: none;
+      text-align: center;
+      filter: drop-shadow(0 3px 10px #aa87cc55);
+      border-radius: 9px;
+      padding: 0 0.2rem;
+      z-index: 4;
     }
-    /* 卡片式IP信息条目 */
+    /* IP信息条目式布局 */
     .ip-info-list {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      margin: 0 auto 2px auto;
-      padding: 0;
+      gap: 7px;
       align-items: center;
+      justify-content: flex-start;
+      margin: 0 auto;
+      /* 限高+滚动，适配手机屏幕 */
+      max-height: 285px;
+      overflow-y: auto;
+      scrollbar-width: none;
     }
+    .ip-info-list::-webkit-scrollbar{ display:none; }
     .ip-info-item {
-      background: linear-gradient(90deg,#fff7 10%,#e5d3f940 100%);
-      border-radius: 16px;
-      box-shadow:
-        0 2px 10px 0 #b3a0e033,
-        0 0 0 1.5px #e774b224,
-        inset 0 2px 14px #fff3;
-      padding: 9px 17px 9px 17px;
+      background: linear-gradient(90deg,#fff6 10%,#e3b4e633 100%);
+      border-radius: 12px;
+      box-shadow: 0 1px 4px 0 #b3a0e033, 0 0 0 1px #e774b215;
+      padding: 8px 13px 8px 13px;
       min-width: 0;
-      width: 92%;
+      width: 93%;
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
-      font-size: 1.08em;
-      transition: box-shadow 0.18s, transform 0.19s, background 0.21s;
-      border: 1px solid #fff3;
+      font-size: 1.03em;
+      transition: box-shadow 0.16s, transform 0.15s, background 0.17s;
+      border: 1px solid #fff2;
       position: relative;
       cursor: pointer;
     }
-    .ip-info-item:not(:last-child) {
-      margin-bottom: 1px;
-    }
     .ip-info-item:hover {
-      box-shadow:
-        0 4px 14px 0 #e774b2aa,
-        0 0 0 2.5px #7a58d355,
-        inset 0 3px 18px #fff4;
-      background: linear-gradient(90deg,#fff 32%,#e5d3f988 100%);
-      transform: scale(1.022);
+      box-shadow:0 3px 10px 0 #e774b299,inset 0 2px 12px #fff7;
+      background: linear-gradient(90deg,#fff 36%,#e5d3f988 100%);
+      transform: scale(1.015);
       z-index: 10;
     }
     .ip-label {
       color: #e774b2;
       font-weight: 800;
       letter-spacing: 1.1px;
-      min-width: 76px;
+      min-width: 66px;
       text-align: left;
-      text-shadow: 0 1px 4px #fff8, 1px 1px 0 #fff6;
+      text-shadow: 0 1px 4px #fff7, 1px 1px 0 #fff6;
       filter: brightness(1.08);
       opacity: 0.97;
+      font-size: 1em;
     }
     .ip-value {
-      color: #36304a;
-      font-size: 1.04em;
-      opacity: 0.82;
+      color: #38304a;
+      font-size: 0.99em;
+      opacity: 0.83;
       text-align: right;
-      font-weight: 700;
-      margin-left: 12px;
-      max-width: 62%;
+      font-weight: 600;
+      margin-left: 10px;
+      max-width: 65%;
       word-break: break-all;
       transition: color 0.15s;
     }
@@ -201,18 +190,15 @@
       0%,100% { color: #e74c3c; }
       50% { color: #fff; }
     }
-    /* 语录面板阴影+渐变+排版 */
+    /* 语录面板 */
     .quote-panel {
-      background: linear-gradient(135deg, #fff9 80%, #edc5f944 100%);
-      border-radius: 22px;
-      box-shadow:
-        0 2px 18px #1f1b2e42,
-        0 0 0 4px #fff3,
-        inset 0 2px 24px #e774b230;
-      width: 330px;
-      max-width: 92vw;
-      margin: 10px auto 18px auto;
-      padding: 32px 15px 32px 15px;
+      background: linear-gradient(135deg,#fff9 90%,#edc5f944 100%);
+      border-radius: 19px;
+      box-shadow: 0 2px 18px #1f1b2e42, 0 0 0 4px #fff3, inset 0 2px 18px #e774b218;
+      width: 92%;
+      max-width: 330px;
+      margin: 8px auto 10px auto;
+      padding: 24px 10px 22px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -221,25 +207,23 @@
     }
     .quote-title {
       color: #e774b2;
-      font-size: 1.5em;
+      font-size: 1.22em;
       font-weight: 900;
-      margin-bottom: 22px;
-      letter-spacing: 2.5px;
+      margin-bottom: 14px;
+      letter-spacing: 1.8px;
       text-shadow: 0 3px 14px #fff7, 1px 1px 0 #7a58d355;
       font-family: inherit;
-      filter: brightness(1.05);
+      filter: brightness(1.06);
       user-select: none;
     }
     .quote-bubble {
       background: #fff;
-      border-radius: 18px 18px 18px 18px;
-      box-shadow: 0 2px 18px #e774b280, 0 0 0 2px #f9b0e3;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px #e774b280, 0 0 0 2px #f9b0e3;
       display: inline-block;
-      padding: 20px 17px;
-      min-width: 220px;
-      min-height: 85px;
-      position: relative;
-      margin: 0 auto;
+      padding: 16px 14px;
+      min-width: 180px;
+      min-height: 60px;
       font-family: inherit;
       z-index: 4;
     }
@@ -247,11 +231,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 13px;
     }
     .quote-item {
       color: #e774b2;
-      font-size: 1.17em;
+      font-size: 1.03em;
       font-weight: bold;
       font-family: inherit;
       text-shadow: 0 1px 8px #f9b0e385, 1px 1px 0 #fff7;
@@ -261,102 +245,105 @@
       position: relative;
       white-space: pre-line;
       transition: opacity 0.3s, transform 0.3s;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .quote-item:nth-child(1) { animation-delay: 0s;}
     .quote-item:nth-child(2) { animation-delay: 1.2s;}
-    .quote-item:nth-child(3) { animation-delay: 2.3s;}
+    .quote-item:nth-child(3) { animation-delay: 2.1s;}
     @keyframes quoteFloat {
       0% { opacity: 0.95; transform: translateY(0px);}
-      40% { opacity: 1; transform: translateY(-8px) scale(1.03);}
-      60% { opacity: 1; transform: translateY(8px) scale(0.99);}
+      40% { opacity: 1; transform: translateY(-5px) scale(1.03);}
+      60% { opacity: 1; transform: translateY(5px) scale(0.99);}
       100% { opacity: 0.95; transform: translateY(0px);}
     }
     .divider {
-      margin: 1.3rem 0 1.1rem 0;
+      margin: 0.7rem 0 0.9rem 0;
       border-top: 2px dashed #e774b2;
       width: 90%;
       margin-left:auto; margin-right:auto;
-      opacity: 0.7;
+      opacity: 0.6;
     }
     /* 浮动星星/爱心动画 */
     .float-ani {
       position: absolute;
-      left: 50%; bottom: 92px;
+      left: 50%; bottom: 70px;
       transform: translateX(-50%);
-      width: 220px; height: 80px;
+      width: 150px; height: 64px;
       pointer-events: none;
-      z-index: 9;
-      opacity: 0.85;
+      z-index: 11;
+      opacity: 0.88;
     }
     .float-shape {
       position: absolute;
-      font-size: 1.3em;
-      opacity: 0.8;
+      font-size: 1.1em;
+      opacity: 0.75;
       animation: floatUp 4.2s linear infinite;
       will-change: transform, opacity;
-      filter: drop-shadow(0 1px 5px #fff6);
+      filter: drop-shadow(0 1px 5px #fff7);
     }
     .float-shape.star1 { left: 8px; animation-delay: 0s; color:#f9b0e3;}
-    .float-shape.star2 { left: 42px; animation-delay: 1.3s; color:#91baff;}
+    .float-shape.star2 { left: 42px; animation-delay: 1.3s; color:#b6aaff;}
     .float-shape.heart1 { left: 78px; animation-delay: 2.2s; color:#e774b2;}
     .float-shape.star3 { left: 110px; animation-delay: .8s; color:#fff;}
-    .float-shape.heart2 { left: 160px; animation-delay: 2.6s; color:#a7c8fd;}
-    .float-shape.star4 { left: 30px; animation-delay: 1.7s; color:#fae2f5;}
-    .float-shape.heart3 { left: 140px; animation-delay: 0.9s; color:#e774b2;}
-    .float-shape.star5 { left: 190px; animation-delay: 3.1s; color:#f9b0e3;}
+    .float-shape.heart2 { left: 130px; animation-delay: 2.6s; color:#a7c8fd;}
     @keyframes floatUp {
       0% { bottom: 0; opacity: 0.78;}
       30% { opacity: 1;}
       85% { opacity: 1;}
-      100% { bottom: 56px; opacity: 0;}
+      100% { bottom: 38px; opacity: 0;}
     }
     .ms-footer-note {
       width: 100vw; max-width: 100vw;
       text-align: center;
       font-family: 'AlimamaFangYuanTiVF','PingFang SC','Microsoft Yahei',Arial,sans-serif;
-      font-size: 11px;
+      font-size: 10px;
       color: #e7dbf0;
       background: transparent;
       position: fixed;
       left: 0; bottom: 0;
-      line-height: 1.6;
+      line-height: 1.4;
       letter-spacing: 1.1px;
       z-index: 100;
       padding-bottom: 2.5px;
-      opacity: 0.40;
+      opacity: 0.26;
       font-weight: 400;
       user-select: none;
       pointer-events: none;
     }
     @media (max-width: 540px) {
-      .kuromi-card { padding: 1.2rem 0.2rem 1.1rem 0.2rem; margin-top: 8vw; margin-bottom: 23vw;}
-      .quote-panel { padding: 14px 2vw 14px 2vw;}
-      .kuromi-avatar { width: 56px; height: 56px;}
-      .quote-title { font-size: 1.13em;}
-      .ip-info-item { font-size: .98em;}
-      .float-ani { width: 120px;}
-      .divider { margin: 12px 0;}
+      .kuromi-card {
+        padding: 0.7rem 0.1rem 0.6rem 0.1rem;
+        margin-top: 13vw; margin-bottom: 13vw;
+        max-width: 99vw;
+        gap: 7px;
+      }
+      .kuromi-title { font-size: 1.29rem; margin-bottom: 0.34rem;}
+      .ip-info-list { max-height: 185px; }
+      .ip-info-item { font-size: .93em; padding: 6px 7px; }
+      .quote-panel { padding: 11px 2vw 11px 2vw; }
+      .quote-title { font-size: 1em; }
+      .kuromi-avatar { width: 44px; height: 44px; margin-top: -32px;}
+      .float-ani { width: 80px; }
     }
   </style>
 </head>
 <body>
-  <!-- 背景SVG -->
+  <!-- 柔和SVG背景 -->
   <svg class="bg-svg" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
     <circle cx="17vw" cy="29vh" r="45" fill="#a7c8fd44"/>
     <circle cx="85vw" cy="80vh" r="24" fill="#f9b0e344"/>
-    <ellipse cx="48vw" cy="95vh" rx="60" ry="14" fill="#fff4" opacity="0.12"/>
-    <path d="M60 95 Q66 102 72 95 T84 95" stroke="#e774b2" stroke-width="2.2" fill="none" opacity="0.18"/>
+    <ellipse cx="48vw" cy="95vh" rx="60" ry="14" fill="#fff4" opacity="0.10"/>
+    <path d="M60 95 Q66 102 72 95 T84 95" stroke="#e774b2" stroke-width="2.2" fill="none" opacity="0.10"/>
     <polygon points="150,180 152,190 160,188 158,196 168,196 158,201 162,210 154,204 150,210 150,202 142,207 146,198 137,197 146,193 143,185 150,190" fill="#e774b277"/>
   </svg>
-  <!-- 角落贴纸 -->
+  <!-- 库洛米角落贴纸 -->
   <img class="corner corner-tl" src="https://img.alicdn.com/imgextra/i4/O1CN01A7d8is1J6v1cW0rA2_!!6000000001017-2-tps-72-72.png" alt="蝴蝶结">
   <img class="corner corner-tr" src="https://img.alicdn.com/imgextra/i1/O1CN01Xnqb1C1fVfLwVxkEQ_!!6000000004028-2-tps-72-72.png" alt="星星">
   <img class="corner corner-bl" src="https://img.alicdn.com/imgextra/i2/O1CN01N9nTnO1X2w5zq6IuV_!!6000000002856-2-tps-72-72.png" alt="爪印">
   <img class="corner corner-br" src="https://img.alicdn.com/imgextra/i2/O1CN01N9nTnO1X2w5zq6IuV_!!6000000002856-2-tps-72-72.png" alt="爪印">
   <div class="kuromi-card">
     <img src="https://img.alicdn.com/imgextra/i4/O1CN01vZ2G8b1qJwR0mKQ8r_!!6000000005484-2-tps-500-500.png" alt="库洛米" class="kuromi-avatar" id="kuromi-avatar">
-    <h1 class="kuromi-title">肉松老师羊毛风险检测</h1>
+    <div class="kuromi-title">肉松老师羊毛风险检测</div>
     <!-- 专业IP信息条目式 -->
     <div class="ip-info-list">
       <div class="ip-info-item" id="ip-row"><span class="ip-label">IP地址</span><span class="ip-value" id="ip">加载中…</span></div>
@@ -384,9 +371,6 @@
       <span class="float-shape star2">☆</span>
       <span class="float-shape star3">★</span>
       <span class="float-shape heart2">❤</span>
-      <span class="float-shape star4">☆</span>
-      <span class="float-shape heart3">❤</span>
-      <span class="float-shape star5">★</span>
     </div>
   </div>
   <div class="ms-footer-note">
@@ -418,7 +402,7 @@
     }
     fetchIPInfo();
 
-    // 微交互：条目浮动效果（移动端无效）
+    // 条目微交互（移动端无效）
     document.querySelectorAll('.ip-info-item').forEach(item=>{
       item.addEventListener('mouseenter',()=>item.style.transform='scale(1.025)');
       item.addEventListener('mouseleave',()=>item.style.transform='');
