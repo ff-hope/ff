@@ -1,145 +1,112 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>肉松的羊毛风控值检测</title>
+  <meta charset="UTF-8" />
+  <title>肉松大王的羊毛风控值检测</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 动漫中文字体，可以换成自己喜欢的 -->
-  <link href="https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+  <!-- 国内可用字体：站酷快乐体 -->
+  <link href="https://fonts.font.im/css?family=ZCOOL+KuaiLe" rel="stylesheet" />
   <link rel="icon" href="https://cdn.jsdelivr.net/gh/haozi/imgs/favicon.ico" type="image/x-icon">
   <style>
     body {
-      font-family: "Segoe UI", "微软雅黑", Arial, sans-serif;
-      background: linear-gradient(135deg, #f8ffae 0%, #43c6ac 100%);
-      min-height: 100vh;
       margin: 0;
+      padding: 0;
+      font-family: 'ZCOOL KuaiLe', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #fefcea 0%, #f1da36 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      min-height: 100vh;
       position: relative;
     }
-    .bb-animate {
+    .hero-text {
       position: absolute;
-      top: 50%;
+      top: 12%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 4.2rem;
-      font-family: 'ZCOOL KuaiLe', 'Comic Sans MS', '微软雅黑', cursive;
-      color: #ff8c00;
-      letter-spacing: 0.25em;
+      transform: translateX(-50%);
+      font-size: 3.6rem;
+      color: #ff8800;
       font-weight: bold;
-      text-shadow: 2px 6px 24px #ffbe7c, 0 2px 0 #fff;
-      opacity: 0;
-      filter: blur(6px);
-      z-index: 100;
-      animation:
-        bb-in 1s cubic-bezier(.5,1.6,.4,1) 0.2s forwards,
-        bb-out 1.2s cubic-bezier(.55,0,.7,1) 1.5s forwards;
+      text-shadow: 1px 2px 12px rgba(255, 136, 0, 0.4);
+      animation: zoomFade 2s ease-out forwards;
     }
-    @keyframes bb-in {
-      0% { opacity: 0; filter: blur(12px);}
-      60% { opacity: 1; filter: blur(2px);}
-      100% { opacity: 1; filter: blur(0);}
-    }
-    @keyframes bb-out {
-      0% {
-        opacity: 1;
-        filter: blur(0) brightness(1);
-        transform: translate(-50%, -50%) scale(1);
-      }
-      50% {
-        opacity: 1;
-        filter: blur(2px) brightness(1.2) drop-shadow(-12px 0 16px #ffe7b0);
-        transform: translate(-80%, -50%) scale(1.06) skewX(-10deg);
-      }
-      80% {
-        opacity: 0.7;
-        filter: blur(9px) brightness(1.4) drop-shadow(-24px 0 36px #fff3dc);
-        transform: translate(-130%, -50%) scale(1.08) skewX(-20deg);
-      }
-      100% {
-        opacity: 0;
-        filter: blur(18px) brightness(1.7);
-        transform: translate(-180%, -50%) scale(1.10) skewX(-28deg);
-      }
+    @keyframes zoomFade {
+      0% { opacity: 0; transform: translateX(-50%) scale(0.8); }
+      60% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+      100% { transform: translateX(-50%) scale(1); }
     }
     .container {
-      background: rgba(255,255,255,0.96);
-      padding: 36px 40px;
-      border-radius: 20px;
-      box-shadow: 0 6px 32px 0 rgba(67,198,172,0.13), 0 1.5px 8px 0 rgba(0,0,0,0.03);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 95vw;
-      width: 380px;
+      background: #ffffffee;
+      padding: 32px 28px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(255, 166, 0, 0.15);
+      max-width: 90vw;
+      width: 360px;
       opacity: 0;
-      transition: opacity .7s;
-      z-index: 1;
+      transition: opacity 0.6s ease;
+      z-index: 2;
     }
     .container.show {
       opacity: 1;
     }
     .title {
-      color: #0fc1a7;
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 18px;
-      letter-spacing: 1.2px;
+      color: #f39800;
+      font-size: 1.9rem;
+      margin-bottom: 16px;
     }
     .desc {
+      font-size: 1.05rem;
       color: #333;
-      font-size: 1.12rem;
+      line-height: 1.6;
       margin-bottom: 22px;
-      line-height: 1.7;
     }
     .guide-img {
-      margin: 0 0 18px 0;
-      max-width: 90%;
-      border-radius: 14px;
-      box-shadow: 0 2px 8px 0 rgba(67,198,172,0.17);
-      border: 1.5px solid #e0f7f4;
+      width: 100%;
+      border-radius: 12px;
+      border: 2px solid #fff5d1;
+      box-shadow: 0 2px 10px rgba(255, 166, 0, 0.1);
     }
     .support {
-      color: #999;
-      font-size: 0.95rem;
-      margin-top: 16px;
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 18px;
     }
     @media (max-width: 480px) {
-      .container {
-        padding: 18px 4vw;
-        width: 98vw;
-      }
-      .title { font-size: 1.2rem; }
-      .desc { font-size: 0.98rem; }
-      .bb-animate { font-size: 2.3rem;}
+      .hero-text { font-size: 2.3rem; top: 8%; }
+      .container { padding: 24px 16px; width: 92vw; }
+      .title { font-size: 1.5rem; }
+      .desc { font-size: 1rem; }
     }
   </style>
   <script>
-    // 微信内置浏览器检测
-    document.addEventListener('DOMContentLoaded', function() {
-      const ua = navigator.userAgent.toLowerCase();
-      if (!ua.includes("micromessenger")) {
-        window.location.href = "check.html";
-      }
-      // 动画结束后主内容淡入
-      setTimeout(function(){
-        document.querySelector('.container').classList.add('show');
-      }, 2600); // 动画时间稍大于出场
+    // 微信检测逻辑：如无法访问外部资源，则跳转到 check.html
+    document.addEventListener('DOMContentLoaded', function () {
+      const img = new Image();
+      img.src = "https://cdn.jsdelivr.net/gh/haozi/imgs/favicon.ico?_=" + Date.now();
+      let loaded = false;
+
+      img.onload = () => { loaded = true; };
+      setTimeout(() => {
+        if (!loaded) {
+          location.href = "check.html";
+        } else {
+          document.querySelector('.container').classList.add('show');
+        }
+      }, 1000);
     });
   </script>
 </head>
 <body>
-  <div class="bb-animate">贝贝</div>
+  <div class="hero-text">肉松大王</div>
   <div class="container">
-    <div class="title">请用浏览器打开本页面</div>
+    <div class="title">请在浏览器中打开</div>
     <div class="desc">
-      当前页面暂不支持微信直接访问。<br>
-      请点击右上角 <b>“⋯”</b> ，选择 <b>“在浏览器中打开”</b>。
+      当前页面暂不支持在微信内直接访问。<br>
+      请点击右上角 <strong>“⋯”</strong>，选择 <strong>“在浏览器中打开”</strong>。
     </div>
-    <img class="guide-img" src="https://cdn.jsdelivr.net/gh/haozi/imgs/2023/07/27/open_browser_wechat.jpg" alt="在微信中用浏览器打开教程图示">
-    <div class="support">如有疑问，请联系客服或查看帮助。</div>
+    <img class="guide-img" src="https://cdn.jsdelivr.net/gh/haozi/imgs/2023/07/27/open_browser_wechat.jpg" alt="引导图">
+    <div class="support">有任何问题，请联系客服或查看帮助。</div>
   </div>
 </body>
 </html>
