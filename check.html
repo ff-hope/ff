@@ -2,119 +2,93 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>肉松的羊毛风控值检测</title>
+  <title>风控值检测结果 - 肉松大王</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Baloo+2:wght@600&display=swap" rel="stylesheet">
-  <link rel="icon" href="https://cdn.jsdelivr.net/gh/haozi/imgs/favicon.ico" type="image/x-icon">
+  <!-- 国内字体 -->
+  <link href="https://fonts.font.im/css?family=ZCOOL+KuaiLe" rel="stylesheet" />
   <style>
-    body {
-      font-family: 'Baloo 2', 'ZCOOL KuaiLe', 'Comic Sans MS', cursive;
-      background: linear-gradient(to bottom right, #fefcea, #f1daff);
+    * {
       margin: 0;
-      min-height: 100vh;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'ZCOOL KuaiLe', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #FFF6E5, #FFDDC1);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-    }
-    .bb-animate {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3.6rem;
-      color: #ff69b4;
-      font-weight: bold;
-      text-shadow: 2px 6px 24px #fbc1eb, 0 2px 0 #fff;
-      opacity: 0;
-      filter: blur(6px);
-      animation: bb-in 1s ease-out 0.2s forwards, bb-out 1.2s ease-in 1.5s forwards;
-      z-index: 99;
-    }
-    @keyframes bb-in {
-      0% { opacity: 0; filter: blur(12px); }
-      60% { opacity: 1; filter: blur(2px); }
-      100% { opacity: 1; filter: blur(0); }
-    }
-    @keyframes bb-out {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.8; transform: translate(-60%, -50%) scale(1.1) rotate(-5deg); filter: blur(2px); }
-      100% { opacity: 0; transform: translate(-120%, -50%) scale(1.15) rotate(-10deg); filter: blur(8px); }
-    }
-    .container {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 32px;
-      border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
+      min-height: 100vh;
       text-align: center;
-      max-width: 92vw;
-      width: 360px;
-      opacity: 0;
-      transition: opacity 0.8s ease-in;
-      z-index: 1;
-    }
-    .container.show {
-      opacity: 1;
+      padding: 24px;
     }
     .title {
-      font-size: 1.8rem;
-      color: #ff4081;
-      margin-bottom: 14px;
-    }
-    .desc {
-      font-size: 1rem;
-      color: #444;
-      line-height: 1.6;
+      font-size: 2rem;
+      color: #ff7f50;
       margin-bottom: 20px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
-    .guide-img {
-      width: 88%;
-      border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(255, 192, 203, 0.4);
-      border: 2px solid #ffe6f0;
-      margin-bottom: 16px;
+    .success-emoji {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
     }
-    .support {
+    .message {
+      font-size: 1.3rem;
+      color: #ff5722;
+      margin-bottom: 24px;
+    }
+    .info-box {
+      background: #ffffffcc;
+      padding: 20px 16px;
+      border-radius: 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 340px;
+    }
+    .ip, .location, .isp, .risk {
+      font-size: 1rem;
+      margin: 6px 0;
+      color: #444;
+    }
+    .footer {
+      margin-top: 24px;
       font-size: 0.9rem;
       color: #999;
-      margin-top: 12px;
-    }
-    @media (max-width: 480px) {
-      .container {
-        width: 94vw;
-        padding: 22px;
-      }
-      .title { font-size: 1.4rem; }
-      .desc { font-size: 0.92rem; }
-      .bb-animate { font-size: 2.4rem; }
     }
   </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const ua = navigator.userAgent.toLowerCase();
-      const isWeChat = ua.includes("micromessenger");
-      const blocked = !window.navigator.userAgentData && !window.webkit && isWeChat;
-      
-      if (blocked) {
-        window.location.href = "check.html";
-      } else {
-        setTimeout(() => {
-          document.querySelector('.container').classList.add('show');
-        }, 2400);
-      }
-    });
-  </script>
 </head>
 <body>
-  <div class="bb-animate">🍼 肉松大王恭喜您的IP一点毛病没有！</div>
-  <div class="container">
-    <div class="title">请用浏览器打开本页面</div>
-    <div class="desc">
-      当前页面暂不支持微信直接访问。<br>
-      请点击右上角 <b>“⋯”</b> ，选择 <b>“在浏览器中打开”</b>。
-    </div>
-    <img class="guide-img" src="https://cdn.jsdelivr.net/gh/haozi/imgs/2023/07/27/open_browser_wechat.jpg" alt="在微信中用浏览器打开教程图示">
-    <div class="support">如有疑问，请联系客服或查看帮助。</div>
+  <div class="success-emoji">🥳</div>
+  <div class="title">肉松大王风控检测</div>
+  <div class="message">肉松大王恭喜您的IP一点毛病没有！</div>
+
+  <div class="info-box" id="result">
+    正在加载中，请稍候...
   </div>
+
+  <div class="footer">检测基于真实IP数据，如有误请重试</div>
+
+  <script>
+    async function fetchRisk() {
+      try {
+        const res = await fetch('https://api.ip.sb/geoip');
+        const data = await res.json();
+        const html = `
+          <div class="ip">🌐 IP地址：${data.ip}</div>
+          <div class="location">📍 地区：${data.country} ${data.region} ${data.city}</div>
+          <div class="isp">💼 运营商：${data.isp || '未知'}</div>
+          <div class="risk">✅ 风控状态：正常</div>
+        `;
+        document.getElementById('result').innerHTML = html;
+      } catch (e) {
+        document.getElementById('result').innerHTML = `
+          <div class="risk">❌ 无法获取您的IP信息，请稍后重试</div>
+        `;
+      }
+    }
+
+    fetchRisk();
+  </script>
 </body>
 </html>
