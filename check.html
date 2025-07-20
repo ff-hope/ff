@@ -4,45 +4,50 @@
   <meta charset="UTF-8">
   <title>肉松老师羊毛风险检测</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <!-- 站酷酷黑+站酷快乐体，均为国内可用 -->
+  <!-- 阿里巴巴普惠体/思源黑体国内可用 -->
   <style>
     @font-face {
-      font-family: 'ZCOOLKuHei';
-      src: url('https://cdn.jsdelivr.net/npm/zcool-fonts@1.0.3/dist/ZCOOLKuHei-Regular.ttf') format('truetype');
+      font-family: 'AlimamaPuHuiTi';
+      src: url('https://gw.alipayobjects.com/os/k/font/AlimamaPuHuiTi-Regular.woff2') format('woff2'),
+           url('https://gw.alipayobjects.com/os/k/font/AlimamaPuHuiTi-Regular.ttf') format('truetype');
       font-display: swap;
     }
     @font-face {
-      font-family: 'ZCOOLKuaiLe';
-      src: url('https://cdn.jsdelivr.net/npm/zcool-fonts@1.0.3/dist/ZCOOLKuaiLe-Regular.ttf') format('truetype');
+      font-family: 'SourceHanSansCN';
+      src: url('https://cdn.jsdelivr.net/npm/source-han-sans-chinese@1.0.0/dist/SourceHanSansCN-Regular.otf') format('opentype');
       font-display: swap;
     }
     body {
       min-height: 100vh;
       background: linear-gradient(135deg, #1f1b2e 0%, #f9b0e3 100%);
-      font-family: 'ZCOOLKuHei', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
+      font-family: 'AlimamaPuHuiTi', 'SourceHanSansCN', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100vh;
     }
     .kuromi-card {
-      background: rgba(31,27,46,0.92);
+      background: rgba(31,27,46,0.94);
       border-radius: 26px;
       box-shadow: 0 4px 32px #e774b2;
-      padding: 2.5rem 1.2rem 2rem 1.2rem;
-      max-width: 360px;
+      padding: 2.6rem 1.2rem 1.7rem 1.2rem;
+      max-width: 370px;
       width: 94vw;
       text-align: center;
       color: #fff;
       position: relative;
-      margin: auto;
-      margin-top: 48px;
-      margin-bottom: 95px;
+      margin-bottom: 48px;
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .kuromi-avatar {
-      width: 96px;
-      height: 96px;
+      width: 92px;
+      height: 92px;
       border-radius: 50%;
       border: 4px solid #e774b2;
       object-fit: cover;
@@ -57,12 +62,12 @@
       100% { opacity:1; transform: scale(1);}
     }
     .kuromi-title {
-      font-family: 'ZCOOLKuaiLe', 'ZCOOLKuHei', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
-      font-size: 2.2rem;
-      margin: 0 0 1.1rem 0;
+      font-family: 'AlimamaPuHuiTi', 'SourceHanSansCN', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
+      font-size: 2rem;
+      margin: 0 0 1.2rem 0;
       color: #e774b2;
       text-shadow:
-        0 2px 8px #fff6,
+        0 2px 8px #fff9,
         1px 1px 0 #232132,
         2px 2px 0 #f9b0e3;
       text-align: center;
@@ -72,9 +77,30 @@
       width: 100%;
       display: block;
     }
+    .bubble {
+      position: absolute;
+      left: 50%; top: -36px;
+      transform: translateX(-50%);
+      background: #fff;
+      color: #e774b2;
+      border-radius: 18px 18px 18px 0;
+      padding: 0.5em 1.1em;
+      box-shadow: 0 1px 10px #f9b0e3aa;
+      font-size: 1.03em;
+      border: 2px solid #e774b2;
+      font-family: inherit;
+      animation: bubbleIn .8s;
+      z-index: 2;
+      min-width: 180px;
+      text-align: center;
+    }
+    @keyframes bubbleIn {
+      0% { opacity: 0; transform: scale(0.5) translateX(-50%);}
+      100% { opacity: 1; transform: scale(1) translateX(-50%);}
+    }
     .info {
-      font-size: 1.1rem;
-      margin: 0.5rem 0;
+      font-size: 1.08rem;
+      margin: 0.45rem 0;
       color: #fff;
       letter-spacing: 1px;
       min-height: 1.4em;
@@ -83,7 +109,31 @@
     .info span {
       color: #f9b0e3;
     }
-    /* 加载动画小圆点 */
+    /* 新增信息样式 */
+    .ip-extend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      justify-content: center;
+      margin: 1.1em 0 0.1em 0;
+    }
+    .ip-tag {
+      background: #2c2336;
+      color: #fae2f5;
+      border: 1.5px solid #e774b2;
+      border-radius: 13px;
+      padding: 0.18em 0.9em 0.18em 0.9em;
+      font-size: 0.98em;
+      box-shadow: 0 1px 7px #e774b2aa;
+      display: flex;
+      align-items: center;
+      font-family: inherit;
+      margin-bottom: 3px;
+    }
+    .ip-tag-label {
+      color: #f9b0e3;
+      margin-right: 0.15em;
+    }
     .dot-ani {
       display: inline-block;
       vertical-align: middle;
@@ -106,53 +156,46 @@
       40% { transform: scale(1);}
     }
     .divider {
-      margin: 1.3rem 0 1rem 0;
+      margin: 1.1rem 0 1rem 0;
       border-top: 2px dashed #e774b2;
-    }
-    .bubble {
-      position: absolute;
-      top: -36px; right: 18px;
-      background: #fff;
-      color: #e774b2;
-      border-radius: 18px 18px 18px 0;
-      padding: 0.5em 1.1em;
-      box-shadow: 0 1px 10px #f9b0e3aa;
-      font-size: 1.05em;
-      border: 2px solid #e774b2;
-      font-family: inherit;
-      animation: bubbleIn .8s;
-      z-index: 2;
-    }
-    @keyframes bubbleIn {
-      0% { opacity: 0; transform: scale(0.5);}
-      100% { opacity: 1; transform: scale(1);}
+      width: 90%;
+      margin-left:auto;
+      margin-right:auto;
     }
     /* 底部注意事项 */
     .ms-footer {
       width: 100vw;
       max-width: 100vw;
       text-align: center;
-      font-family: 'ZCOOLKuaiLe', 'ZCOOLKuHei', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
-      font-size: 1.13rem;
+      font-family: 'SourceHanSansCN', 'AlimamaPuHuiTi', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
+      font-size: 1.01rem;
       color: #fff;
       background: transparent;
       position: fixed;
       left: 0; bottom: 0;
-      line-height: 1.9;
+      line-height: 1.7;
       letter-spacing: 1.1px;
       text-shadow:
-        0 1px 6px #e774b2bb,
+        0 1px 6px #e774b288,
         1px 1px 0 #232132,
         2px 2px 0 #f9b0e388;
       z-index: 99;
-      padding-bottom: 0.75em;
+      padding-bottom: 0.5em;
       user-select: none;
+      opacity: 0.97;
+      font-weight: 500;
     }
-    @media (max-width: 420px){
-      .kuromi-card { padding: 2.2rem 0.5rem 1.5rem 0.5rem; margin-top: 20px; margin-bottom: 100px;}
-      .kuromi-avatar { width: 72px; height: 72px;}
-      .kuromi-title { font-size: 1.25rem;}
-      .ms-footer { font-size: .97rem;}
+    .ms-footer-emoji {
+      font-size: 1.2em;
+      vertical-align: -0.1em;
+      margin-right: 0.16em;
+    }
+    @media (max-width: 480px) {
+      .kuromi-card { padding: 1.5rem 0.5rem 1.3rem 0.5rem; margin-top: 10vw; margin-bottom: 23vw;}
+      .kuromi-avatar { width: 65px; height: 65px;}
+      .kuromi-title { font-size: 1.13rem;}
+      .ms-footer { font-size: .95rem;}
+      .ip-tag { font-size: .93em;}
     }
   </style>
 </head>
@@ -165,12 +208,16 @@
     <h1 class="kuromi-title">肉松老师羊毛风险检测</h1>
     <div class="info">你的IP：<span id="ip"><span class="dot-ani"><span></span><span></span><span></span></span></span></div>
     <div class="info">归属地：<span id="location"><span class="dot-ani"><span></span><span></span><span></span></span></span></div>
+    <!-- 新增IP额外信息区 -->
+    <div class="ip-extend" id="ip-extend">
+      <!-- 动态填充内容 -->
+    </div>
     <div class="divider"></div>
   </div>
   <!-- 底部注意事项 -->
   <div class="ms-footer">
-    🖤 肉松只做羊毛风险检测不存储任何数据<br>
-    🎀 肉松的库洛米陪您安全薅羊毛
+    <span class="ms-footer-emoji">🌸</span>肉松只做羊毛风险检测，不存储任何数据<br>
+    <span class="ms-footer-emoji">🐑</span>库洛米陪您安全薅羊毛
   </div>
   <script>
     // 获取真实公网IP和归属地
@@ -185,6 +232,14 @@
         if (data.city) loc += ' ' + data.city;
         document.getElementById('location').textContent = loc.trim() || '未知';
         document.getElementById('kuromi-tip').textContent = "肉松老师恭喜您的IP没有一点毛病！";
+        // 填充更多信息
+        const extend = document.getElementById('ip-extend');
+        extend.innerHTML = '';
+        if (data.organization) extend.innerHTML += `<div class="ip-tag"><span class="ip-tag-label">运营商</span> ${data.organization}</div>`;
+        if (data.asn) extend.innerHTML += `<div class="ip-tag"><span class="ip-tag-label">ASN</span> ${data.asn}</div>`;
+        if (data.timezone) extend.innerHTML += `<div class="ip-tag"><span class="ip-tag-label">时区</span> ${data.timezone}</div>`;
+        if (data.country_code) extend.innerHTML += `<div class="ip-tag"><span class="ip-tag-label">国家代码</span> ${data.country_code}</div>`;
+        if (data.ip) extend.innerHTML += `<div class="ip-tag"><span class="ip-tag-label">IP类型</span> ${data.ip.includes(':') ? 'IPv6' : 'IPv4'}</div>`;
       } catch(e) {
         document.getElementById('ip').textContent = '获取失败';
         document.getElementById('location').textContent = '获取失败';
