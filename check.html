@@ -4,10 +4,16 @@
   <meta charset="UTF-8">
   <title>肉松老师羊毛风险检测</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- 站酷酷黑+站酷快乐体，均为国内可用 -->
   <style>
     @font-face {
       font-family: 'ZCOOLKuHei';
       src: url('https://cdn.jsdelivr.net/npm/zcool-fonts@1.0.3/dist/ZCOOLKuHei-Regular.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'ZCOOLKuaiLe';
+      src: url('https://cdn.jsdelivr.net/npm/zcool-fonts@1.0.3/dist/ZCOOLKuaiLe-Regular.ttf') format('truetype');
       font-display: swap;
     }
     body {
@@ -17,8 +23,8 @@
       margin: 0;
       padding: 0;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      min-height: 100vh;
     }
     .kuromi-card {
       background: rgba(31,27,46,0.92);
@@ -30,6 +36,9 @@
       text-align: center;
       color: #fff;
       position: relative;
+      margin: auto;
+      margin-top: 48px;
+      margin-bottom: 95px;
     }
     .kuromi-avatar {
       width: 96px;
@@ -47,12 +56,21 @@
       0% { opacity:0; transform: scale(0.5);}
       100% { opacity:1; transform: scale(1);}
     }
-    h1 {
-      font-size: 2.1rem;
-      margin: 0 0 1rem 0;
+    .kuromi-title {
+      font-family: 'ZCOOLKuaiLe', 'ZCOOLKuHei', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
+      font-size: 2.2rem;
+      margin: 0 0 1.1rem 0;
       color: #e774b2;
-      text-shadow: 0 0 4px #fff6;
+      text-shadow:
+        0 2px 8px #fff6,
+        1px 1px 0 #232132,
+        2px 2px 0 #f9b0e3;
+      text-align: center;
       letter-spacing: 2px;
+      font-weight: bold;
+      line-height: 1.2;
+      width: 100%;
+      display: block;
     }
     .info {
       font-size: 1.1rem;
@@ -91,13 +109,6 @@
       margin: 1.3rem 0 1rem 0;
       border-top: 2px dashed #e774b2;
     }
-    .footer {
-      margin-top: 1.6rem;
-      font-size: 0.98rem;
-      color: #fae2f5;
-      opacity: 0.8;
-      letter-spacing: 1px;
-    }
     .bubble {
       position: absolute;
       top: -36px; right: 18px;
@@ -116,10 +127,32 @@
       0% { opacity: 0; transform: scale(0.5);}
       100% { opacity: 1; transform: scale(1);}
     }
+    /* 底部注意事项 */
+    .ms-footer {
+      width: 100vw;
+      max-width: 100vw;
+      text-align: center;
+      font-family: 'ZCOOLKuaiLe', 'ZCOOLKuHei', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
+      font-size: 1.13rem;
+      color: #fff;
+      background: transparent;
+      position: fixed;
+      left: 0; bottom: 0;
+      line-height: 1.9;
+      letter-spacing: 1.1px;
+      text-shadow:
+        0 1px 6px #e774b2bb,
+        1px 1px 0 #232132,
+        2px 2px 0 #f9b0e388;
+      z-index: 99;
+      padding-bottom: 0.75em;
+      user-select: none;
+    }
     @media (max-width: 420px){
-      .kuromi-card { padding: 2.2rem 0.5rem 1.5rem 0.5rem; }
+      .kuromi-card { padding: 2.2rem 0.5rem 1.5rem 0.5rem; margin-top: 20px; margin-bottom: 100px;}
       .kuromi-avatar { width: 72px; height: 72px;}
-      h1 { font-size: 1.3rem;}
+      .kuromi-title { font-size: 1.25rem;}
+      .ms-footer { font-size: .97rem;}
     }
   </style>
 </head>
@@ -129,11 +162,15 @@
     <div class="bubble" id="kuromi-tip">加载检测中
       <span class="dot-ani"><span></span><span></span><span></span></span>
     </div>
-    <h1>肉松老师羊毛风险检测</h1>
+    <h1 class="kuromi-title">肉松老师羊毛风险检测</h1>
     <div class="info">你的IP：<span id="ip"><span class="dot-ani"><span></span><span></span><span></span></span></span></div>
     <div class="info">归属地：<span id="location"><span class="dot-ani"><span></span><span></span><span></span></span></span></div>
     <div class="divider"></div>
-    <div class="footer">只做IP归属地查询，不存储任何数据。<br>库洛米陪你安全上网！</div>
+  </div>
+  <!-- 底部注意事项 -->
+  <div class="ms-footer">
+    🖤 肉松只做羊毛风险检测不存储任何数据<br>
+    🎀 肉松的库洛米陪您安全薅羊毛
   </div>
   <script>
     // 获取真实公网IP和归属地
