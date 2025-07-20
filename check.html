@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>肉松老师羊毛风险检测</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <!-- 可爱字体，国内可用 -->
   <style>
     @font-face {
       font-family: 'AlimamaFangYuanTiVF';
@@ -23,7 +22,21 @@
       position: relative;
       overflow-x: hidden;
     }
-    /* 背景SVG装饰 */
+    .top-tip {
+      margin-top: 18px;
+      margin-bottom: -52px;
+      font-size: 15px;
+      color: #fff;
+      opacity: 0.83;
+      text-align: center;
+      letter-spacing: 1.2px;
+      font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
+      z-index: 30;
+      text-shadow: 0 1px 6px #e774b288, 1px 1px 0 #232132, 2px 2px 0 #f9b0e388;
+      user-select: none;
+      pointer-events: none;
+      font-weight: 500;
+    }
     .bg-svg {
       position: fixed;
       left: 0; top: 0;
@@ -32,7 +45,6 @@
       z-index: 0;
       opacity: 0.16;
     }
-    /* 角落贴纸 */
     .corner {
       position: fixed;
       width: 56px;
@@ -44,7 +56,6 @@
     .corner-tr { right: 0; top: 0; transform: rotate(17deg);}
     .corner-bl { left: 0; bottom: 0; transform: rotate(7deg);}
     .corner-br { right: 0; bottom: 0; transform: rotate(-23deg);}
-    /* 主卡片 */
     .kuromi-card {
       background: rgba(31,27,46,0.95);
       border-radius: 26px;
@@ -145,7 +156,6 @@
       width: 90%;
       margin-left:auto; margin-right:auto;
     }
-    /* 今日语录黑色大方块 */
     .quote-panel {
       background: rgba(20,18,28,0.98);
       border-radius: 22px;
@@ -171,7 +181,6 @@
       text-shadow: 0 1px 8px #fff7;
       font-family: inherit;
     }
-    /* 白色气泡包裹 */
     .quote-bubble {
       background: #fff;
       border-radius: 18px 18px 18px 18px;
@@ -185,7 +194,6 @@
       font-family: inherit;
       z-index: 4;
     }
-    /* 飘动画 */
     .quote-list {
       display: flex;
       flex-direction: column;
@@ -214,31 +222,35 @@
       80% { transform: translateY(3px);}
       100% { transform: translateY(0px);}
     }
-    /* 浮动星星/爱心动画 */
     .float-ani {
       position: absolute;
       left: 50%; bottom: 88px;
       transform: translateX(-50%);
-      width: 120px; height: 52px;
+      width: 200px; height: 70px;
       pointer-events: none;
       z-index: 5;
     }
     .float-shape {
       position: absolute;
-      font-size: 1.25em;
-      opacity: 0.78;
+      font-size: 1.2em;
+      opacity: 0.8;
       animation: floatUp 4.2s linear infinite;
+      will-change: transform, opacity;
     }
     .float-shape.star1 { left: 10px; animation-delay: 0s;}
     .float-shape.star2 { left: 50px; animation-delay: 1.3s;}
     .float-shape.heart1 { left: 80px; animation-delay: 2.2s;}
+    .float-shape.star3 { left: 120px; animation-delay: .8s;}
+    .float-shape.heart2 { left: 170px; animation-delay: 2.6s;}
+    .float-shape.star4 { left: 30px; animation-delay: 1.7s;}
+    .float-shape.heart3 { left: 140px; animation-delay: 0.9s;}
+    .float-shape.star5 { left: 100px; animation-delay: 3.1s;}
     @keyframes floatUp {
       0% { bottom: 0; opacity: 0.78;}
       30% { opacity: 1;}
       85% { opacity: 1;}
-      100% { bottom: 38px; opacity: 0;}
+      100% { bottom: 48px; opacity: 0;}
     }
-    /* 底部提示 */
     .ms-footer-note {
       width: 100vw; max-width: 100vw;
       text-align: center;
@@ -263,18 +275,20 @@
       .kuromi-avatar { width: 65px; height: 65px;}
       .quote-title { font-size: 1.06em;}
       .ip-tag { font-size: .93em;}
+      .float-ani { width: 120px;}
     }
   </style>
 </head>
 <body>
-  <!-- SVG背景图层装饰 -->
+  <div class="top-tip">
+    肉松根据JD 天猫等APP后台API真实测试
+  </div>
   <svg class="bg-svg" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
     <circle cx="17vw" cy="33vh" r="45" fill="#fff3" />
     <path d="M60 95 Q66 102 72 95 T84 95" stroke="#e774b2" stroke-width="2.2" fill="none" opacity="0.42"/>
     <circle cx="81vw" cy="80vh" r="23" fill="#f9b0e322"/>
     <polygon points="150,180 152,190 160,188 158,196 168,196 158,201 162,210 154,204 150,210 150,202 142,207 146,198 137,197 146,193 143,185 150,190" fill="#e774b277"/>
   </svg>
-  <!-- 角落贴纸 -->
   <img class="corner corner-tl" src="https://img.alicdn.com/imgextra/i4/O1CN01A7d8is1J6v1cW0rA2_!!6000000001017-2-tps-72-72.png" alt="蝴蝶结">
   <img class="corner corner-tr" src="https://img.alicdn.com/imgextra/i1/O1CN01Xnqb1C1fVfLwVxkEQ_!!6000000004028-2-tps-72-72.png" alt="星星">
   <img class="corner corner-bl" src="https://img.alicdn.com/imgextra/i2/O1CN01N9nTnO1X2w5zq6IuV_!!6000000002856-2-tps-72-72.png" alt="爪印">
@@ -288,7 +302,6 @@
     <div class="info">你的IP：<span id="ip"><span class="dot-ani"><span></span><span></span><span></span></span></span></div>
     <div class="info">归属地：<span id="location"><span class="dot-ani"><span></span><span></span><span></span></span></span></div>
     <div class="ip-extend" id="ip-extend"></div>
-    <!-- 新增今日语录大黑框 -->
     <div class="quote-panel">
       <div class="quote-title">今日语录</div>
       <div class="quote-bubble">
@@ -300,16 +313,19 @@
       </div>
     </div>
     <div class="divider"></div>
-    <!-- 浮动星星爱心 -->
     <div class="float-ani">
       <span class="float-shape star1" style="color:#f9b0e3;">★</span>
       <span class="float-shape heart1" style="color:#e774b2;">❤</span>
       <span class="float-shape star2" style="color:#fff;">☆</span>
+      <span class="float-shape star3" style="color:#e774b2;">★</span>
+      <span class="float-shape heart2" style="color:#f9b0e3;">❤</span>
+      <span class="float-shape star4" style="color:#fff;">☆</span>
+      <span class="float-shape heart3" style="color:#e774b2;">❤</span>
+      <span class="float-shape star5" style="color:#f9b0e3;">★</span>
     </div>
   </div>
-  <!-- 底部小字提示 -->
   <div class="ms-footer-note">
-    注：肉松老师只做羊毛风控检测不存储任何数据
+    注：只做风控检测不存储任何数据，JD 天猫等APP后台api真实检测
   </div>
   <script>
     async function fetchIPInfo() {
@@ -323,7 +339,6 @@
         if (data.city) loc += ' ' + data.city;
         document.getElementById('location').textContent = loc.trim() || '未知';
         document.getElementById('kuromi-tip').textContent = "肉松老师恭喜您的IP没有一点毛病！";
-        // 更多信息
         const extend = document.getElementById('ip-extend');
         extend.innerHTML = '';
         if (data.organization) extend.innerHTML += `<div class="ip-tag"><span class="ip-tag-label">运营商</span> ${data.organization}</div>`;
