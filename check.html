@@ -145,6 +145,75 @@
       width: 90%;
       margin-left:auto; margin-right:auto;
     }
+    /* 今日语录黑色大方块 */
+    .quote-panel {
+      background: rgba(20,18,28,0.98);
+      border-radius: 22px;
+      box-shadow: 0 2px 28px #1f1b2e80, 0 0 0 4px #fff3;
+      width: 330px;
+      max-width: 92vw;
+      margin: 30px auto 28px auto;
+      padding: 32px 15px 32px 15px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      transition: box-shadow 0.3s;
+    }
+    .quote-title {
+      color: #e774b2;
+      font-size: 1.35em;
+      font-weight: bold;
+      margin-bottom: 18px;
+      letter-spacing: 2px;
+      text-shadow: 0 1px 8px #fff7;
+      font-family: inherit;
+    }
+    /* 白色气泡包裹 */
+    .quote-bubble {
+      background: #fff;
+      border-radius: 18px 18px 18px 18px;
+      box-shadow: 0 2px 18px #e774b280, 0 0 0 2px #f9b0e3;
+      display: inline-block;
+      padding: 20px 17px;
+      min-width: 220px;
+      min-height: 85px;
+      position: relative;
+      margin: 0 auto;
+      font-family: inherit;
+      z-index: 4;
+    }
+    /* 飘动画 */
+    .quote-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .quote-item {
+      color: #e774b2;
+      font-size: 1.13em;
+      font-weight: bold;
+      font-family: inherit;
+      text-shadow: 0 1px 8px #f9b0e385, 1px 1px 0 #fff7;
+      opacity: 0.95;
+      animation: floatQuote 3.5s ease-in-out infinite alternate;
+      will-change: transform;
+      position: relative;
+      white-space: pre-line;
+    }
+    .quote-item:nth-child(2) { animation-delay: 1.1s;}
+    .quote-item:nth-child(3) { animation-delay: 2.1s;}
+    @keyframes floatQuote {
+      0% { transform: translateY(0px);}
+      20% { transform: translateY(-6px) scale(1.03);}
+      40% { transform: translateY(6px) scale(0.99);}
+      60% { transform: translateY(-4px) scale(1.01);}
+      80% { transform: translateY(3px);}
+      100% { transform: translateY(0px);}
+    }
     /* 浮动星星/爱心动画 */
     .float-ani {
       position: absolute;
@@ -174,7 +243,7 @@
       width: 100vw; max-width: 100vw;
       text-align: center;
       font-family: 'AlimamaFangYuanTiVF','PingFang SC','Microsoft Yahei',Arial,sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       color: #e7dbf0;
       background: transparent;
       position: fixed;
@@ -183,17 +252,17 @@
       letter-spacing: 1.1px;
       z-index: 100;
       padding-bottom: 2.5px;
-      opacity: 0.75;
+      opacity: 0.6;
       font-weight: 400;
       user-select: none;
       pointer-events: none;
     }
     @media (max-width: 480px) {
       .kuromi-card { padding: 1.5rem 0.5rem 1.3rem 0.5rem; margin-top: 8vw; margin-bottom: 23vw;}
+      .quote-panel { padding: 18px 5vw 18px 5vw;}
       .kuromi-avatar { width: 65px; height: 65px;}
-      .kuromi-title { font-size: 1.13rem;}
+      .quote-title { font-size: 1.06em;}
       .ip-tag { font-size: .93em;}
-      .float-ani { width: 90px;}
     }
   </style>
 </head>
@@ -219,6 +288,17 @@
     <div class="info">你的IP：<span id="ip"><span class="dot-ani"><span></span><span></span><span></span></span></span></div>
     <div class="info">归属地：<span id="location"><span class="dot-ani"><span></span><span></span><span></span></span></span></div>
     <div class="ip-extend" id="ip-extend"></div>
+    <!-- 新增今日语录大黑框 -->
+    <div class="quote-panel">
+      <div class="quote-title">今日语录</div>
+      <div class="quote-bubble">
+        <div class="quote-list">
+          <div class="quote-item">今天 你薅了吗？</div>
+          <div class="quote-item">你离被风控只差一个薅字。</div>
+          <div class="quote-item">未被标记，这是一种天赋。</div>
+        </div>
+      </div>
+    </div>
     <div class="divider"></div>
     <!-- 浮动星星爱心 -->
     <div class="float-ani">
@@ -229,7 +309,7 @@
   </div>
   <!-- 底部小字提示 -->
   <div class="ms-footer-note">
-    根据腾讯云 天猫 淘宝 拼多多 京东后台api实时检测
+    注：肉松老师只做羊毛风控检测不存储任何数据
   </div>
   <script>
     async function fetchIPInfo() {
