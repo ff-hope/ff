@@ -2,111 +2,615 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>肉松大王的羊毛风控值检测</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 国内可用字体：站酷快乐体 -->
-  <link href="https://fonts.font.im/css?family=ZCOOL+KuaiLe" rel="stylesheet" />
-  <link rel="icon" href="https://cdn.jsdelivr.net/gh/haozi/imgs/favicon.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ff · 锅圈食汇控制台</title>
+  <!-- 国内可访问CDN -->
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.staticfile.org/echarts/5.4.3/echarts.min.js"></script>
   <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'ZCOOL KuaiLe', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-      background: linear-gradient(135deg, #fefcea 0%, #f1da36 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      position: relative;
+      font-family:"Microsoft YaHei","PingFang SC",Helvetica,Arial,sans-serif;
+      background:#0b1623; color:#fff; display:flex; flex-direction:column; min-height:100vh;
+      transition:background 0.3s;
     }
-    .hero-text {
-      position: absolute;
-      top: 12%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 3.6rem;
-      color: #ff8800;
-      font-weight: bold;
-      text-shadow: 1px 2px 12px rgba(255, 136, 0, 0.4);
-      animation: zoomFade 2s ease-out forwards;
+    .navbar {
+      background:#14273d; color:#fff; height:60px; display:flex; align-items:center; padding:0 24px;
+      box-shadow:0 4px 12px rgba(0,191,255,0.09);
+      justify-content:space-between;
     }
-    @keyframes zoomFade {
-      0% { opacity: 0; transform: translateX(-50%) scale(0.8); }
-      60% { opacity: 1; transform: translateX(-50%) scale(1.1); }
-      100% { transform: translateX(-50%) scale(1); }
+    .navbar .logo { font-size:22px; font-weight:bold; color:#00bfff; letter-spacing:2px; }
+    .navbar .user-info {
+      display:flex; align-items:center; gap:16px;
     }
-    .container {
-      background: #ffffffee;
-      padding: 32px 28px;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 8px 40px rgba(255, 166, 0, 0.15);
-      max-width: 90vw;
-      width: 360px;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-      z-index: 2;
+    .navbar .user-avatar {
+      width:34px; height:34px; border-radius:50%; background:#eee; object-fit:cover;
+      border:2px solid #00bfff; margin-right:8px;
     }
-    .container.show {
-      opacity: 1;
+    .navbar .logout-btn {
+      background:#fdc300; color:#14273d; border:none; border-radius:6px; padding:8px 16px; cursor:pointer;
+      transition:0.2s;
     }
-    .title {
-      color: #f39800;
-      font-size: 1.9rem;
-      margin-bottom: 16px;
-    }
-    .desc {
-      font-size: 1.05rem;
-      color: #333;
-      line-height: 1.6;
-      margin-bottom: 22px;
-    }
-    .guide-img {
-      width: 100%;
-      border-radius: 12px;
-      border: 2px solid #fff5d1;
-      box-shadow: 0 2px 10px rgba(255, 166, 0, 0.1);
-    }
-    .support {
-      font-size: 0.9rem;
-      color: #888;
-      margin-top: 18px;
-    }
-    @media (max-width: 480px) {
-      .hero-text { font-size: 2.3rem; top: 8%; }
-      .container { padding: 24px 16px; width: 92vw; }
-      .title { font-size: 1.5rem; }
-      .desc { font-size: 1rem; }
-    }
-  </style>
-  <script>
-    // 微信检测逻辑：如无法访问外部资源，则跳转到 check.html
-    document.addEventListener('DOMContentLoaded', function () {
-      const img = new Image();
-      img.src = "https://cdn.jsdelivr.net/gh/haozi/imgs/favicon.ico?_=" + Date.now();
-      let loaded = false;
+    .navbar .logout-btn:hover { background:#f2b400; }
 
-      img.onload = () => { loaded = true; };
-      setTimeout(() => {
-        if (!loaded) {
-          location.href = "check.html";
-        } else {
-          document.querySelector('.container').classList.add('show');
-        }
-      }, 1000);
-    });
-  </script>
+    .container { flex:1; display:flex; min-height:calc(100vh - 100px); }
+
+    .sidebar {
+      width:240px; background:#0a1f3d; display:flex; flex-direction:column; padding-top:20px;
+      overflow-y:auto; transition:width 0.3s;
+    }
+    .sidebar.collapsed { width:60px; }
+    .sidebar .toggle-btn {
+      position:absolute; right:-18px; top:20px; background:#14273d; color:#00bfff; border:none;
+      border-radius:50%; width:34px; height:34px; cursor:pointer; z-index:2;
+      box-shadow:0 2px 8px rgba(0,191,255,0.11);
+      transition:background 0.3s;
+    }
+    .sidebar h2 {
+      color:#00bfff; text-align:center; margin-bottom:20px; transition:opacity 0.2s;
+    }
+    .sidebar.collapsed h2 { opacity:0; }
+    .sidebar .menu-item {
+      padding:12px 20px; cursor:pointer; color:#aee8ff; transition:0.3s;
+      position:relative; display:flex; align-items:center; gap:14px;
+      font-size:16px;
+    }
+    .sidebar.collapsed .menu-item span { display:none; }
+    .sidebar .menu-item:hover, .sidebar .menu-item.active {
+      background:#14273d; color:#00bfff; font-weight:bold; border-radius:6px;
+    }
+    .sub-menu {
+      display:none; flex-direction:column; padding-left:16px;
+    }
+    .sub-menu .menu-item {
+      padding:8px 20px; font-size:14px; color:#b3e0ff;
+    }
+    .sub-menu .menu-item:hover, .sub-menu .menu-item.active {
+      background:#18355b; color:#00e5ff;
+    }
+    .sidebar .menu-item .fa { font-size:18px; min-width:18px;}
+    .sidebar .menu-item .arrow { margin-left:auto; transition:transform 0.2s; }
+    .sidebar .menu-item.open .arrow { transform:rotate(90deg);}
+    .sidebar.collapsed .menu-item .arrow { display:none; }
+
+    .main {
+      flex:1; padding:32px; overflow-y:auto; min-width:0;
+      animation:fadeIn 0.5s ease;
+    }
+    .card {
+      background:#14273d; padding:24px; border-radius:10px;
+      margin-bottom:20px; box-shadow:0 4px 15px rgba(0,191,255,0.18); transition:0.3s;
+      animation:fadeIn 0.55s;
+    }
+    h1 { color:#00bfff; margin-bottom:20px; }
+    button {
+      background:#00bfff; color:#fff; border:none; padding:10px 16px;
+      border-radius:6px; cursor:pointer; transition:0.3s; margin-top:8px;
+      font-size:16px;
+    }
+    button:hover { background:#0080b3; }
+    select,input {
+      padding:10px; border-radius:6px; border:1px solid #4e7ca4; width:100%;
+      margin:10px 0; background:#1d3557; color:#fff; font-size:15px;
+    }
+    .input-group { position:relative; }
+    .input-clear {
+      position:absolute; right:12px; top:50%; transform:translateY(-50%);
+      color:#b3e0ff; font-size:16px; cursor:pointer; display:none;
+    }
+    input:not(:placeholder-shown) ~ .input-clear { display:inline; }
+
+    .hidden { display:none; }
+    .fade-in { animation:fadeIn 0.45s ease forwards; }
+    @keyframes fadeIn {
+      0% { opacity:0; transform:translateY(8px); }
+      100% { opacity:1; transform:translateY(0); }
+    }
+    .error-box {
+      background:rgba(255,0,0,0.14); border:1px solid #ff5050; color:#ff8080;
+      padding:10px; border-radius:6px; margin-top:10px;
+    }
+    .success-box {
+      background:rgba(0,191,255,0.13); border:1px solid #00bfff; color:#00e5ff;
+      padding:10px; border-radius:6px; margin-top:10px;
+    }
+    .coupon-list { list-style:none; margin-top:15px; }
+    .coupon-list li {
+      background:#18355b; border-radius:6px; padding:14px; margin-bottom:10px;
+      display:flex; justify-content:space-between; align-items:center;
+      animation:fadeIn 0.5s;
+    }
+    .coupon-btn {
+      background:#fdc300; color:#0b1623; border:none; border-radius:4px;
+      padding:6px 14px; cursor:pointer; font-size:15px;
+    }
+    .coupon-btn:disabled { background:#bfbfbf; color:#888; cursor:not-allowed;}
+    .coupon-btn:hover:not(:disabled) { background:#f2b400; }
+    .shop-distance { font-size:13px; color:#aee8ff; margin-left:12px; }
+    .search-bar {
+      display:flex; gap:8px; margin-bottom:10px;
+    }
+    .search-bar input {
+      flex:1;
+    }
+    .my-coupons-list li {
+      background:#1d3557; border-radius:6px; padding:12px; margin-bottom:8px; color:#ffe066;
+      font-size:15px; display:flex; justify-content:space-between; align-items:center;
+    }
+    /* 滚动条美化 */
+    ::-webkit-scrollbar { width:8px; background:#0a1f3d;}
+    ::-webkit-scrollbar-thumb { background:#18355b; border-radius:6px;}
+
+    /* 底部栏 */
+    .footer {
+      background:#14273d; color:#aee8ff; text-align:center; padding:18px 0;
+      font-size:14px; letter-spacing:1px;
+    }
+    /* 主题切换按钮 */
+    .theme-btn {
+      background:none; border:none; color:#00bfff; font-size:22px; cursor:pointer; margin-left:8px;
+    }
+    .theme-btn:hover { color:#fdc300;}
+    /* Toast */
+    .toast {
+      position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
+      background:rgba(0,191,255,0.95); color:#fff; padding:12px 24px; border-radius:8px;
+      font-size:16px; z-index:9999; box-shadow:0 2px 12px rgba(0,191,255,0.18);
+      opacity:0; transition:opacity 0.3s;
+    }
+    .toast.show { opacity:1; }
+    /* 深色/浅色主题 */
+    body.light {
+      background:#f2f7fd; color:#222;
+    }
+    body.light .navbar,
+    body.light .sidebar,
+    body.light .main .card,
+    body.light .footer {
+      background:#fff; color:#222;
+      box-shadow:0 2px 10px rgba(0,191,255,0.08);
+    }
+    body.light .sidebar .menu-item,
+    body.light .sidebar .sub-menu .menu-item {
+      color:#0080b3;
+    }
+    body.light .sidebar .menu-item.active,
+    body.light .sidebar .menu-item:hover {
+      background:#e6f6ff; color:#fdc300;
+    }
+    body.light .main .card {
+      background:#f9fdff; color:#222;
+    }
+    body.light .error-box { background:rgba(255,0,0,0.11); color:#d44; }
+    body.light .success-box { background:rgba(0,191,255,0.11); color:#00bfff;}
+    body.light .coupon-list li { background:#f0f8ff; color:#222; }
+    body.light .my-coupons-list li { background:#e6f6ff; color:#0080b3;}
+    body.light .shop-distance { color:#0080b3;}
+    body.light .coupon-btn { background:#00bfff; color:#fff;}
+    body.light .coupon-btn:disabled { background:#bfbfbf; color:#aaa;}
+    body.light .sidebar h2 { color:#fdc300;}
+    body.light .navbar .logo { color:#fdc300;}
+    body.light .navbar .logout-btn { background:#00bfff; color:#fff;}
+    body.light .navbar .logout-btn:hover { background:#0080b3;}
+  </style>
 </head>
 <body>
-  <div class="hero-text">肉松大王</div>
-  <div class="container">
-    <div class="title">请在浏览器中打开</div>
-    <div class="desc">
-      当前页面暂不支持在微信内直接访问。<br>
-      请点击右上角 <strong>“⋯”</strong>，选择 <strong>“在浏览器中打开”</strong>。
+  <!-- 顶部导航栏 -->
+  <div class="navbar">
+    <div class="logo"><i class="fa fa-fire"></i> 锅圈食汇 · 控制台</div>
+    <div class="user-info">
+      <img src="https://avatars.githubusercontent.com/u/3369400?v=4" alt="用户头像" class="user-avatar" />
+      <span id="username">ff</span>
+      <button class="logout-btn" onclick="showToast('已退出登录（模拟）')">退出</button>
+      <button class="theme-btn" id="themeBtn" title="切换主题"><i class="fa fa-moon"></i></button>
     </div>
-    <img class="guide-img" src="https://cdn.jsdelivr.net/gh/haozi/imgs/2023/07/27/open_browser_wechat.jpg" alt="引导图">
-    <div class="support">有任何问题，请联系客服或查看帮助。</div>
   </div>
+  <div class="container">
+    <!-- 侧边栏 -->
+    <div class="sidebar" id="sidebar">
+      <button class="toggle-btn" id="toggleSidebarBtn"><i class="fa fa-bars"></i></button>
+      <h2>锅圈食汇</h2>
+      <div class="menu-item active" data-target="dashboard"><i class="fa fa-tachometer-alt"></i><span>仪表盘</span></div>
+      <div class="menu-item" data-target="couponCenter"><i class="fa fa-ticket-alt"></i><span>刷券中心</span></div>
+      <div class="menu-item" data-target="orders"><i class="fa fa-list"></i><span>订单管理</span></div>
+      <div class="menu-item" data-target="analytics">
+        <i class="fa fa-chart-bar"></i><span>数据分析</span>
+        <span class="arrow"><i class="fa fa-angle-right"></i></span>
+        <div class="sub-menu">
+          <div class="menu-item" data-target="rankings"><i class="fa fa-crown"></i><span>排行榜</span></div>
+          <div class="menu-item" data-target="realtime"><i class="fa fa-sync-alt"></i><span>实时数据</span></div>
+        </div>
+      </div>
+      <div class="menu-item" data-target="myCoupons"><i class="fa fa-gift"></i><span>我的优惠券</span></div>
+      <div class="menu-item" data-target="settings"><i class="fa fa-cog"></i><span>系统设置</span></div>
+      <div class="menu-item" data-target="notices"><i class="fa fa-bell"></i><span>消息通知</span></div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main">
+      <div id="dashboard" class="card">
+        <h1>欢迎来到锅圈食汇控制台</h1>
+        <p>点击左侧菜单浏览功能，操作后请联系管理员 <b>ff</b>。</p>
+        <div style="margin-top:24px;">
+          <div id="quickTip" class="success-box fade-in">温馨提示：新用户可在 <b>刷券中心</b> 领取专属优惠券！</div>
+        </div>
+      </div>
+
+      <div id="couponCenter" class="card hidden">
+        <h1>参与本地商家优惠券获取</h1>
+        <div class="search-bar">
+          <input type="text" id="shopSearchInput" placeholder="搜索附近门店">
+          <button id="shopSearchBtn"><i class="fa fa-search"></i> 搜索</button>
+        </div>
+        <p>点击下方按钮，我们将获取您的位置并匹配最近的 <b>锅圈食汇</b> 门店。</p>
+        <button id="getLocationBtn">获取当前位置</button>
+        <div id="shopSelectBox" class="hidden fade-in">
+          <h2>请选择附近商家</h2>
+          <select id="shopSelect"></select>
+          <span id="shopDistance" class="shop-distance"></span>
+          <button id="startCouponBtn">开始刷券</button>
+        </div>
+        <div id="apiKeyBox" class="hidden fade-in">
+          <h2>请输入API密钥以继续</h2>
+          <div class="input-group">
+            <input type="password" id="apiKeyInput" placeholder="请输入API密钥">
+            <span class="input-clear" onclick="document.getElementById('apiKeyInput').value=''"><i class="fa fa-times-circle"></i></span>
+            <button id="toggleApiKeyBtn" style="position:absolute;right:38px;top:50%;transform:translateY(-50%);background:none;color:#b3e0ff;font-size:16px;border:none;">显示</button>
+          </div>
+          <button id="submitApiKeyBtn">提交</button>
+        </div>
+        <div id="couponBox" class="hidden fade-in"></div>
+        <div id="errorBox" class="hidden fade-in error-box">输入有误，请联系管理员 <b>ff</b></div>
+        <div id="successBox" class="hidden fade-in success-box">恭喜！已成功领取优惠券！</div>
+      </div>
+
+      <div id="orders" class="card hidden">
+        <h1>订单管理（模拟）</h1>
+        <table style="width:100%;background:#1d3557;color:#fff;border-radius:6px;">
+          <thead>
+            <tr style="background:#14273d;">
+              <th>订单号</th><th>用户</th><th>门店</th><th>金额</th><th>状态</th>
+            </tr>
+          </thead>
+          <tbody id="orderTableBody"></tbody>
+        </table>
+        <div style="margin-top:10px;font-size:13px;color:#ffe066;">所有操作请联系管理员 ff</div>
+      </div>
+
+      <div id="rankings" class="card hidden">
+        <h1>用户排行榜（模拟数据）</h1>
+        <ul class="coupon-list">
+          <li>138****1629 - 郑州 - 今日已刷 <b>5</b> 张券</li>
+          <li>139****5698 - 上海 - 今日已刷 <b>3</b> 张券</li>
+          <li>137****9932 - 长沙 - 今日已刷 <b>2</b> 张券</li>
+        </ul>
+        <div id="rankChart" style="width:100%;height:300px;margin-top:32px;"></div>
+      </div>
+
+      <div id="realtime" class="card hidden">
+        <h1>实时数据（模拟）</h1>
+        <div id="realtimeChart" style="width:100%;height:280px;"></div>
+        <div style="margin-top:10px;font-size:13px;color:#ffe066;">所有操作请联系管理员 ff</div>
+      </div>
+
+      <div id="analytics" class="card hidden">
+        <h1>数据分析（模拟）</h1>
+        <div id="analyticsChart" style="width:100%;height:280px;"></div>
+        <div style="margin-top:10px;font-size:13px;color:#ffe066;">所有操作请联系管理员 ff</div>
+      </div>
+
+      <div id="myCoupons" class="card hidden">
+        <h1>我的优惠券</h1>
+        <ul id="myCouponsList" class="my-coupons-list"></ul>
+        <div style="margin-top:10px;font-size:13px;color:#ffe066;">更多券请前往 <b>刷券中心</b> 领取</div>
+      </div>
+
+      <div id="settings" class="card hidden">
+        <h1>系统设置（模拟）</h1>
+        <label>主题切换：</label>
+        <button id="systemThemeBtn">切换主题</button>
+        <div style="margin-top:10px;font-size:13px;color:#ffe066;">所有设置请联系管理员 ff</div>
+      </div>
+
+      <div id="notices" class="card hidden">
+        <h1>消息通知</h1>
+        <ul id="noticeList" class="coupon-list"></ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    © 2025 ff控制台 · 湘ICP备12351124002号 · 联系管理员 ff
+  </div>
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // ---- 菜单侧边栏交互 ----
+    const menuItems = document.querySelectorAll('.sidebar .menu-item');
+    const sections = document.querySelectorAll('.main .card');
+    const sidebar = document.getElementById('sidebar');
+    const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+    toggleSidebarBtn.onclick = () => {
+      sidebar.classList.toggle('collapsed');
+    };
+    menuItems.forEach(item => {
+      item.onclick = e => {
+        // 展开子菜单
+        const subMenu = item.querySelector('.sub-menu');
+        if(subMenu){
+          subMenu.style.display = subMenu.style.display === 'flex' ? 'none' : 'flex';
+          item.classList.toggle('open');
+          return;
+        }
+        // 切换激活状态
+        menuItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        // 隐藏所有内容
+        sections.forEach(s => s.classList.add('hidden'));
+        const target = document.getElementById(item.dataset.target);
+        if(target){ target.classList.remove('hidden'); }
+      };
+    });
+
+    // ---- 刷券逻辑 ----
+    const shops = [
+      {name:"锅圈食汇 - 城西店", lat:30.255, lng:120.116},
+      {name:"锅圈食汇 - 城东店", lat:30.265, lng:120.136},
+      {name:"锅圈食汇 - 市中心店", lat:30.255, lng:120.126},
+      {name:"锅圈食汇 - 滨江店", lat:30.195, lng:120.210},
+      {name:"锅圈食汇 - 西湖店", lat:30.253, lng:120.130}
+    ];
+    const coupons = [
+      {title:"满100减20元", desc:"仅限锅圈食汇门店使用", expire:"2025-08-31"},
+      {title:"满50减10元", desc:"新用户专享券", expire:"2025-08-20"},
+      {title:"任意消费赠饮料", desc:"到店领取", expire:"2025-08-25"},
+      {title:"满200减40元", desc:"周末专享券", expire:"2025-08-30"}
+    ];
+    let userLocation=null;
+    let myCoupons=[];
+
+    function getDistance(lat1,lng1,lat2,lng2){
+      const radLat1=Math.PI*lat1/180;
+      const radLat2=Math.PI*lat2/180;
+      const deltaLat=radLat1-radLat2;
+      const deltaLng=Math.PI*(lng1-lng2)/180;
+      const a=Math.sin(deltaLat/2)**2+Math.cos(radLat1)*Math.cos(radLat2)*Math.sin(deltaLng/2)**2;
+      const c=2*Math.asin(Math.sqrt(a));
+      return (6371*c).toFixed(2);
+    }
+
+    const getLocationBtn=document.getElementById('getLocationBtn');
+    const shopSelectBox=document.getElementById('shopSelectBox');
+    const shopSelect=document.getElementById('shopSelect');
+    const shopDistance=document.getElementById('shopDistance');
+    const startCouponBtn=document.getElementById('startCouponBtn');
+    const apiKeyBox=document.getElementById('apiKeyBox');
+    const submitApiKeyBtn=document.getElementById('submitApiKeyBtn');
+    const couponBox=document.getElementById('couponBox');
+    const errorBox=document.getElementById('errorBox');
+    const successBox=document.getElementById('successBox');
+    const shopSearchInput=document.getElementById('shopSearchInput');
+    const shopSearchBtn=document.getElementById('shopSearchBtn');
+    const toggleApiKeyBtn=document.getElementById('toggleApiKeyBtn');
+    let filteredShops = [...shops];
+
+    // Api密钥显示/隐藏
+    toggleApiKeyBtn.onclick = function(e){
+      e.preventDefault();
+      const input = document.getElementById('apiKeyInput');
+      if(input.type==="password"){input.type="text";this.textContent="隐藏";}
+      else{input.type="password";this.textContent="显示";}
+    };
+
+    // 门店搜索
+    shopSearchBtn.onclick = () => {
+      const val = shopSearchInput.value.trim();
+      filteredShops = shops.filter(s=>s.name.includes(val));
+      renderShopOptions();
+    };
+
+    function renderShopOptions(){
+      if(!userLocation) return;
+      const shopOptions=filteredShops.map(s=>{
+        const dist=getDistance(userLocation.latitude,userLocation.longitude,s.lat,s.lng);
+        return `<option value="${s.name}" data-dist="${dist}">${s.name}（${dist}km）</option>`;
+      });
+      shopSelect.innerHTML=shopOptions.join('');
+      updateShopDistance();
+    }
+
+    getLocationBtn.onclick=()=>{
+      showToast("正在定位，请稍候...");
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(showShops,handleError,{enableHighAccuracy:true,timeout:5000});
+      } else { showToast("您的浏览器不支持定位功能"); }
+    };
+
+    function showShops(position){
+      userLocation=position.coords;
+      filteredShops = [...shops];
+      renderShopOptions();
+      shopSelectBox.classList.remove('hidden');
+      updateShopDistance();
+      showToast("定位成功，已为您匹配附近门店！");
+    }
+
+    shopSelect.onchange=updateShopDistance;
+    function updateShopDistance(){
+      const selected=shopSelect.options[shopSelect.selectedIndex];
+      shopDistance.textContent = selected && selected.dataset.dist ? `距离约 ${selected.dataset.dist} km` : '';
+    }
+
+    function handleError(error){
+      errorBox.textContent="定位失败，请检查定位权限。";
+      errorBox.classList.remove('hidden');
+      showToast("定位失败！");
+      console.error(error);
+    }
+
+    startCouponBtn.onclick=()=>{
+      apiKeyBox.classList.remove('hidden');
+      couponBox.classList.add('hidden');
+      errorBox.classList.add('hidden');
+      successBox.classList.add('hidden');
+    };
+
+    submitApiKeyBtn.onclick=()=>{
+      const apiKey=document.getElementById('apiKeyInput').value.trim();
+      errorBox.classList.add('hidden');
+      couponBox.classList.add('hidden');
+      successBox.classList.add('hidden');
+      if(!apiKey||apiKey.length<6){
+        errorBox.textContent="API密钥输入有误或过短，请联系管理员 ff";
+        errorBox.classList.remove('hidden');
+        showToast("API密钥错误！");
+        return;
+      }
+      showCoupons();
+      showToast("API验证通过，已加载优惠券！");
+    };
+
+    function showCoupons(){
+      let html=`<h2>可领取优惠券</h2><ul class="coupon-list">`;
+      coupons.forEach((c,idx)=>{
+        const claimed = myCoupons.find(mc=>mc.title===c.title);
+        html+=`<li>
+          <div><b>${c.title}</b><br>
+          <span style="font-size:13px;color:#b3e0ff">${c.desc}</span>
+          <span style="font-size:12px;color:#ffe066"> 有效期至${c.expire}</span></div>
+          <button class="coupon-btn" onclick="claimCoupon(${idx})" ${claimed?'disabled':''}>${claimed?'已领取':'领取'}</button>
+        </li>`;
+      });
+      html+=`</ul>`;
+      couponBox.innerHTML=html;
+      couponBox.classList.remove('hidden');
+    }
+
+    window.claimCoupon=function(idx){
+      const c = coupons[idx];
+      if(!myCoupons.find(mc=>mc.title===c.title)){
+        myCoupons.push(c);
+        renderMyCoupons();
+        successBox.textContent=`恭喜！已成功领取“${c.title}”优惠券！`;
+        successBox.classList.remove('hidden');
+        showToast('优惠券领取成功！');
+        setTimeout(()=>{successBox.classList.add('hidden');showCoupons();},1500);
+        addNotice(`已领取“${c.title}”优惠券`);
+      }
+    };
+
+    function renderMyCoupons(){
+      const ul = document.getElementById('myCouponsList');
+      if(myCoupons.length===0){
+        ul.innerHTML='<li>暂无已领取优惠券</li>';
+      }else{
+        ul.innerHTML = myCoupons.map(c=>`<li><b>${c.title}</b> <span>有效期至${c.expire}</span></li>`).join('');
+      }
+    }
+
+    // ---- 订单管理模拟 ----
+    const orders = [
+      {no:'20250815001', user:'138****1234', shop:'城西店', amount:'120.00', status:'已完成'},
+      {no:'20250815002', user:'139****5678', shop:'市中心店', amount:'85.00', status:'待核销'},
+      {no:'20250815003', user:'137****9012', shop:'西湖店', amount:'47.00', status:'已完成'},
+      {no:'20250815004', user:'136****3456', shop:'城东店', amount:'200.00', status:'退款中'}
+    ];
+    function renderOrders(){
+      const tbody = document.getElementById('orderTableBody');
+      tbody.innerHTML = orders.map(o=>
+        `<tr>
+          <td>${o.no}</td><td>${o.user}</td><td>${o.shop}</td>
+          <td>￥${o.amount}</td><td>${o.status}</td>
+        </tr>`
+      ).join('');
+    }
+    renderOrders();
+
+    // ---- 消息通知模拟 ----
+    const noticeList = document.getElementById('noticeList');
+    let notices = [
+      {msg:'您的“满100减20元”优惠券已领取', time:'2025-08-15 13:23'},
+      {msg:'订单 20250815001 已完成', time:'2025-08-15 10:21'}
+    ];
+    function addNotice(msg){
+      notices.unshift({msg,time:new Date().toLocaleString('zh-CN',{hour12:false})});
+      renderNotices();
+    }
+    function renderNotices(){
+      noticeList.innerHTML = notices.length
+        ? notices.map(n=>`<li>${n.msg}<span style="font-size:13px;color:#ffe066;margin-left:14px">${n.time}</span></li>`).join('')
+        : '<li>暂无消息通知</li>';
+    }
+    renderNotices();
+
+    // ---- 数据分析/排行榜/实时图表 ----
+    function renderCharts(){
+      // 排行榜
+      var rankChart = echarts.init(document.getElementById('rankChart'));
+      rankChart.setOption({
+        title:{text:'刷券排行榜',left:'center',textStyle:{color:'#00bfff',fontSize:18}},
+        xAxis:{type:'category',data:['北京','上海','广州'],axisLabel:{color:'#aee8ff'}},
+        yAxis:{type:'value',axisLabel:{color:'#aee8ff'}},
+        series:[{data:[5,3,2],type:'bar',itemStyle:{color:'#fdc300'}}]
+      });
+      // 实时数据
+      var realtimeChart = echarts.init(document.getElementById('realtimeChart'));
+      realtimeChart.setOption({
+        title:{text:'今日实时刷券量',left:'center',textStyle:{color:'#00bfff',fontSize:16}},
+        xAxis:{type:'category',data:['9时','10时','11时','12时','13时'],axisLabel:{color:'#aee8ff'}},
+        yAxis:{type:'value',axisLabel:{color:'#aee8ff'}},
+        series:[{data:[2,6,3,8,5],type:'line',smooth:true,itemStyle:{color:'#fdc300'}}]
+      });
+      // 数据分析
+      var analyticsChart = echarts.init(document.getElementById('analyticsChart'));
+      analyticsChart.setOption({
+        title:{text:'门店刷券数据分布',left:'center',textStyle:{color:'#00bfff',fontSize:16}},
+        legend:{data:['城西店','城东店','市中心店','滨江店','西湖店'],top:24,textStyle:{color:'#aee8ff'}},
+        series:[{
+          name:'门店',
+          type:'pie',
+          radius:'55%',
+          data:[
+            {value:15,name:'城西店'},
+            {value:20,name:'城东店'},
+            {value:10,name:'市中心店'},
+            {value:12,name:'滨江店'},
+            {value:8,name:'西湖店'}
+          ],
+          label:{color:'#222'},
+          labelLine:{lineStyle:{color:'#aee8ff'}}
+        }]
+      });
+    }
+    renderCharts();
+
+    // ---- 主题切换 ----
+    const themeBtn = document.getElementById('themeBtn');
+    const systemThemeBtn = document.getElementById('systemThemeBtn');
+    themeBtn.onclick = systemThemeBtn.onclick = function(){
+      document.body.classList.toggle('light');
+      themeBtn.innerHTML = document.body.classList.contains('light')
+        ? '<i class="fa fa-sun"></i>' : '<i class="fa fa-moon"></i>';
+      showToast(document.body.classList.contains('light')?'已切换到浅色主题':'已切换到深色主题');
+    };
+
+    // ---- Toast小弹窗 ----
+    function showToast(msg){
+      var toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),2000);
+    }
+
+    // ---- 页面首次渲染 ----
+    renderMyCoupons();
+    // 页面切换时更新图表尺寸
+    window.addEventListener('resize',()=>renderCharts());
+    // 切换菜单时更新图表尺寸
+    menuItems.forEach(item=>{
+      item.addEventListener('click',()=>{
+        setTimeout(()=>renderCharts(),400);
+      });
+    });
+  </script>
 </body>
 </html>
