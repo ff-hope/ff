@@ -1,401 +1,92 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <title>肉松老师羊毛风险检测</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ff的羊毛小店登录</title>
   <style>
-    @font-face {
-      font-family: 'AlimamaFangYuanTiVF';
-      src: url('https://static.wenfont.com/font/AlimamaFangYuanTiVF-Thin.woff2') format('woff2');
-      font-display: swap;
-    }
-    html, body {
-      min-height: 100vh;
-      margin: 0; padding: 0;
-      width: 100vw; overflow-x: hidden;
-      background: linear-gradient(135deg,#231d2e 0%,#f9b0e3 100%);
-      font-family: 'AlimamaFangYuanTiVF', 'PingFang SC', 'Microsoft Yahei', Arial, sans-serif;
-      color: #fff;
-      user-select: none;
-    }
     body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", Helvetica, Arial, sans-serif;
+      background: linear-gradient(120deg,#0b1623,#14273d);
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      justify-content: flex-start;
-      position: relative;
-      padding: 0 0 80px 0;
-      box-sizing: border-box;
-    }
-    .kuromi-card {
-      background: linear-gradient(130deg,#28203a 75%,#f9b0e3cc 100%);
-      border-radius: 24px;
-      box-shadow:
-        0 4px 22px 0 #e774b2aa,
-        0 1px 4px 0 #fff2,
-        inset 0 0 10px 0 #fff3;
-      padding: 1.1rem 0.9rem 1.2rem 0.9rem;
-      max-width: 360px;
-      width: 94vw;
+      height: 100vh;
       color: #fff;
-      margin: 48px 0 40px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      overflow: hidden;
-      position:relative;
-      animation: cardIn .95s cubic-bezier(.23,1.24,.45,1) both;
-      z-index: 2;
     }
-    @keyframes cardIn {
-      0% { opacity:0; transform:scale(.85) translateY(20px);}
-      100% { opacity:1; transform:scale(1) translateY(0);}
-    }
-    .avatar {
-      width: 60px; height: 60px;
-      border-radius: 50%;
-      border: 3px solid #e774b2;
-      object-fit: cover;
-      background: #fff;
-      margin-top: -36px;
-      margin-bottom: 6px;
-      box-shadow: 0 2px 9px #e774b2;
-      z-index: 3;
-    }
-    .title {
-      font-size: 1.5rem;
-      font-weight: 900;
-      background: linear-gradient(90deg,#fff 10%,#e774b2 40%,#a082d7 100%);
-      background-clip: text;
-      color: transparent;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 2.2px;
-      text-shadow: 1px 1px 6px #fff9, 0 2px 0 #7a58d355, 0 0 5px #e774b255;
-      line-height: 1.18;
-      user-select: none;
-      text-align: center;
-      filter: drop-shadow(0 3px 10px #aa87cc22);
-      border-radius: 6px;
-      padding: 0 0.1rem;
-      margin: 0.1rem 0 0.2rem 0;
-      z-index: 4;
-    }
-    .ip-info-list {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      align-items: center;
-      justify-content: flex-start;
-      margin: 0 auto 0.5rem auto;
-    }
-    .ip-info-item {
-      background: linear-gradient(90deg,#fff6 10%,#e3b4e633 100%);
+    .login-box {
+      background-color: #0a1f3d;
+      padding: 40px 30px;
       border-radius: 12px;
-      box-shadow: 0 1px 4px 0 #b3a0e033, 0 0 0 1px #e774b215;
-      padding: 8px 13px;
-      width: 94%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      font-size: 1.04em;
-      transition: box-shadow 0.16s, transform 0.15s, background 0.17s;
-      border: 1px solid #fff2;
-      position: relative;
-      cursor: pointer;
-      min-height: 28px;
-      color: #38304a;
-      font-weight: 600;
-    }
-    .ip-info-item:hover {
-      box-shadow: 0 3px 10px 0 #e774b299,inset 0 2px 12px #fff7;
-      background: linear-gradient(90deg,#fff 36%,#e5d3f988 100%);
-      transform: scale(1.015);
-      z-index: 10;
-    }
-    .ip-label {
-      color: #e774b2;
-      font-weight: 700;
-      letter-spacing: 1.1px;
-      min-width: 66px;
-      text-align: left;
-      text-shadow: 0 1px 4px #fff7, 1px 1px 0 #fff6;
-      filter: brightness(1.08);
-      opacity: 0.97;
-      font-size: 1em;
-      margin-right: 0.5em;
-      display: flex;
-      align-items: center;
-      gap: 0.25em;
-    }
-    .ip-emoji {
-      font-size: 1.1em;
-      margin-right: 0.13em;
-      filter: drop-shadow(0 1px 2px #fff2);
-    }
-    .ip-value {
-      color: #38304a;
-      font-size: 0.99em;
-      opacity: 0.83;
-      font-weight: 600;
-      margin-left: auto;
-      text-align: right;
-      white-space: normal;
-      line-height: 1.25;
-      max-width: 65%;
-      word-break: break-word;
-      transition: color 0.15s;
-    }
-    .ip-value.error {
-      color: #e74c3c;
-      animation: blinkError 1s steps(2, start) 2;
-    }
-    @keyframes blinkError {
-      0%,100% { color: #e74c3c; }
-      50% { color: #fff; }
-    }
-    /* 今日语录 */
-    .quote-panel {
-      background: linear-gradient(135deg,#fff9 96%,#edc5f944 100%);
-      border-radius: 17px;
-      box-shadow: 0 2px 12px #1f1b2e42, 0 0 0 2px #fff3, inset 0 2px 10px #e774b218;
-      width: 92%;
-      max-width: 300px;
-      margin: 8px auto 10px auto;
-      padding: 14px 7px 13px 7px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 6;
-      transition: box-shadow 0.3s;
-    }
-    .quote-title {
-      color: #e774b2;
-      font-size: 1em;
-      font-weight: 900;
-      margin-bottom: 11px;
-      letter-spacing: 1.2px;
-      text-shadow: 0 3px 14px #fff7, 1px 1px 0 #7a58d355;
-      font-family: inherit;
-      user-select: none;
-    }
-    .quote-bubble {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #e774b280, 0 0 0 2px #f9b0e3;
-      display: inline-block;
-      padding: 10px 10px;
-      min-width: 120px;
-      min-height: 38px;
-      font-family: inherit;
-      z-index: 4;
-    }
-    .quote-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 9px;
-    }
-    .quote-item {
-      color: #e774b2;
-      font-size: .97em;
-      font-weight: bold;
-      font-family: inherit;
-      white-space: pre-line;
-      opacity: 0.95;
-      animation: quoteFloat 3.7s ease-in-out infinite alternate;
-      will-change: transform, opacity;
-      position: relative;
-      margin-bottom: 2px;
-    }
-    .quote-item:nth-child(1) { animation-delay: 0s;}
-    .quote-item:nth-child(2) { animation-delay: 1.2s;}
-    .quote-item:nth-child(3) { animation-delay: 2.1s;}
-    @keyframes quoteFloat {
-      0% { opacity: 0.95; transform: translateY(0px);}
-      40% { opacity: 1; transform: translateY(-4px) scale(1.03);}
-      60% { opacity: 1; transform: translateY(4px) scale(0.99);}
-      100% { opacity: 0.95; transform: translateY(0px);}
-    }
-    .divider {
-      margin: 0.6rem 0 0.7rem 0;
-      border-top: 2px dashed #e774b2;
-      width: 90%;
-      margin-left:auto; margin-right:auto;
-      opacity: 0.5;
-    }
-    /* 浮动动画小装饰 */
-    .float-ani {
-      position: absolute;
-      left: 50%; bottom: 35px;
-      transform: translateX(-50%);
-      width: 100px; height: 46px;
-      pointer-events: none;
-      z-index: 11;
-      opacity: 0.82;
-    }
-    .float-shape {
-      position: absolute;
-      font-size: 1em;
-      opacity: 0.72;
-      animation: floatUp 4.2s linear infinite;
-      will-change: transform, opacity;
-      filter: drop-shadow(0 1px 5px #fff5);
-    }
-    .float-shape.star1 { left: 8px; animation-delay: 0s; color:#f9b0e3;}
-    .float-shape.heart1 { left: 38px; animation-delay: 2.2s; color:#e774b2;}
-    .float-shape.star2 { left: 70px; animation-delay: .8s; color:#fff;}
-    @keyframes floatUp {
-      0% { bottom: 0; opacity: 0.78;}
-      30% { opacity: 1;}
-      85% { opacity: 1;}
-      100% { bottom: 15px; opacity: 0;}
-    }
-    /* 底部显眼注释 */
-    .ms-footer-note {
-      width: 100vw; max-width: 100vw;
+      box-shadow: 0 10px 30px rgba(0,191,255,0.3);
+      width: 360px;
       text-align: center;
-      font-family: 'AlimamaFangYuanTiVF','PingFang SC','Microsoft Yahei',Arial,sans-serif;
-      font-size: 14px;
-      font-weight: 900;
-      color: #222; /* 浓黑色 */
-      background: #f9b0e3cc;
-      position: fixed;
-      left: 0; bottom: 0;
-      line-height: 1.5;
-      letter-spacing: 1.1px;
-      padding: 6px 0;
-      user-select: none;
-      z-index: 9999;
-      box-shadow: 0 -1px 12px #f9b0e3aa inset;
     }
-    /* 额外信息块填满 */
-    .extra-info {
-      max-width: 360px;
-      width: 94vw;
-      background: #382b55cc;
-      border-radius: 16px;
-      padding: 12px 14px;
-      color: #f7d6f9;
-      font-size: 0.92em;
+    .login-box h1 {
+      color: #00bfff;
       margin-bottom: 30px;
-      box-shadow: 0 0 10px 1px #e774b288 inset;
-      user-select: text;
-      line-height: 1.35;
     }
-    /* 响应式手机适配 */
-    @media (max-width: 540px) {
-      .kuromi-card {
-        padding: 0.5rem 0.01rem 0.7rem 0.01rem; 
-        margin-top: 10vw; 
-        margin-bottom: 10vw; 
-        max-width: 99vw; 
-        gap: 7px;
-      }
-      .title { font-size: 1.05rem; margin-bottom: 0.21rem; }
-      .ip-info-item { font-size: .93em; padding: 6px 7px; }
-      .quote-panel { padding: 6px 2vw 8px 2vw; }
-      .avatar { width: 35px; height: 35px; margin-top: -20px; }
-      .float-ani { width: 50px; }
-      .ms-footer-note { font-size: 12px; }
-      .extra-info { font-size: 0.85em; padding: 10px 12px; }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-color: #1d3557;
+      color: #fff;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: #00bfff;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:active {
+      background-color: #0080b3;
+    }
+    .error-box {
+      margin-top: 15px;
+      padding: 12px;
+      background: rgba(255,0,0,0.14);
+      border: 1px solid #ff5050;
+      color: #ff8080;
+      border-radius: 6px;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <!-- 背景漂浮元素 -->
-  <svg class="bg-svg" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg" style="position: fixed; top:0; left:0; z-index:1; pointer-events:none; opacity:0.1;">
-    <circle cx="17vw" cy="29vh" r="45" fill="#a7c8fd44"/>
-    <circle cx="85vw" cy="80vh" r="24" fill="#f9b0e344"/>
-    <ellipse cx="48vw" cy="95vh" rx="60" ry="14" fill="#fff4" opacity="0.10"/>
-    <path d="M60 95 Q66 102 72 95 T84 95" stroke="#e774b2" stroke-width="2.2" fill="none" opacity="0.10"/>
-    <polygon points="150,180 152,190 160,188 158,196 168,196 158,201 162,210 154,204 150,210 150,202 142,207 146,198 137,197 146,193 143,185 150,190" fill="#e774b277"/>
-  </svg>
-
-  <!-- 角落装饰 -->
-  <img class="corner corner-tl" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f380.svg" alt="蝴蝶结" style="position: fixed; top: 0; left: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(-13deg); z-index:10;">
-  <img class="corner corner-tr" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u2b50.svg" alt="星星" style="position: fixed; top: 0; right: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(17deg); z-index:10;">
-  <img class="corner corner-bl" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f43e.svg" alt="爪印" style="position: fixed; bottom: 0; left: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(7deg); z-index:10;">
-  <img class="corner corner-br" src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f345.svg" alt="西红柿" style="position: fixed; bottom: 0; right: 0; width:48px; height:48px; opacity:0.3; pointer-events:none; transform: rotate(-23deg); z-index:10;">
-
-  <div class="kuromi-card">
-    <!-- 头像换成西红柿emoji图 -->
-    <img src="https://cdn.jsdelivr.net/gh/fawazahmed0/cdn@latest/emoji/u1f345.svg" alt="西红柿" class="avatar" />
-    <div class="title">肉松老师羊毛风险检测</div>
-    <div class="ip-info-list">
-      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">🌏</span>IP地址</span><span class="ip-value" id="ip">加载中…</span></div>
-      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">📍</span>归属地</span><span class="ip-value" id="location">加载中…</span></div>
-      <div class="ip-info-item"><span class="ip-label"><span class="ip-emoji">🏢</span>运营商</span><span class="ip-value" id="organization">加载中…</span></div>
-    </div>
-
-    <div class="quote-panel" aria-label="今日语录">
-      <div class="quote-title">今日语录</div>
-      <div class="quote-list" id="quote-list">
-        <div class="quote-item">勤劳薅羊毛，薅得开心又安心！</div>
-        <div class="quote-item">风险检测，保障发货无忧。</div>
-        <div class="quote-item">守住底线，拒绝虚假信息。</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="extra-info" aria-label="额外信息">
-    <p>🛡️ 本站通过各大电商平台API接口，实时检测账户及订单风险，确保发货安全无误。</p>
-    <p>🚀 系统无任何用户数据存储，保护您的隐私安全。</p>
-    <p>💡 使用过程中如遇问题，请及时反馈，助力持续优化体验。</p>
-    <p>🌐 技术支持 & 维护：肉松团队</p>
-  </div>
-
-  <div class="ms-footer-note" aria-live="polite">
-    肉松仅提供各电商平台API后台检测风险服务，不存储任何信息。
-  </div>
-
-  <!-- 漂浮动画元素 -->
-  <div class="float-ani" aria-hidden="true">
-    <span class="float-shape star1">✨</span>
-    <span class="float-shape heart1">💖</span>
-    <span class="float-shape star2">🌟</span>
+  <div class="login-box">
+    <h1>ff的羊毛小店登录</h1>
+    <input type="text" id="username" placeholder="请输入账户">
+    <input type="password" id="password" placeholder="请输入密码">
+    <button id="loginBtn">登录</button>
+    <div id="errorBox" class="error-box">账户或密码错误，请联系管理员 ff</div>
   </div>
 
   <script>
-    // 请求 IP 信息并展示
-    async function fetchIPInfo() {
-      try {
-        const res = await fetch('https://api.ip.sb/geoip');
-        if (!res.ok) throw new Error('接口异常');
-        const data = await res.json();
+    const loginBtn = document.getElementById('loginBtn');
+    const errorBox = document.getElementById('errorBox');
 
-        document.getElementById('ip').textContent = data.ip || '未知';
-        const locationStr = [data.country, data.region, data.city].filter(Boolean).join(' - ');
-        document.getElementById('location').textContent = locationStr || '未知';
-        document.getElementById('organization').textContent = data.isp || '未知';
-      } catch (e) {
-        console.error(e);
-        document.getElementById('ip').textContent = '获取失败';
-        document.getElementById('location').textContent = '获取失败';
-        document.getElementById('organization').textContent = '获取失败';
+    loginBtn.onclick = () => {
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+
+      if(user === "admin" && pass === "ff112233") {
+        // 登录成功跳转刷券页面
+        window.location.href = "index.html";
+      } else {
+        errorBox.style.display = "block";
       }
-    }
-
-    fetchIPInfo();
-
-    // 简单轮换今日语录文字动画
-    const quotes = [
-      '勤劳薅羊毛，薅得开心又安心！',
-      '风险检测，保障发货无忧。',
-      '守住底线，拒绝虚假信息。',
-      '安全是最大的羊毛。',
-      '信息透明，交易放心。',
-    ];
-    let quoteIndex = 0;
-    const quoteList = document.getElementById('quote-list');
-
-    setInterval(() => {
-      quoteIndex = (quoteIndex + 1) % quotes.length;
-      quoteList.innerHTML = `<div class="quote-item">${quotes[quoteIndex]}</div>`;
-    }, 6000);
+    };
   </script>
 </body>
 </html>
